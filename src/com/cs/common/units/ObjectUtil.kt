@@ -1,4 +1,4 @@
-package com.example.common.units
+package com.common.units
 
 import java.text.DecimalFormat
 

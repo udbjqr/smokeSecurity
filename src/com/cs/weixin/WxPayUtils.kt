@@ -1,11 +1,11 @@
 package com.cs.weixin
 
 import com.alibaba.fastjson.JSONObject
-import com.example.cs.src.weixin.MyConfigs
+import com.cs.src.weixin.MyConfigs
 import com.github.wxpay.sdk.WXPay
 import org.apache.logging.log4j.LogManager
 import java.util.*
-private val log = LogManager.getLogger("com.com.cs.weixin")
+private val log = LogManager.getLogger("com.cs.weixin")
 
 fun wxGetPrepayId(subject: String, order_number: String, money: Double, openid: String): JSONObject {
 	val config = MyConfigs()

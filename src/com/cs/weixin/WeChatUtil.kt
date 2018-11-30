@@ -2,8 +2,8 @@ package com.cs.weixin
 
 import com.alibaba.fastjson.JSONObject
 import com.cs.common.util.UrlPost
-import com.example.common.units.Config
-import com.example.cs.src.weixin.getWXToken
+import com.common.units.Config
+import com.cs.src.weixin.getWXToken
 
 /**
  *

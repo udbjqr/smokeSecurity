@@ -1,4 +1,4 @@
-package com.example.common.units
+package com.common.units
 
 import com.cs.common.units.DBCONFIG
 import com.cs.common.units.GENERIC

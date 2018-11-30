@@ -1,8 +1,10 @@
 package com.cs.common.dbHelper
 
 import com.alibaba.fastjson.JSONObject
-import com.cs.common.units.readFileContentByString
+import com.common.units.Config
+import com.common.units.getProperties
 import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.core.util.Loader
 
 internal const val DB_SERVER_ADD = "DBServerAdd"
 internal const val DB_SERVER_PORT = "DBServerPort"
@@ -26,7 +28,9 @@ object JDBCHelperFactory {
 
 	init {
 		log.trace("开始初始化数据库帮助管理对象.")
-		config = JSONObject.parseObject(readFileContentByString("db.json"))
+		config = JSONObject.parseObject(
+			getProperties(Loader.getResource("db.json", Config::class.java.classLoader), "UTF-8")
+		)
 		config.forEach { t, u -> connectionPools[t] = createHelper(u as JSONObject) }
 
 		default = connectionPools["default"]!!
@@ -62,8 +66,15 @@ object JDBCHelperFactory {
 	private fun createPostgresqlPools(config: JSONObject): ConnectionPool {
 		Class.forName("org.postgresql.Driver")
 
-		val connectionUrl = "jdbc:postgresql://${config[DB_SERVER_ADD]}:${config[DB_SERVER_PORT]}/${config[DB_DATA_BASE_NAME]}"
-		return ConnectionPool(connectionUrl, config.getString(DB_USER_NAME), config.getString(DB_PASSWORD), config.getLong(CONNECTION_TIMEOUT), config.getInteger(DB_POOL_NUM)) {
+		val connectionUrl =
+			"jdbc:postgresql://${config[DB_SERVER_ADD]}:${config[DB_SERVER_PORT]}/${config[DB_DATA_BASE_NAME]}"
+		return ConnectionPool(
+			connectionUrl,
+			config.getString(DB_USER_NAME),
+			config.getString(DB_PASSWORD),
+			config.getLong(CONNECTION_TIMEOUT),
+			config.getInteger(DB_POOL_NUM)
+		) {
 			PostgreSql(config["trim"] as String, it)
 		}
 	}

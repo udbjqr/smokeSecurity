@@ -1,6 +1,6 @@
 package com.cs.common.units
 
-import com.example.common.units.getDefaultConfig
+import com.common.units.getDefaultConfig
 
 
 const val GENERIC = "generic"

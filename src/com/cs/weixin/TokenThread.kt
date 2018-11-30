@@ -1,4 +1,4 @@
-package com.example.cs.src.weixin
+package com.cs.src.weixin
 
 import com.alibaba.fastjson.JSONObject
 import com.cs.common.util.Decript
@@ -9,7 +9,7 @@ import java.util.*
 import java.util.UUID
 
 
-private val log = LogManager.getLogger("com.com.cs.schedule")
+private val log = LogManager.getLogger("com.cs.schedule")
 
 
 var appId = "wxe795f972eb691695"

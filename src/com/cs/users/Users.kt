@@ -1,4 +1,4 @@
-package com.example.com.cs.users
+package com.cs.users
 
 import com.alibaba.fastjson.JSONObject
 import com.cs.ParaType

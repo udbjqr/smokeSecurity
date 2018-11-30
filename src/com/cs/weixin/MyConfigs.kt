@@ -1,8 +1,8 @@
-package com.example.cs.src.weixin
+package com.cs.src.weixin
 
-import com.example.common.units.Config
-import com.github.wxpay.sdk.WXPayConfig
+import com.common.units.Config
 import com.cs.common.units.GENERIC
+import com.github.wxpay.sdk.WXPayConfig
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream

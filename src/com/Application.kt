@@ -1,16 +1,16 @@
 @file:Suppress("DUPLICATE_LABEL_IN_WHEN")
 
-package com.example
+package com
 
 import com.alibaba.fastjson.JSONArray
 import com.alibaba.fastjson.JSONObject
+import com.common.units.loadConfig
 import com.cs.common.dbHelper.JDBCHelperFactory.helper
 import com.cs.common.units.ICCID
 import com.cs.common.units.MSISDN
-import com.example.com.cs.users.userRetrieve
-import com.example.com.cs.users.usersLogin
-import com.example.com.cs.users.usersRegist
-import com.example.common.units.loadConfig
+import com.cs.users.userRetrieve
+import com.cs.users.usersLogin
+import com.cs.users.usersRegist
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.client.HttpClient
@@ -28,7 +28,6 @@ private val log = LogManager.getLogger(Application::class.java.name)
 fun main(args: Array<String>): Unit {
     loadConfig()
     io.ktor.server.cio.EngineMain.main(args)
-
 }
 
 
