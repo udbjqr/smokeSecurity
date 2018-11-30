@@ -13,7 +13,7 @@ object ObjectUtil {
      * Checks that the given argument is strictly positive. If it is, throws [IllegalArgumentException].
      * Otherwise, returns the argument.
      */
-    fun checkPositive(i: Int, name: String): Int {
+    private fun checkPositive(i: Int, name: String): Int {
         if (i <= 0) {
             throw IllegalArgumentException("$name: $i (expected: > 0)")
         }
