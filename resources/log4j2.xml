@@ -11,31 +11,31 @@
 			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %C{2}.%M line:%L thread:%t - %msg%xEx%n"/>
 		</Console>
 
-		<RollingFile name="TraceFile" fileName="./logs/cs/trace.log"
-		             filePattern="./logs/cs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+		<RollingFile name="TraceFile" fileName="./logs/com.cs/trace.log"
+		             filePattern="./logs/com.cs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss.SSS} %-5level %C{2}.%M line:%L thread:%t - %msg%xEx%n"/>
 			<SizeBasedTriggeringPolicy size="20 MB"/>
 		</RollingFile>
 
-		<RollingFile name="serviceProvider" fileName="./logs/cs/serviceProvider.log"
-		             filePattern="./logs/cs/$${date:yyyy-MM}/serviceProvider-%d{MM-dd-yyyy}-%i.log.gz">
+		<RollingFile name="serviceProvider" fileName="./logs/com.cs/serviceProvider.log"
+		             filePattern="./logs/com.cs/$${date:yyyy-MM}/serviceProvider-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss.SSS} %-5level %C{2} t:%t - %msg%xEx%n"/>
 			<SizeBasedTriggeringPolicy size="200 MB"/>
 		</RollingFile>
 
-		<RollingFile name="common" fileName="./logs/cs/common.log"
-		             filePattern="./logs/cs/$${date:yyyy-MM}/common-%d{MM-dd-yyyy}-%i.log.gz">
+		<RollingFile name="com.cs.common" fileName="./logs/com.cs/com.cs.common.log"
+		             filePattern="./logs/com.cs/$${date:yyyy-MM}/com.cs.common-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss.SSS} %-5level %C{2} t:%t - %msg%xEx%n"/>
 			<SizeBasedTriggeringPolicy size="50 MB"/>
 		</RollingFile>
 
-		<RollingFile name="schedule" fileName="./logs/cs/schedule.log"
-		             filePattern="./logs/cs/$${date:yyyy-MM}/schedule-%d{MM-dd-yyyy}-%i.log.gz">
+		<RollingFile name="schedule" fileName="./logs/com.cs/schedule.log"
+		             filePattern="./logs/com.cs/$${date:yyyy-MM}/schedule-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss.SSS} %-5level %C{2} t:%t - %msg%xEx%n"/>
 			<SizeBasedTriggeringPolicy size="100 MB"/>
 		</RollingFile>
-		<RollingFile name="capture" fileName="./logs/cs/capture.log"
-		             filePattern="./logs/cs/$${date:yyyy-MM}/capture-%d{MM-dd-yyyy}-%i.log.gz">
+		<RollingFile name="capture" fileName="./logs/com.cs/capture.log"
+		             filePattern="./logs/com.cs/$${date:yyyy-MM}/capture-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss.SSS} %-5level %C{2} t:%t - %msg%xEx%n"/>
 			<SizeBasedTriggeringPolicy size="200 MB"/>
 		</RollingFile>
@@ -43,27 +43,27 @@
 
 	<loggers>
 		<!--处理common的日志 。-->
-		<Logger name="com.cs.common" level="trace" additivity="false">
-			<AppenderRef ref="common"/>
+		<Logger name="com.com.cs.common" level="trace" additivity="false">
+			<AppenderRef ref="com.cs.common"/>
 			<AppenderRef ref="TraceConsole"/>
 		</Logger>
 		<!--处理抓数据日志 。-->
-		<Logger name="com.cs.capture" level="trace" additivity="false">
+		<Logger name="com.com.cs.capture" level="trace" additivity="false">
 			<AppenderRef ref="capture"/>
 			<AppenderRef ref="TraceConsole"/>
 		</Logger>
 		<!--处理计划任务的日志 。-->
-		<Logger name="com.cs.common.scheduler" level="trace" additivity="false">
+		<Logger name="com.com.cs.com.cs.common.scheduler" level="trace" additivity="false">
 			<AppenderRef ref="schedule"/>
 			<AppenderRef ref="TraceConsole"/>
 		</Logger>
-		<Logger name="com.cs.schedule" level="trace" additivity="false">
+		<Logger name="com.com.cs.schedule" level="trace" additivity="false">
 			<AppenderRef ref="schedule"/>
 			<AppenderRef ref="TraceConsole"/>
 		</Logger>
 
 		<!--底层服务的不再输出日志。-->
-		<Logger name="com.cs.serviceProvider" level="info" additivity="false">
+		<Logger name="com.com.cs.serviceProvider" level="info" additivity="false">
 			<AppenderRef ref="serviceProvider"/>
 			<AppenderRef ref="TraceConsole"/>
 		</Logger>

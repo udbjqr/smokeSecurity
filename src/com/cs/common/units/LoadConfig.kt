@@ -1,8 +1,8 @@
 package com.example.common.units
 
-import common.units.DBCONFIG
-import common.units.GENERIC
-import common.units.GENERIC_CONFIG_FILE_NAME
+import com.cs.common.units.DBCONFIG
+import com.cs.common.units.GENERIC
+import com.cs.common.units.GENERIC_CONFIG_FILE_NAME
 
 /**
  *

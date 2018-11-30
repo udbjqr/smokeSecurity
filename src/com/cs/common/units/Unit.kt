@@ -8,7 +8,7 @@ import java.io.File
 import java.math.BigDecimal
 import java.nio.charset.Charset
 
-val logger = LogManager.getLogger("com.cs.common.units")!!
+val logger = LogManager.getLogger("com.com.cs.com.cs.common.units")!!
 
 /**
  * 根据给定的编码，从文件中读取字符串.
