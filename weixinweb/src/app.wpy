@@ -9,6 +9,9 @@
 }
 </style>
 
+
+
+
 <script>
 import wepy from 'wepy'
 import 'wepy-async-function'
@@ -18,13 +21,50 @@ import configStore from './store'
 
 const store = configStore()
 setStore(store)
+wepy.$store = store
+wepy.$request = (url, data, ok, failing, handleError, param = 1,sessionId)=>{
+    var paramSession = [{},
+      { 'content-type': 'application/json', 'Cookie': 'JSESSIONID=' + sessionId }, 
+      { 'content-type': 'application/json' },
+      { 'content-type': 'application/x-www-form-urlencoded', 'Cookie': 'JSESSIONID=' + sessionId},
+      { 'content-type': 'application/x-www-form-urlencoded'}]
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: 'http://192.168.2.124:8081/'+url,
+        data:data,
+        header: paramSession[param],
+        method: 'POST',
+        success:res => {
+          res.data = JSON.parse(JSON.stringify(res.data))
+          if (res.data.code === 0) {
+            ok(res.data.data);
+            resolve(res)
+          } else {
+            resolve(res)
+            if (failing)
+              failing(res.data, res.data.code, res.data.message);
+          }
+        },
+        fail:error => {
+          console.log("error throw", error);
+          if (handleError) 
+            handleError(error)
+        }
+      })
+    })
+  }
 
 export default class extends wepy.app {
   config = {
     pages: [
       'pages/login',
+      'pages/main',
+      'pages/register',
+      'pages/forget',
       'pages/index',
-      'pages/main'
+      'pages/device',
+      'pages/message',
+      'pages/mine'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -36,14 +76,23 @@ export default class extends wepy.app {
       color: "#a9b7b7",
       selectedColor: "#11cd6e",
       borderStyle: "white",
+      backgroundColor:'#ddd',
       list: [
         {
           pagePath: "pages/main",
           text: "首页"
         },
         {
-          pagePath: "pages/index",
-          text: "日志"
+          pagePath: "pages/device",
+          text: "设备列表"
+        },
+        {
+          pagePath: "pages/message",
+          text: "信息"
+        },
+        {
+          pagePath: "pages/mine",
+          text: "我的"
         }
       ]
     }
@@ -70,44 +119,61 @@ export default class extends wepy.app {
     })
   }
 
+  getOpenId(){
+    wx.checkSession({
+      success:function(res){
+        //session_key未过期
+      },
+      fail:(res=>{
+        // session_key已过期
+        // 进行登录操作
+        wx.login({
+          success: function(res) {
+            const url = '接口地址'   //本次项目中是从后台获取session_key的接口，可能流程不同，会有相应的变化
+            const data = {
+              //你要传的数据
+            }
+            wepy.request({
+              url: url,
+              method: 'POST',
+              data: data,
+            }).then(res=>{
+              if(res.data.code == 0){
+                //拿到的openid和session_key存到缓存中
+
+                //调用换取用户id接口[需求不同，可能接口会有相应的变化]
+                const url = '获取用户id的接口'
+                const data = '要传的数据'
+                wepy.request({
+                  url: url,
+                  method: 'POST',
+                  data: data,
+                }).then((res)=>{
+                  //该接口设计返回的参数包括换取的用户ID和返回的用户的微信中信息，也就是通过button获取的那个userInfo[我们为了后续的处理，所以后台这块返回用户信息，如果用户还未登录，用户信息，返回是空，反之则有值]
+                  //存储用户ID
+                  wx.setStorage({
+                    key:'userId',
+                    data:'获取到的用户ID'
+                  })
+                  //存储用户信息[userInfo]
+                  wx.setStorage({
+                    key:'userInfo',
+                    data:'获取到的用户信息'
+                  })
+                })
+              }
+            })
+          }
+        });
+      })
+    })
+  }
   async testAsync () {
     const data = await this.sleep(3)
     console.log(data)
   }
   com(){
     console.log(144)
-  }
-  $request(url, data, ok, failing, handleError, param = 1,sessionId){
-    var paramSession = [{},
-      { 'content-type': 'application/json', 'Cookie': 'JSESSIONID=' + sessionId }, 
-      { 'content-type': 'application/json' },
-      { 'content-type': 'application/x-www-form-urlencoded', 'Cookie': 'JSESSIONID=' + sessionId},
-      { 'content-type': 'application/x-www-form-urlencoded'}]
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        data:data,
-        header: paramSession[param],
-        method: 'POST',
-        success:res => {
-          res.data = JSON.parse(JSON.stringify(res.data))
-          if (res.data.code === 0) {
-            ok(res.data.data);
-            resolve(res)
-          } else {
-            resolve(res)
-            if (failing)
-              failing(res.data, res.data.code, res.data.message);
-          }
-        },
-        fail:error => {
-          console.log("error throw", error);
-          if (handleError) 
-            handleError(error)
-          
-        }
-      })
-    })
   }
   getUserInfo(cb) {
     const that = this
