@@ -3,13 +3,14 @@
 		"DBType": "PGSQL",
 		"DBServerAdd": "192.168.2.68",
 		"DBServerPort": 5432,
-		"DBDataBaseName": "thingscard",
+		"DBDataBaseName": "iotdevice",
 		"DBUserName": "postgres",
 		"DBPassword": "admin",
 		"DBPoolNum": 20,
 		"ConnectionTimeout": 180,
 		"trim": "zym"
 	}
+
 	//	"other": {
 	//		"DBType": "PGSQL",
 	//				"DBServerAdd": "127.0.0.1",

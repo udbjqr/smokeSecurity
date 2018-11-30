@@ -1,0 +1,27 @@
+登陆
+URL： 192.168.2.124:8081/login
+参数：
+{
+"login_name":"1322",
+"password":"2"
+}
+
+注册
+URL： 192.168.2.124:8081/regist
+参数：
+{
+"login_name":"1322",
+"passwd":"2",
+"name":"1a",
+"telephone":"1502730885364",
+"openid":"ope23nid"
+}
+
+找回密码 的
+URL：192.168.2.124:8081/retrieve
+参数：
+{
+"telephone":"1322",
+"passwd":"2",
+"verificationCode":"1a"
+}

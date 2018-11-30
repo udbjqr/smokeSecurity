@@ -1,4 +1,4 @@
-package common.units
+package com.cs.common.units
 
 import com.example.common.units.getDefaultConfig
 

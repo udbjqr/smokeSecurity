@@ -17,11 +17,13 @@
   }
 </style>
 <template>
+
   <view class="conmain">
+    <van-toast id="van-toast" />
   <image @tap="bindViewTap" class="userinfo-avatar" src="{{imgUrl}}" mode="cover"/>
 <van-cell-group>
   <van-field
-    value="{{form.loginname}}"
+    value="{{form.login_name}}"
     required
     clearable
     left-icon="contact"
@@ -40,40 +42,62 @@
   />
 </van-cell-group>
 
-<van-button @tap="toastShow" type="primary"> 
+  <van-button @tap="toastShow" type="primary"> 
       登录 </van-button>
+  <van-button @tap="register" type="primary"> 
+      注册 </van-button>
+
+  <van-button @tap="forget" type="primary"> 
+      忘记密码 </van-button>
 </view>
 </template>
 
 <script>
   import wepy from 'wepy'
   import { connect } from 'wepy-redux'
+  import  Toast  from '../components/vant/toast/toast';
  
   export default class Login extends wepy.page {
     config = {
       navigationBarTitleText: '登录',
       usingComponents: {
         "van-button": "../components/vant/button/index",
-        "van-field": "../components/vant/field/index"
+        "van-field": "../components/vant/field/index",
+        "van-toast": "../components/vant/toast/index"
       }
     }
     data = {
       imgUrl:'./img/1.jpg',
       form:{
-        loginname:'',
+        login_name:'',
         password:''
-      }
+      },
+      userInfo:{}
     }
     methods = {
       toastShow(){
-        console.log(this.form)
+        wepy.$request('login',this.form,data=>{
+          Toast.success('成功登录');
+          wepy.switchTab({
+            url: '/pages/main'
+          })
+        },(data,code,mess)=>{
+          Toast.fail(data.message);
+        })
         // this.$parent.com()
-        wepy.switchTab({
-          url: '/pages/main'
+      },
+      register(){
+        wepy.redirectTo({
+          url: '/pages/register'
+        })
+      },
+      forget(){
+        wepy.redirectTo({
+          url: '/pages/forget'
         })
       },
       onChangeUsername(e) {
-        this.data.form.loginname = e.detail
+        this.data.form.login_name = e.detail
       },
       onChangePassword(e) {
         this.data.form.password = e.detail
@@ -81,7 +105,33 @@
     }
 
     onLoad() {
-      
+      switch(wepy.$store.getState().register.code){
+        case 2:
+          wepy.$store.dispatch({ type : 'STATUS' , payload : 1})
+          wx.showToast({
+            title: '注册成功',
+            icon: 'success',
+            duration: 2000
+          })
+          break;
+        case 3:
+          wepy.$store.dispatch({ type : 'STATUS' , payload : 1})
+          wx.showToast({
+            title: '成功修改密码',
+            icon: 'success',
+            duration: 2000
+          })
+          break;
+        default:
+          break;
+      }
+      let self = this
+      this.$parent.getUserInfo((userInfo) =>{
+        if (userInfo) {
+          self.userInfo = userInfo
+          console.log(self.userInfo)
+        }
+      })
     }
   }
 </script>
