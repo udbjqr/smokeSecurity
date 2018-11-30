@@ -1,0 +1,87 @@
+<style lang="less">
+  .userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .userinfo-avatar {
+    display: flex;
+    width: 80%;
+    margin: 20rpx auto;
+    border-radius: 10rpx;
+  }
+
+  .userinfo-nickname {
+    color: #aaa;
+  }
+</style>
+<template>
+  <view class="conmain">
+  <image @tap="bindViewTap" class="userinfo-avatar" src="{{imgUrl}}" mode="cover"/>
+<van-cell-group>
+  <van-field
+    value="{{form.loginname}}"
+    required
+    clearable
+    left-icon="contact"
+    placeholder="请输入用户名"
+    bind:change="onChangeUsername"
+  />
+
+  <van-field
+    value="{{form.password}}"
+    type="password"
+    left-icon="edit-data"
+    placeholder="请输入密码"
+    required
+    border="{{ false }}"
+    bind:change="onChangePassword"
+  />
+</van-cell-group>
+
+<van-button @tap="toastShow" type="primary"> 
+      登录 </van-button>
+</view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+ 
+  export default class Login extends wepy.page {
+    config = {
+      navigationBarTitleText: '登录',
+      usingComponents: {
+        "van-button": "../components/vant/button/index",
+        "van-field": "../components/vant/field/index"
+      }
+    }
+    data = {
+      imgUrl:'./img/1.jpg',
+      form:{
+        loginname:'',
+        password:''
+      }
+    }
+    methods = {
+      toastShow(){
+        console.log(this.form)
+        // this.$parent.com()
+        wepy.switchTab({
+          url: '/pages/main'
+        })
+      },
+      onChangeUsername(e) {
+        this.data.form.loginname = e.detail
+      },
+      onChangePassword(e) {
+        this.data.form.password = e.detail
+      },
+    }
+
+    onLoad() {
+      
+    }
+  }
+</script>

@@ -1,0 +1,16 @@
+{
+	"description": "A WePY project",
+	"setting": {
+		"urlCheck": false,
+		"es6": false,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true,
+		"nodeModules": true
+	},
+	"compileType": "miniprogram",
+	"appid": "touristappid",
+	"projectname": "first",
+	"miniprogramRoot": "dist/",
+	"condition": {}
+}
