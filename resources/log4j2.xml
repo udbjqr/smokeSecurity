@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="GB2312"?>
+<configuration status="OFF">
+	<appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %C{2}.%M - %msg%xEx%n"/>
+		</Console>
+		<Console name="TraceConsole" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %C{2}.%M line:%L thread:%t - %msg%xEx%n"/>
+		</Console>
+		<Console name="ErrorConsole" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %C{2}.%M line:%L thread:%t - %msg%xEx%n"/>
+		</Console>
+
+		<RollingFile name="TraceFile" fileName="./logs/cs/trace.log"
+		             filePattern="./logs/cs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss.SSS} %-5level %C{2}.%M line:%L thread:%t - %msg%xEx%n"/>
+			<SizeBasedTriggeringPolicy size="20 MB"/>
+		</RollingFile>
+
+		<RollingFile name="serviceProvider" fileName="./logs/cs/serviceProvider.log"
+		             filePattern="./logs/cs/$${date:yyyy-MM}/serviceProvider-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss.SSS} %-5level %C{2} t:%t - %msg%xEx%n"/>
+			<SizeBasedTriggeringPolicy size="200 MB"/>
+		</RollingFile>
+
+		<RollingFile name="common" fileName="./logs/cs/common.log"
+		             filePattern="./logs/cs/$${date:yyyy-MM}/common-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss.SSS} %-5level %C{2} t:%t - %msg%xEx%n"/>
+			<SizeBasedTriggeringPolicy size="50 MB"/>
+		</RollingFile>
+
+		<RollingFile name="schedule" fileName="./logs/cs/schedule.log"
+		             filePattern="./logs/cs/$${date:yyyy-MM}/schedule-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss.SSS} %-5level %C{2} t:%t - %msg%xEx%n"/>
+			<SizeBasedTriggeringPolicy size="100 MB"/>
+		</RollingFile>
+		<RollingFile name="capture" fileName="./logs/cs/capture.log"
+		             filePattern="./logs/cs/$${date:yyyy-MM}/capture-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss.SSS} %-5level %C{2} t:%t - %msg%xEx%n"/>
+			<SizeBasedTriggeringPolicy size="200 MB"/>
+		</RollingFile>
+	</appenders>
+
+	<loggers>
+		<!--处理common的日志 。-->
+		<Logger name="com.cs.common" level="trace" additivity="false">
+			<AppenderRef ref="common"/>
+			<AppenderRef ref="TraceConsole"/>
+		</Logger>
+		<!--处理抓数据日志 。-->
+		<Logger name="com.cs.capture" level="trace" additivity="false">
+			<AppenderRef ref="capture"/>
+			<AppenderRef ref="TraceConsole"/>
+		</Logger>
+		<!--处理计划任务的日志 。-->
+		<Logger name="com.cs.common.scheduler" level="trace" additivity="false">
+			<AppenderRef ref="schedule"/>
+			<AppenderRef ref="TraceConsole"/>
+		</Logger>
+		<Logger name="com.cs.schedule" level="trace" additivity="false">
+			<AppenderRef ref="schedule"/>
+			<AppenderRef ref="TraceConsole"/>
+		</Logger>
+
+		<!--底层服务的不再输出日志。-->
+		<Logger name="com.cs.serviceProvider" level="info" additivity="false">
+			<AppenderRef ref="serviceProvider"/>
+			<AppenderRef ref="TraceConsole"/>
+		</Logger>
+
+		<!--将跟踪内容输出到其他文件。包括异常在内。-->
+		<Logger name="com.cs" level="trace" additivity="false">
+			<AppenderRef ref="TraceFile"/>
+			<AppenderRef ref="TraceConsole"/>
+		</Logger>
+
+		<Root level="trace">
+			<AppenderRef ref="TraceFile"/>
+			<AppenderRef ref="TraceConsole"/>
+		</Root>
+	</loggers>
+</configuration>
