@@ -1,14 +1,9 @@
 package com.example.common.units
 
 import org.apache.logging.log4j.LogManager
-import org.postgresql.jdbc.PgArray
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.sql.SQLException
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.experimental.and
-import kotlin.experimental.or
 
 /**
  *
@@ -66,17 +61,17 @@ object StringUtil {
         }
     }
 
-    /**
-     * Generates a simplified name from a [Class].  Similar to [Class.getSimpleName], but it works fine
-     * with anonymous classes.
-     */
-    fun simpleClassName(clazz: Class<*>): String {
-        val className = ObjectUtil.checkNotNull(clazz, "clazz").name
-        val lastDotIdx = className.lastIndexOf(PACKAGE_SEPARATOR_CHAR.toInt())
-        return if (lastDotIdx > -1) {
-            className.substring(lastDotIdx + 1)
-        } else className
-    }
+//    /**
+//     * Generates a simplified name from a [Class].  Similar to [Class.getSimpleName], but it works fine
+//     * with anonymous classes.
+//     */
+//    fun simpleClassName(clazz: Class<*>): String {
+//        val className = ObjectUtil.checkNotNull(clazz, "clazz").name
+//        val lastDotIdx = className.lastIndexOf(PACKAGE_SEPARATOR_CHAR.toInt())
+//        return if (lastDotIdx > -1) {
+//            className.substring(lastDotIdx + 1)
+//        } else className
+//    }
 
     /**
      * 判断明文加密之后与密码是否匹配,
@@ -110,79 +105,7 @@ object StringUtil {
     }
 
 
-    /**
-     * 转换一个对象至JSON的值显示.
-     *
-     * @param obj 要转换的对象
-     * @return 对象为空，返回""
-     */
-    fun converToJSONString(obj: Any?): String {
-        if (obj != null) {
-            //			logger.debug(object.getClass().toString() + " \t " + object.toString());
-            if (obj is String) {
-                return "\"" + obj.replace("\"", "\\\"") + "\""
-            } else if (obj is Int || obj is Long) {
-                return obj.toString()
-            } else if (obj is Date) {
-                val format = SimpleDateFormat(InternalConstant.DATE_FORMAT)
 
-                return "\"" + format.format(obj) + "\""
-            } else if (obj is String) {
-                val builder = StringBuilder()
-                for (s in (obj as String?)!!) {
-                    builder.append("\"").append(s).append("\"").append(",")
-                }
-                if (builder.isNotEmpty()) {
-                    builder.delete(builder.length - 1, builder.length)
-                }
-                builder.append("]")
-                builder.insert(0, "[")
-
-                return builder.toString()
-            } else if (obj is Array<Int>) {
-                val builder = StringBuilder()
-                for (s in (obj as Array<Int>?)!!) {
-                    builder.append(s).append(",")
-                }
-                if (builder.isNotEmpty()) {
-                    builder.delete(builder.length - 1, builder.length)
-                }
-                builder.append("]")
-                builder.insert(0, "[")
-
-                return builder.toString()
-            } else if (obj is PgArray) {
-                val builder = StringBuilder()
-                try {
-                    val array = obj.array
-                    if (array is Array<*>) {
-                        for (s in array) {
-                            builder.append(s).append(",")
-                        }
-                    }
-                    if (array is Array<String>) {
-                        for (s in array) {
-                            builder.append("\"").append(s).append("\"").append(",")
-                        }
-                    }
-                } catch (e: SQLException) {
-                    logger.error("出现异常", e)
-                }
-
-                if (builder.isNotEmpty()) {
-                    builder.delete(builder.length - 1, builder.length)
-                }
-                builder.append("]")
-                builder.insert(0, "[")
-
-                return builder.toString()
-            } else {
-                return obj.toString()
-            }
-        }
-
-        return "\"\""
-    }
 
     fun isEmpty(value: String?): Boolean {
         return value == null || value.isEmpty()

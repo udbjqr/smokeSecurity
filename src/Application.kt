@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject
 import com.cs.common.dbHelper.JDBCHelperFactory.helper
 import com.example.common.units.FileUtil
 import com.example.common.units.loadConfig
-import com.example.cs.src.UserInfoLogin
 import common.units.ICCID
 import common.units.MSISDN
 import io.ktor.application.Application
@@ -24,7 +23,6 @@ private val logger = LogManager.getLogger(FileUtil::class.java.name)
 fun main(args: Array<String>): Unit {
     loadConfig()
     io.ktor.server.cio.EngineMain.main(args)
-
 }
 
 
@@ -53,7 +51,6 @@ fun Application.module(testing: Boolean = false) {
 
 
         post("/login") {
-            UserInfoLogin(call)
         }
 
     }
