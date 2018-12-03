@@ -1,4 +1,4 @@
-package com.example.common.units
+package com.common.units
 
 import com.alibaba.fastjson.JSONObject
 import org.apache.logging.log4j.LogManager
@@ -17,7 +17,7 @@ class Config(fileName: String) {
     /**
      * 得到此配置的所有内容
      */
-    private val content: JSONObject
+    val content: JSONObject
     private var configName = ""
     private val strings: String = getProperties(Loader.getResource(fileName, Config::class.java.classLoader), "UTF-8")
 
