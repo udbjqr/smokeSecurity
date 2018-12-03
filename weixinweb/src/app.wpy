@@ -57,8 +57,8 @@ wepy.$request = (url, data, ok, failing, handleError, param = 1,sessionId)=>{
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/login',
       'pages/main',
+      'pages/login',
       'pages/register',
       'pages/forget',
       'pages/index',
