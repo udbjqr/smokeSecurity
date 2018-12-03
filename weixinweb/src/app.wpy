@@ -57,6 +57,7 @@ wepy.$request = (url, data, ok, failing, handleError, param = 1,sessionId)=>{
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/addplace',
       'pages/main',
       'pages/login',
       'pages/register',
@@ -64,7 +65,7 @@ export default class extends wepy.app {
       'pages/index',
       'pages/device',
       'pages/message',
-      'pages/mine'
+      'pages/mine',
     ],
     window: {
       backgroundTextStyle: 'light',

@@ -9,7 +9,7 @@
 		"nodeModules": true
 	},
 	"compileType": "miniprogram",
-	"appid": "touristappid",
+	"appid": "wxea52c7d61260234f",
 	"projectname": "haha",
 	"miniprogramRoot": "dist/",
 	"condition": {}

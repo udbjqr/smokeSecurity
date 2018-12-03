@@ -78,13 +78,20 @@
       toastShow(){
         wepy.$request('login',this.form,data=>{
           Toast.success('成功登录');
+          console.log(data.user)
+          wepy.setStorage({
+            key: 'user',
+            data: data.user,
+            success: res => {
+              console.log('异步保存成功')
+            }
+          })
           wepy.switchTab({
             url: '/pages/main'
           })
         },(data,code,mess)=>{
           Toast.fail(data.message);
         })
-        // this.$parent.com()
       },
       register(){
         wepy.redirectTo({
@@ -97,10 +104,10 @@
         })
       },
       onChangeUsername(e) {
-        this.data.form.login_name = e.detail
+        this.form.login_name = e.detail
       },
       onChangePassword(e) {
-        this.data.form.password = e.detail
+        this.form.password = e.detail
       },
     }
 
