@@ -1,0 +1,62 @@
+{
+  "code": 0,
+  "data": {
+    "place_list": {
+      "id": 505,
+      "pro_name": "江西省",
+      "city_name": "南昌市",
+      "user_id": "lp",
+      "reg_name": "西湖区",
+      "name": "aaaa",
+      "address": "aaaaaa",
+      "create_time": "2018-12-04 10:09:41",
+      "administrator": "lp",
+      "admin_phone": "15036532145",
+      "note": "",
+      "flag": 1
+    },
+    "place_list": {
+      "id": 503,
+      "pro_name": "江西省",
+      "city_name": "南昌市",
+      "user_id": "lp",
+      "reg_name": "西湖区",
+      "name": "sss",
+      "address": "aaaaaa",
+      "create_time": "2018-12-04 10:03:22",
+      "administrator": "lp",
+      "admin_phone": "15036532145",
+      "note": "ssss",
+      "flag": 1
+    },
+    "place_list": {
+      "id": 506,
+      "pro_name": "江西省",
+      "city_name": "南昌市",
+      "user_id": "lp",
+      "reg_name": "西湖区",
+      "name": "ss",
+      "address": "aaaaaa",
+      "create_time": "2018-12-04 10:11:12",
+      "administrator": "lp",
+      "admin_phone": "15036532145",
+      "note": "ss",
+      "flag": 1
+    },
+    "place_list": {
+      "id": 504,
+      "pro_name": "江西省",
+      "city_name": "南昌市",
+      "user_id": "lp",
+      "reg_name": "西湖区",
+      "name": "sa",
+      "address": "aaaaaa",
+      "create_time": "2018-12-04 10:05:41",
+      "administrator": "lp",
+      "admin_phone": "15036532145",
+      "note": "dd",
+      "flag": 1
+    }
+  },
+  "message": "成功"
+}
