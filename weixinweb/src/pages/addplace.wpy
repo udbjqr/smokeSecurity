@@ -1,0 +1,225 @@
+<style lang="less">
+  .app_ques>button{
+    width: 80%;text-align: center;display: block;background: #000;color: aliceblue;margin-top: 200rpx;
+  }
+</style>
+<template>
+  <view class="conmain">
+    <van-toast id="van-toast" />
+    <map id="map" 
+    longitude="{{longitude}}" 
+    latitude="{{latitude}}" 
+    scale="16" 
+    show-location 
+    style="width: 100%; height: 240px;"></map>
+    <van-cell-group>
+      <van-field
+        value="{{form.name}}"
+        required
+        clearable
+        placeholder="请输入部署位置"
+        label="部署位置"
+        bind:change="onChangeName"
+      />
+
+      <van-field
+        value="{{form.address}}"
+        placeholder="请输入详细地址"
+        label="详细地址"
+        required
+        bind:change="onChangeAddress"
+      />
+
+      <van-field
+        value="{{form.note}}"
+        placeholder="请输入备注"
+        label="备注"
+        bind:change="onChangeNote"
+      />
+
+      <van-field
+        value="{{form.administrator}}"
+        label="管理员名称"
+        readonly
+        placeholder="请输入用户名"
+      />
+
+      <van-field
+        value="{{form.admin_phone}}"
+        label="手机号"
+        readonly
+        border="{{ false }}"
+      />
+    </van-cell-group>
+
+    <van-button type="default" class="app_ques" @tap="ques" >确认</van-button>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import  Toast  from '../components/vant/toast/toast';
+  var QQMapWX = require('./js/qqmap-wx-jssdk.js');
+  var qqmapsdk;
+ 
+  export default class message extends wepy.page {
+    config = {
+      navigationBarTitleText: '添加场所',
+      usingComponents: {
+        "van-button": "../components/vant/button/index",
+        "van-field": "../components/vant/field/index",
+        "van-toast": "../components/vant/toast/index"
+      }
+    }
+    data = {
+      longitude:113.324520,
+      latitude:23.099994,
+      key:'B7XBZ-NWKAX-XX54J-ZAFEG-LMW4K-7WB5O',
+      form:{
+        address:'',
+        name:'',
+        note:''
+      }
+    }
+    methods = { 
+      ques(){
+        if(this.form.name==""||this.form.address==""){
+          Toast('请完善基本信息');
+        }else{
+          wepy.$request('addPlace',this.form,data=>{
+            wepy.switchTab({
+              url: '/pages/main'
+            })
+          },(data,code,mess)=>{
+            Toast.fail(data.message);
+          })
+        }
+      },
+      onChangeName(e){
+        this.form.name = e.detail
+      },
+      onChangeAddress(e){
+        this.form.address = e.detail
+      },
+      onChangeNote(e){
+        this.form.note = e.detail
+      }
+    }
+      getUserLocation(){
+        wx.getSetting({
+          success: res => {
+            console.log(JSON.stringify(res))
+            // res.authSetting['scope.userLocation'] == undefined    表示 初始化进入该页面
+            // res.authSetting['scope.userLocation'] == false    表示 非初始化进入该页面,且未授权
+            // res.authSetting['scope.userLocation'] == true    表示 地理位置授权
+            if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) {
+              wx.showModal({
+                title: '请求授权当前位置',
+                content: '需要获取您的地理位置，请确认授权',
+                success: res => {
+                  if (res.cancel) {
+                    wx.showToast({
+                      title: '拒绝授权',
+                      icon: 'none',
+                      duration: 1000
+                    })
+                  } else if (res.confirm) {
+                    wx.openSetting({
+                      success: dataAu => {
+                        if (dataAu.authSetting["scope.userLocation"] == true) {
+                          wx.showToast({
+                            title: '授权成功',
+                            icon: 'success',
+                            duration: 1000
+                          })
+                          //再次授权，调用wx.getLocation的API
+                          this.getLocation();
+                        } else {
+                          wx.showToast({
+                            title: '授权失败',
+                            icon: 'none',
+                            duration: 1000
+                          })
+                        }
+                      }
+                    })
+                  }
+                }
+              })
+            } else if (res.authSetting['scope.userLocation'] == undefined) {
+              //调用wx.getLocation的API
+              this.getLocation();
+            }
+            else {
+              //调用wx.getLocation的API
+             this.getLocation();
+            }
+          },
+          fail:res=>{
+            this.getLocation();
+          }
+        })
+      }
+      // 微信获得经纬度
+      getLocation() {
+        wx.getLocation({
+          type: 'wgs84',
+          success: res => {
+            this.latitude = res.latitude
+            this.longitude = res.longitude
+            this.$apply();
+            // this.speed = res.speed
+            // this.accuracy = res.accuracy;
+            this.getLocal(this.latitude, this.longitude)
+          },
+          fail: function (res) {
+            console.log('fail' + JSON.stringify(res))
+          }
+        })
+      }
+      // 获取当前地理位置
+      getLocal(latitude, longitude) {
+        qqmapsdk.reverseGeocoder({
+          location: {
+            latitude: latitude,
+            longitude: longitude
+          },
+          success: res => {
+            // this.province = res.result.address_component.province
+            // this.city = res.result.address_component.city
+            // this.district = res.result.address_component.district
+            // this.street_number = res.result.address_component.street_number
+            this.form.address = res.result.address
+            this.form.region_id = parseInt(res.result.ad_info.adcode)
+            this.$apply();
+          },
+          fail: res => {
+            console.log(res);
+          },
+          complete: res => {
+            // console.log(res);
+          }
+        });
+      }
+    
+    onLoad() {
+      wx.getStorage({
+        key: 'user',
+        success: res => {
+          this.form.user_id = res.data.id
+          this.form.administrator = res.data.name
+          this.form.admin_phone = res.data.telephone
+        }
+      })
+      this.getUserLocation()
+      qqmapsdk = new QQMapWX({
+        key: this.key //这里自己的key秘钥进行填充
+      });
+
+    }
+    onShow(){
+      // this.methods.getLocation()
+    }
+  }
+</script>

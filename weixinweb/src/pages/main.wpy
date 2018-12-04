@@ -1,32 +1,88 @@
 <style lang="less">
   @mess_width:200rpx;
+  @main_height:500rpx;
+  @ab_main:50rpx;
+  @main_back:#fbfbfb;
+  body{
+    background: @main_back
+  }
   .topMain{
-    height: 500rpx;width:100%;overflow: hidden;
+    height: @main_height;width:100%;overflow: hidden;
     background: linear-gradient(to bottom right, rgb(127, 255, 206) , rgb(50, 184, 106)); /* 标准的语法 */
   }
   .topyin{
     position: absolute;width: 100%;padding: 0rpx ;
   }
   .icon{
-    float: right;padding: 20rpx 30rpx 0 0;color: #fbfbfb;
+    float: right;padding: 20rpx 30rpx 0 0;color: @main_back;
   }
   .codeMessage{
     width: @mess_width;height: @mess_width;border-radius: 50%; box-shadow: 0 0 0 10px rgba(241, 238, 236, 0.6);
-    margin: 0 auto;text-align: center;background: #f3eeee;line-height: @mess_width;margin-top: 150rpx;
+    margin: 0 auto;text-align: center;background: @main_back;line-height: @mess_width;margin-top: 150rpx;
     font-size: 50rpx;
+  }
+  .abMain{
+    position: absolute;top:@main_height - (@ab_main / 2);background: #fbfbfb;width: 100%;
+    height: @ab_main;border-radius: 100%;background: white;z-index: 2;
+  }
+  .main_panel{
+    z-index:9999;width: 100%;position: absolute;top:@main_height;
+  }
+  .main_text:before{
+    width: 35%;height: 6rpx;background: rgb(50, 184, 106);content:" ";display: block;text-align: center;margin: 0 auto;
+    margin-bottom: 20rpx;
+  }
+  .main_text{
+    text-align: center;
+  }
+  .add_device{
+    position: absolute;top:90rpx;right: 20rpx;background: @main_back;border-radius: 10%;
+  }
+  .san{
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 20rpx;
+    right: 12rpx;
+    top:-33rpx;
+    border-style: solid;
+    border-color:  transparent transparent white transparent;
+  }
+  .add_list_view{
+    padding: 5rpx 20rpx;font-size: 30rpx;
+  }
+  .add_icon{
+    font-size: 40rpx;color: rgb(50, 184, 106);
   }
 </style>
 <template>
-  <view>
+  <view >
     <view class="topMain">
       <view class="topyin">
-        <van-icon name="add-o" class="icon" size="45rpx"/>
+        <van-icon name="{{icon}}" class="icon" size="45rpx" @tap="add_shows"/>
         <van-icon name="question" class="icon" size="45rpx"/>
       </view>
       <view class="codeMessage">
         {{code.message}}
       </view>
+    </view>
+    
+    <view class="main_panel">
+      <view class="main_text">我的场所</view>
+      <repeat for="{{list}}" key="index" index="index" item="item">
+        <van-panel title="标题" desc="描述信息" status="{{item.title}}"></van-panel>
+      </repeat>
 
+    </view>
+    <view class="abMain"></view>
+    <view class="add_device" hidden="{{add_show}}">
+      <view class="san"></view>
+      <repeat for="{{add_list}}" key="index" index="index" item="item">
+        <view @tap="native_url('{{item.url}}')" class="add_list_view">
+          <text class="add_icon">+ </text>
+          <text>{{item.name}}</text>
+        </view>
+      </repeat>
     </view>
   </view>
 </template>
@@ -41,21 +97,42 @@
       usingComponents: {
         "van-button": "../components/vant/button/index",
         "van-field": "../components/vant/field/index",
-        "van-icon": "../components/vant/icon/index"
+        "van-icon": "../components/vant/icon/index",
+        "van-panel": "../components/vant/panel/index"
       }
     }
     data = {
       code:{
         message:'正常',
         status:1
-      }
+      },
+      list: [{id: 1, title: 'title1'}, {id: 2, title: 'title2'}],
+      add_list: [{url: '', name: '添加设备'}, {url: 'addplace', name: '添加场所'}],
+      add_show:true,
+      icon:'add-o'
     }
     methods = {
-
+      add_shows(){
+        this.add_show = !this.add_show
+        if(this.add_show){
+          this.icon = 'add-o'
+        }else{
+          this.icon = 'close'
+        }
+      },
+      native_url(url){
+        wx.navigateTo({
+            url: url
+        })
+      }
     }
 
     onLoad() {
-      
+        wepy.$request('queryPlace','',data=>{
+
+        },(data,code,mess)=>{
+
+        })
     }
   }
 </script>
