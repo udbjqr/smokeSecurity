@@ -56,7 +56,8 @@
   }
 </style>
 <template>
-  <view >
+  <view>
+    <van-toast id="van-toast" />
     <view class="topMain">
       <view class="topyin">
         <van-icon name="{{icon}}" class="icon" size="45rpx" @tap="add_shows"/>
@@ -70,7 +71,7 @@
     <view class="main_panel">
       <view class="main_text">我的场所</view>
       <repeat for="{{list}}" key="index" index="index" item="item">
-        <van-panel title="标题" desc="描述信息" status="{{item.title}}"></van-panel>
+        <van-panel @tap="native_device('{{item.id}}')" title="{{item.name}}" desc="{{item.address}}" status="{{item.note}}"></van-panel>
       </repeat>
 
     </view>
@@ -90,6 +91,7 @@
 <script>
   import wepy from 'wepy'
   import { connect } from 'wepy-redux'
+  import  Toast  from '../components/vant/toast/toast';
  
   export default class main extends wepy.page {
     config = {
@@ -98,7 +100,8 @@
         "van-button": "../components/vant/button/index",
         "van-field": "../components/vant/field/index",
         "van-icon": "../components/vant/icon/index",
-        "van-panel": "../components/vant/panel/index"
+        "van-panel": "../components/vant/panel/index",
+        "van-toast": "../components/vant/toast/index"
       }
     }
     data = {
@@ -106,8 +109,8 @@
         message:'正常',
         status:1
       },
-      list: [{id: 1, title: 'title1'}, {id: 2, title: 'title2'}],
-      add_list: [{url: '', name: '添加设备'}, {url: 'addplace', name: '添加场所'}],
+      list: [],
+      add_list: [{url: 'adddevice', name: '添加设备'}, {url: 'addplace', name: '添加场所'}],
       add_show:true,
       icon:'add-o'
     }
@@ -121,17 +124,23 @@
         }
       },
       native_url(url){
-        wx.navigateTo({
+        wx.reLaunch({
             url: url
+        })
+      },
+      native_device(id){
+        wepy.$store.dispatch({ type : 'PLACEID' , payload : id})
+        wepy.switchTab({
+          url: '/pages/device'
         })
       }
     }
 
     onLoad() {
-        wepy.$request('queryPlace','',data=>{
-
+        wepy.$request('queryPlace',{user_id:wepy.$store.getState().register.user.id},data=>{
+          this.list = data.place_list
         },(data,code,mess)=>{
-
+          Toast(data.data.message);
         })
     }
   }

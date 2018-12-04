@@ -1,48 +1,122 @@
 <style lang="less">
-  .userinfo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.place_main{
+  position: relative;height: 44px;
+}
+  .place_left{
+    font-size: 14px;width: 35%;float: left;background: #ccc;color: #fbfbff;line-height: 44px;
   }
-
-  .userinfo-avatar {
-    display: flex;
-    width: 80%;
-    margin: 20rpx auto;
-    border-radius: 10rpx;
+  .place_left>text{
+    margin-left: 15px;
   }
-
-  .userinfo-nickname {
-    color: #aaa;
+  .place_right{
+    font-size: 14px;width: 65%;float: left;border-bottom: 1px solid #ddd;height: 43px;
   }
+  .place_right>view:first-child{
+    text-align: center;font-size: 14px;
+  }
+  .place_right>view:last-child{
+    color: #ccc;text-align: center;
+  }
+  .main_device{
+    position: absolute;left: 35%;top: 44px;width: 65%;
+  }
+  
 </style>
 <template>
   <view class="conmain">
-    11111111  
+    <van-toast id="van-toast"/>
+    <view class="place_main">
+      <view class="place_left">
+       <text>场所列表</text> 
+      </view>
+      <view class="place_right">
+        <view class="pa_fi">场所设备总数</view>
+        <view>{{items[mainActiveIndex].text}}</view>
+      </view>
+    </view>
+    <van-tree-select
+      items="{{ items }}"
+      main-active-index="{{ mainActiveIndex }}"
+      bind:click-nav="onClickNav"
+    />
+    <view class="main_device">
+      <repeat for="{{device_list}}" key="index" index="index" item="item">
+        <van-panel @tap="device_detailed('{{item.id}}')" title="{{item.name}}" desc="{{item.msisdn}}" status="{{item.flag}}"></van-panel>
+      </repeat>
+    </view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
   import { connect } from 'wepy-redux'
+  import  Toast  from '../components/vant/toast/toast';
  
   export default class device extends wepy.page {
     config = {
       navigationBarTitleText: '设备列表',
       usingComponents: {
         "van-button": "../components/vant/button/index",
-        "van-field": "../components/vant/field/index"
+        "van-field": "../components/vant/field/index",
+        "van-tree-select": "../components/vant/tree-select/index",
+        "van-toast": "../components/vant/toast/index",
+        "van-panel": "../components/vant/panel/index",
       }
     }
     data = {
-
+      items:[],
+      mainActiveIndex:0,
+      device_list:[]
     }
     methods = {
-
+       onClickNav({ detail = {} }) {
+        this.mainActiveIndex = detail.index || 0
+        this.changeDevice()
+        this.$apply()
+      },
+      device_detailed(id){
+        wepy.$store.dispatch({ type : 'DEVICE' , payload : {
+          user_id:wepy.$store.getState().register.user.id,
+          place_id:this.items[this.mainActiveIndex].id,
+          id:id
+        }})
+        wx.navigateTo({
+          url:'device_detailed'
+        })
+      }
     }
-
+    changePlace(){
+      if(this.items.length!=0){
+        this.items.findIndex((it,index) => {
+          if(it.id == wepy.$store.getState().register.place_id){
+            this.mainActiveIndex = index
+            wepy.$store.dispatch({ type : 'PLACEID' , payload : ''})
+            this.$apply();
+          }
+        })
+        this.changeDevice()
+      }
+    }
+    changeDevice(){
+      wepy.$request('queryDevice',{
+        user_id:wepy.$store.getState().register.user.id,
+        place_id:this.items[this.mainActiveIndex].id
+      },data=>{
+        this.device_list = data.device_list
+        this.$apply()
+      })
+    }
+    onShow(){
+      this.changePlace()
+    }
     onLoad() {
-      
+      wepy.$request('queryPlace',{user_id:wepy.$store.getState().register.user.id},data=>{
+        this.items = data.place_list
+        this.items.map(it => it.text = it.name)
+        this.changePlace()
+      },(data,code,mess)=>{
+        Toast(data.data.message);
+      })
     }
   }
 </script>

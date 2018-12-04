@@ -1,0 +1,53 @@
+<style lang="less">
+.list_text{
+  text-align: center;font-size: 24rpx;background: white;
+}
+</style>
+<template>
+  <view class="conmain">
+    <van-row>
+      <repeat for="{{list}}" key="index" index="index" item="item">
+        <van-col span="5" offset="1"  class="list_text" @tap="scanQrcode">
+          <image src="{{item.image}}" style="width:100%;height: 200rpx;margin:10rpx; background-color: #eeeeee;"/>
+          <text>{{item.name}}</text>
+        </van-col>
+      </repeat>
+    </van-row> 
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+ 
+  export default class mine extends wepy.page {
+    config = {
+      navigationBarTitleText: '添加设备',
+      usingComponents: {
+        "van-button": "../components/vant/button/index",
+        "van-field": "../components/vant/field/index",
+        "van-row": "../components/vant/row/index",
+        "van-col": "../components/vant/col/index"
+      }
+    }
+    data = {
+      list:[]
+    }
+    methods = {
+      scanQrcode(){
+        wx.scanCode({
+          success: res => {
+            console.log(res)
+          }
+        })
+      }
+    }
+
+    onLoad() {
+      wepy.$request('queryDeviceList','',data=>{
+        this.list = data.device_list
+        this.$apply()
+      })
+    }
+  }
+</script>
