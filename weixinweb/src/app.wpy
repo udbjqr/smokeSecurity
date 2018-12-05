@@ -9,9 +9,6 @@
 }
 </style>
 
-
-
-
 <script>
 import wepy from 'wepy'
 import 'wepy-async-function'
@@ -58,7 +55,10 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/login',
+      'pages/place_list',
+      'pages/detail/message_detail',
       'pages/device_detailed',
+      'pages/detail/place_detail',
       'pages/main',
       'pages/adddevice',
       'pages/device',

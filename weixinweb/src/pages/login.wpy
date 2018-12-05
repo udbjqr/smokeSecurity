@@ -95,12 +95,12 @@
         })
       },
       register(){
-        wepy.redirectTo({
+        wepy.navigateTo({
           url: '/pages/register'
         })
       },
       forget(){
-        wepy.redirectTo({
+        wepy.navigateTo({
           url: '/pages/forget'
         })
       },

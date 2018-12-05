@@ -67,7 +67,7 @@
   import wepy from 'wepy'
   import { connect } from 'wepy-redux'
  
-  export default class mine extends wepy.page {
+  export default class device_detailed extends wepy.page {
     config = {
       navigationBarTitleText: '我的',
       usingComponents: {
@@ -88,7 +88,7 @@
       if(this.list == {}){
         wx.navigateBack()
       }else{
-        wepy.$request('queryDevice',this.list,data=>{
+        wepy.$request('queryByDeviceId',this.list,data=>{
             this.device_list = data.device_list[0]
             this.device_list.flagname = wepy.$store.getState().register.flag.find(it => it.value == this.device_list.flag).label
             this.$apply()

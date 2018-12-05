@@ -54,9 +54,15 @@
   .add_icon{
     font-size: 40rpx;color: rgb(50, 184, 106);
   }
+  .main_view{
+    position: relative;
+  }
+  .bottoms{
+    text-align: center;color: #555;font-size: 20rpx;background: #eee;padding: 15rpx 0;
+  }
 </style>
 <template>
-  <view>
+  <view class="main_view">
     <van-toast id="van-toast" />
     <view class="topMain">
       <view class="topyin">
@@ -73,7 +79,7 @@
       <repeat for="{{list}}" key="index" index="index" item="item">
         <van-panel @tap="native_device('{{item.id}}')" title="{{item.name}}" desc="{{item.address}}" status="{{item.note}}"></van-panel>
       </repeat>
-
+      <view class="bottoms" hidden="{{bottoms}}">暂时没有数据啦~</view>
     </view>
     <view class="abMain"></view>
     <view class="add_device" hidden="{{add_show}}">
@@ -102,7 +108,8 @@
         "van-icon": "../components/vant/icon/index",
         "van-panel": "../components/vant/panel/index",
         "van-toast": "../components/vant/toast/index"
-      }
+      },
+      "enablePullDownRefresh": true
     }
     data = {
       code:{
@@ -112,7 +119,9 @@
       list: [],
       add_list: [{url: 'adddevice', name: '添加设备'}, {url: 'addplace', name: '添加场所'}],
       add_show:true,
-      icon:'add-o'
+      icon:'add-o',
+      count:100,
+      bottoms: true,
     }
     methods = {
       add_shows(){
@@ -124,7 +133,7 @@
         }
       },
       native_url(url){
-        wx.reLaunch({
+        wx.navigateTo({
             url: url
         })
       },
@@ -136,12 +145,55 @@
       }
     }
 
-    onLoad() {
-        wepy.$request('queryPlace',{user_id:wepy.$store.getState().register.user.id},data=>{
-          this.list = data.place_list
+    Mountion(){
+      let len = this.list.length
+      if(len < this.count){
+        wx.showLoading({
+          title: '加载中',
+        })
+        wepy.$request('queryPlace',{
+          user_id:wepy.$store.getState().register.user.id,
+          page_number:wepy.$store.getState().register.page_number,
+          page_count:wepy.$store.getState().register.page_count
+        },data=>{
+          wx.hideLoading();
+          if(wepy.$store.getState().register.page_number == 1){
+            this.list = data.place_list
+          }else{
+            this.list = [...this.list,...data.place_list]
+          }
+          this.count = data.count
+          this.$apply()
         },(data,code,mess)=>{
+          wx.hideLoading();
           Toast(data.data.message);
         })
+      }else if(20<len && len >= this.count){
+        this.bottoms = false
+      }else if(20>len && len > 0){
+
+      }
     }
+
+    onHide(){
+      this.add_show = true
+      this.icon = 'add-o'
+      this.$apply()
+    }
+    onShow() {
+      wepy.$store.dispatch({ type : 'NUMBERS' , payload : 1})
+      this.Mountion()
+    }
+
+    onPullDownRefresh(){
+      this.count = this.list.length + 1
+      wepy.$store.dispatch({ type : 'NUMBERS' , payload : 1})
+      this.Mountion()
+    }  
+    onReachBottom() {    
+      wepy.$store.dispatch({ type : 'NUMBERS' , payload : wepy.$store.getState().register.page_number + 1})
+      this.Mountion()
+    }
+
   }
 </script>
