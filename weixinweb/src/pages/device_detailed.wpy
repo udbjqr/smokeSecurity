@@ -1,0 +1,99 @@
+<style lang="less">
+  .userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .userinfo-avatar {
+    display: flex;
+    width: 80%;
+    margin: 20rpx auto;
+    border-radius: 10rpx;
+  }
+
+  .userinfo-nickname {
+    color: #aaa;
+  }
+</style>
+<template>
+  <view class="conmain">
+    <van-cell-group>
+      <van-field
+        label="设备名称"
+        readonly
+        value="{{ device_list.name }}"
+      />
+      <van-field
+        label="msisdn"
+        readonly
+        value="{{ device_list.msisdn }}"
+      />
+      <van-field
+        label="状态"
+        readonly
+        value="{{ device_list.flagname }}"
+      />
+      <van-field
+        label="创建人"
+        readonly
+        value="{{ device_list.user_id }}"
+      />
+      <van-field
+        label="创建时间"
+        readonly
+        value="{{ device_list.create_time }}"
+      />
+      <van-field
+        label="所属场所"
+        readonly
+        value="{{ device_list.place_id }}"
+      />
+      <van-field
+        label="备注"
+        readonly
+        value="{{ device_list.note }}"
+      />
+      <van-field
+        label="最近连接时间"
+        readonly
+        value="{{ device_list.last_connect_time }}"
+      />
+    </van-cell-group>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+ 
+  export default class mine extends wepy.page {
+    config = {
+      navigationBarTitleText: '我的',
+      usingComponents: {
+        "van-button": "../components/vant/button/index",
+        "van-field": "../components/vant/field/index"
+      }
+    }
+    data = {
+      list:{},
+      device_list:{}
+    }
+    methods = {
+
+    }
+
+    onLoad() {
+      this.list = wepy.$store.getState().register.device_detailed
+      if(this.list == {}){
+        wx.navigateBack()
+      }else{
+        wepy.$request('queryDevice',this.list,data=>{
+            this.device_list = data.device_list[0]
+            this.device_list.flagname = wepy.$store.getState().register.flag.find(it => it.value == this.device_list.flag).label
+            this.$apply()
+        })
+      }
+    }
+  }
+</script>
