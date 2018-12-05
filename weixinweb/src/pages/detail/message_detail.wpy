@@ -18,19 +18,21 @@
   .bottoms{
     text-align: center;color: #555;font-size: 20rpx;background: #eee;padding: 15rpx 0;
   }
+  .custom-text {
+    margin-right: 5px;
+    vertical-align: middle;
+}
 </style>
 <template>
   <view class="conmain">
     <van-toast id="van-toast" />
     <van-cell-group>
       <repeat for="{{list}}" key="index" index="index" item="item">
-        <van-cell class="p_list_one"
-          value="{{item.create_time}}"
-          is-link
-          @tap="native_to('{{item}}')">
-          <view slot="title">
-            <span class="van-cell-text">{{item.device_name}}</span>
-            <span class="van-cell-text">{{item.flag}}</span>
+        <van-cell
+          value="{{item.flag}}">
+           <view slot="title">
+            <span class="van-cell-text custom-text">{{item.name}}</span>
+            <van-tag type="{{item.type}}">{{item.flagname}}</van-tag>
           </view>
         </van-cell>
       </repeat>  
@@ -42,17 +44,18 @@
 <script>
   import wepy from 'wepy'
   import { connect } from 'wepy-redux'
-  import  Toast  from '../components/vant/toast/toast';
+  import  Toast  from '../../components/vant/toast/toast';
  
-  export default class message extends wepy.page {
+  export default class Message_detail extends wepy.page {
     config = {
       navigationBarTitleText: '消息列表',
       usingComponents: {
-        "van-button": "../components/vant/button/index",
-        "van-field": "../components/vant/field/index",
-        "van-toast": "../components/vant/toast/index",
-        "van-cell": "../components/vant/cell/index",
-        "van-cell-group": "../components/vant/cell-group/index",
+        "van-button": "/components/vant/button/index",
+        "van-field": "/components/vant/field/index",
+        "van-toast": "/components/vant/toast/index",
+        "van-cell": "/components/vant/cell/index",
+        "van-cell-group": "/components/vant/cell-group/index",
+        "van-tag": "/components/vant/tag/index"
       }
     }
     data = {
@@ -61,15 +64,8 @@
       bottoms:true
     }
     methods = {
-      native_to(it){
-        wepy.$store.dispatch({ type : 'MESSAGEID' , payload : {
-          user_id:it.user_id,
-          cause_id:it.cause_id,
-          device_id:it.device_id,
-        }})
-        wepy.navigateTo({
-          url: '/pages/detail/message_detail'
-        })
+      native_to(id){
+        
       }
     }
 
@@ -79,12 +75,16 @@
         wx.showLoading({
           title: '加载中',
         })
-        wepy.$request('queryAlarm',{
-          user_id:wepy.$store.getState().register.user.id,
-          page_number:wepy.$store.getState().register.page_number,
-          page_count:wepy.$store.getState().register.page_count
-        },data=>{
+        this.form.page_number = wepy.$store.getState().register.page_number
+        wepy.$request('queryAlarmCaue',this.form,data=>{
           wx.hideLoading();
+          data.alarm_list.map(it => {
+            let arr = wepy.$store.getState().register.message_flag.find(item => item.value == it.flag)
+            if(arr != undefined){
+              it.flagname = arr.label
+              it.type = arr.type
+            }
+          })
           if(wepy.$store.getState().register.page_number == 1){
             this.list = data.alarm_list
           }else{
@@ -103,7 +103,10 @@
       }
     }
 
-    onLoad() {
+    onShow() {
+      this.form = wepy.$store.getState().register.message_id
+      this.form.page_count = wepy.$store.getState().register.page_count
+      this.$apply()
       wepy.$store.dispatch({ type : 'NUMBERS' , payload : 1})
       this.Mountion()
     }

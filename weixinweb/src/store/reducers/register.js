@@ -3,11 +3,18 @@ import { STATUS } from '../types/register'
 import { USER } from '../types/register'
 import { PLACEID } from '../types/register'
 import { DEVICE } from '../types/register'
+import { NUMBERS } from '../types/register'
+import { PLACEDETAILID } from '../types/register'
+import { MESSAGEID } from '../types/register'
     const defaultState = {
         code:1,
         user:{},
         place_id:'',
+        place_detail_id:'',
         device_detailed:{},
+        message_id:{},
+        page_count:20,
+        page_number:1,
         flag:[
             {
                 label:'新增',
@@ -29,7 +36,25 @@ import { DEVICE } from '../types/register'
                 label:'删除',
                 value:99
             }
-        ]
+        ],
+        message_flag:[
+            {
+                label:'触发报警',
+                value:1,
+                type:'danger'
+            },
+            {
+                label:'确认信息',
+                value:10,
+                type:'primary'
+            },
+            {
+                label:'已删除',
+                value:99,
+                type:''
+            }
+        ],
+        
     }
     
     export default handleActions({
@@ -55,6 +80,24 @@ import { DEVICE } from '../types/register'
             return {
               ...state,
               device_detailed:action.payload
+            }
+        },
+        [NUMBERS]( state , action ){
+            return {
+              ...state,
+              page_number:action.payload
+            }
+        },
+        [PLACEDETAILID]( state , action ){
+            return {
+              ...state,
+              place_detail_id:action.payload
+            }
+        },
+        [MESSAGEID]( state , action ){
+            return {
+              ...state,
+              message_id:action.payload
             }
         },
     },defaultState)

@@ -1,0 +1,137 @@
+<style lang="less">
+.delete{
+    color: #fff;
+    font-size: 15px;
+    width: 86px;
+    height: 65px;
+    display: inline-block;
+    text-align: center;
+    line-height: 65px;
+    background-color: #f44;
+}
+.p_list_one  .van-cell__label ,.p_list_one  .van-cell__title{
+  white-space: nowrap;-o-text-overflow:ellipsis;text-overflow: ellipsis;
+}
+</style>
+<template>
+  <view class="conmain">
+    <van-toast id="van-toast" />
+    <van-dialog id="van-dialog" />
+    <repeat for="{{list}}" key="index" index="index" item="item">
+      <van-swipe-cell right-width="{{ 86 }}">
+        <van-cell-group>
+            <van-cell class="p_list_one"
+              title="{{item.name}}"
+              value="{{item.flagname}}"
+              size="large"
+              is-link
+              label="{{item.address}}"
+              @tap="native_to('{{item.id}}')">
+            </van-cell>
+        </van-cell-group>
+        <view slot="right" class="delete" @tap="native_detele('{{item.id}}')">删除</view>
+      </van-swipe-cell>
+    </repeat>
+    <view class="bottoms" hidden="{{bottoms}}">暂时没有数据啦~</view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import  Toast  from '../components/vant/toast/toast'
+  import Dialog from '../components/vant/dialog/dialog';
+import message from './message.wpy';
+ 
+  export default class place_list extends wepy.page {
+    config = {
+      navigationBarTitleText: '场所列表',
+      usingComponents: {
+        "van-button": "../components/vant/button/index",
+        "van-field": "../components/vant/field/index",
+        "van-cell": "../components/vant/cell/index",
+        "van-cell-group": "../components/vant/cell-group/index",
+        "van-swipe-cell": "../components/vant/swipe-cell/index",
+        "van-toast": "../components/vant/toast/index",
+        "van-dialog": "../components/vant/dialog/index"
+      }
+    }
+    data = {
+      list:[],
+      count:100,
+      bottoms: true,
+    }
+    methods = {
+      native_detele(id){
+        Dialog.confirm({
+          title: '提示',
+          message: '确定删除该场所?'
+        }).then(() => {
+          wepy.$request('deletePlace',{id:id},data => {
+            wx.showToast({
+              title: '成功删除',
+              icon: 'success',
+              duration: 2000
+            })
+            wepy.$store.dispatch({ type : 'NUMBERS' , payload : 1})
+            this.count = this.list.length + 1
+            this.Mountion()
+          },(data,code,message)=>{
+            Toast(data.data.message);
+          })
+        }).catch(() => {
+          Toast("已取消删除！");
+        });
+      },
+      native_to(id){
+        wepy.$store.dispatch({ type : 'PLACEDETAILID' , payload : id})
+        wx.navigateTo({
+          url: 'detail/place_detail'
+        })
+      }
+    }
+
+    Mountion(){
+      let len = this.list.length
+      if(len < this.count){
+        wx.showLoading({
+          title: '加载中',
+        })
+        wepy.$request('queryPlace',{
+          user_id:wepy.$store.getState().register.user.id,
+          page_number:wepy.$store.getState().register.page_number,
+          page_count:wepy.$store.getState().register.page_count
+        },data => {
+          wx.hideLoading();
+          data.place_list.map(it => {
+            //获取场所 flagName
+            it.flagname = wepy.$store.getState().register.flag.find(item => item.value == it.flag).label
+          })
+          if(wepy.$store.getState().register.page_number == 1){
+            this.list = data.place_list
+          }else{
+            this.list = [...this.list,...data.place_list]
+          }
+          this.count = data.count
+          this.$apply()
+        },(data,code,mess)=>{
+          wx.hideLoading();
+          Toast(data.data.message);
+        })
+      }else if(20<len && len >= this.count){
+        this.bottoms = false
+      }else if(20>len && len > 0){
+
+      }
+    }
+
+    onShow() {
+      wepy.$store.dispatch({ type : 'NUMBERS' , payload : 1})
+      this.Mountion()
+    }
+    onReachBottom() { 
+      wepy.$store.dispatch({ type : 'NUMBERS' , payload : wepy.$store.getState().register.page_number + 1})
+      this.Mountion()
+    }
+  }
+</script>

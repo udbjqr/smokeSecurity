@@ -20,7 +20,7 @@
   import wepy from 'wepy'
   import { connect } from 'wepy-redux'
  
-  export default class mine extends wepy.page {
+  export default class adddevice extends wepy.page {
     config = {
       navigationBarTitleText: '添加设备',
       usingComponents: {

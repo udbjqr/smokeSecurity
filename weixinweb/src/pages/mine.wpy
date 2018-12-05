@@ -42,12 +42,12 @@
         {
           name:'场所管理',
           icon:'wap-home',
-          url:'123'
+          url:'place_list'
         },
         {
           name:'设备管理',
           icon:'points-mall',
-          url:'134'
+          url:'device'
         },
         {
           name:'历史记录',
@@ -61,7 +61,7 @@
         },
         {
           name:'推送管理',
-          icon:'discount',
+          icon:'setting',
           url:'135'
         },
         {
@@ -73,7 +73,13 @@
     }
     methods = {
       mine_nativeTo(url){
-        console.log(url)
+        if(url=='device')
+          wepy.switchTab({
+            url: url
+          });
+        wx.navigateTo({
+          url:url
+        })
       }
     }
 

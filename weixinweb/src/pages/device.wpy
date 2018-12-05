@@ -20,6 +20,9 @@
   .main_device{
     position: absolute;left: 35%;top: 44px;width: 65%;
   }
+  .bottoms{
+    text-align: center;color: #555;font-size: 20rpx;background: #eee;padding: 15rpx 0;
+  }
   
 </style>
 <template>
@@ -43,6 +46,7 @@
       <repeat for="{{device_list}}" key="index" index="index" item="item">
         <van-panel @tap="device_detailed('{{item.id}}')" title="{{item.name}}" desc="{{item.msisdn}}" status="{{item.flag}}"></van-panel>
       </repeat>
+      <view class="bottoms" hidden="{{bottoms}}">暂时没有数据啦~</view>
     </view>
   </view>
 </template>
@@ -66,7 +70,9 @@
     data = {
       items:[],
       mainActiveIndex:0,
-      device_list:[]
+      device_list:[],
+      count:100,
+      bottoms: false,
     }
     methods = {
        onClickNav({ detail = {} }) {
@@ -94,29 +100,59 @@
             this.$apply();
           }
         })
+        wepy.$store.dispatch({ type : 'NUMBERS' , payload : 1})
         this.changeDevice()
       }
     }
     changeDevice(){
-      wepy.$request('queryDevice',{
-        user_id:wepy.$store.getState().register.user.id,
-        place_id:this.items[this.mainActiveIndex].id
-      },data=>{
-        this.device_list = data.device_list
-        this.$apply()
-      })
+      let len = this.device_list.length
+      if(len < this.count){
+        wx.showLoading({
+          title: '加载中',
+        })
+        wepy.$request('queryPlace',{
+          user_id:wepy.$store.getState().register.user.id,
+          place_id:this.items[this.mainActiveIndex].id,
+          page_number:wepy.$store.getState().register.page_number,
+          page_count:wepy.$store.getState().register.page_count
+        },data=>{
+          wx.hideLoading();
+          if(wepy.$store.getState().register.page_number == 1){
+            this.device_list = data.place_list
+          }else{
+            this.device_list = [...this.device_list,...data.place_list]
+          }
+          this.count = data.count
+          this.$apply()
+        },(data,code,mess)=>{
+          wx.hideLoading();
+          Toast(data.data.message);
+        })
+      }else if(20<len && len >= this.count){
+        this.bottoms = false
+      }else if(20>len && len > 0){
+
+      }
     }
     onShow(){
       this.changePlace()
     }
     onLoad() {
-      wepy.$request('queryPlace',{user_id:wepy.$store.getState().register.user.id},data=>{
+      wepy.$request('queryPlace',{
+        user_id:wepy.$store.getState().register.user.id,
+        page_number:1,
+        page_count:10000
+      },data=>{
         this.items = data.place_list
         this.items.map(it => it.text = it.name)
         this.changePlace()
       },(data,code,mess)=>{
         Toast(data.data.message);
       })
+    }
+    onReachBottom() {    
+      wepy.$store.dispatch({ type : 'NUMBERS' , payload : wepy.$store.getState().register.page_number + 1})
+      this.changeDevice()
     }
   }
 </script>
