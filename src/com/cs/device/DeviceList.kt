@@ -22,8 +22,6 @@ fun queryDeviceList(): HttpResult {
 
 	val result: HttpResult = Success()
 
-
-
 	helper.queryBySet("select * from device_list where 1 = 1") { its ->
 		result.addSetToData(
 			"device_list",
