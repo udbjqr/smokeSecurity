@@ -23,6 +23,15 @@
   .bottoms{
     text-align: center;color: #555;font-size: 20rpx;background: #eee;padding: 15rpx 0;
   }
+  .left_tree{
+    position: fixed;height: 100%;top:44px;width: 35%;
+  }
+  .left_tree > view{
+  
+  }
+  .left_tree .van-tree-select__nav{
+    width: 100%;overflow: auto;
+  }
   
 </style>
 <template>
@@ -33,11 +42,11 @@
        <text>场所列表</text> 
       </view>
       <view class="place_right">
-        <view class="pa_fi">场所设备总数</view>
+        <view class="pa_fi">场所设备总数:{{ number }}</view>
         <view>{{items[mainActiveIndex].text}}</view>
       </view>
     </view>
-    <van-tree-select
+    <van-tree-select class="left_tree"
       items="{{ items }}"
       main-active-index="{{ mainActiveIndex }}"
       bind:click-nav="onClickNav"
@@ -72,11 +81,14 @@
       mainActiveIndex:0,
       device_list:[],
       count:100,
-      bottoms: false,
+      bottoms: true,
+      number:0
     }
     methods = {
        onClickNav({ detail = {} }) {
         this.mainActiveIndex = detail.index || 0
+        this.count = this.device_list.length + 1
+        wepy.$store.dispatch({ type : 'NUMBERS' , payload : 1})
         this.changeDevice()
         this.$apply()
       },
@@ -110,7 +122,7 @@
         wx.showLoading({
           title: '加载中',
         })
-        wepy.$request('queryPlace',{
+        wepy.$request('queryDevice',{
           user_id:wepy.$store.getState().register.user.id,
           place_id:this.items[this.mainActiveIndex].id,
           page_number:wepy.$store.getState().register.page_number,
@@ -118,11 +130,13 @@
         },data=>{
           wx.hideLoading();
           if(wepy.$store.getState().register.page_number == 1){
-            this.device_list = data.place_list
+            this.device_list = data.device_list
+            this.number = data.count
           }else{
-            this.device_list = [...this.device_list,...data.place_list]
+            this.device_list = [...this.device_list,...data.device_list]
           }
           this.count = data.count
+          
           this.$apply()
         },(data,code,mess)=>{
           wx.hideLoading();

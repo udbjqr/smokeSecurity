@@ -1,0 +1,130 @@
+<style lang="less">
+.pushrow{
+  font-size: 24rpx;text-align: center;padding: 20rpx 0;overflow: hidden;
+}
+.pushcell{
+  overflow: hidden;
+}
+</style>
+<template>
+  <view class="conmain">
+    <van-toast id="van-toast" />
+    <repeat for="{{list}}" key="index" index="index" item="item">
+      <van-cell-group class="pushcell">
+        <van-field
+          center
+          clearable
+          label="{{item.name}}"
+          disabled
+          border="{{ false }}"
+          use-button-slot>
+          <van-button slot="button" size="small" type="primary" @tap="promit('{{item}}')">提交</van-button>
+        </van-field>
+      </van-cell-group>
+      <view class="pushrow">
+        <van-row >
+          <van-col span="12">
+            <van-checkbox checked-color="#000" value="{{ item.other.phone }}" bind:change="onChangePhone({{index}})">接受火警电话</van-checkbox>
+          </van-col>
+          <van-col span="12">
+            <van-checkbox checked-color="#000" value="{{ item.other.message  }}" bind:change="onChangeMessage({{index}})">接受火警短信</van-checkbox>
+          </van-col>
+        </van-row>
+      </view>
+    </repeat>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import  Toast  from '@/components/vant/toast/toast';
+ 
+  export default class setPush extends wepy.page {
+    config = {
+      navigationBarTitleText: '推送设置',
+      usingComponents: {
+        "van-button": "/components/vant/button/index",
+        "van-field": "/components/vant/field/index",
+        "van-icon": "/components/vant/icon/index",
+        "van-cell": "/components/vant/cell/index",
+        "van-cell-group": "/components/vant/cell-group/index",
+        "van-checkbox": "/components/vant/checkbox/index",
+        "van-checkbox-group": "/components/vant/checkbox-group/index",
+        "van-row": "/components/vant/row/index",
+        "van-col": "/components/vant/col/index",
+        "van-toast": "/components/vant/toast/index"
+      }
+    }
+    data = {
+      list:[],
+      count:100,
+      bool:true
+    }
+    methods = {
+      onChangePhone(index,$event){
+        this.list[index].other.phone = $event.detail
+        this.$apply()
+      },
+      onChangeMessage(index,$event){
+        this.list[index].other.message = $event.detail
+        this.$apply()
+      },
+      promit(item){
+        let obj = {}
+        obj.phone = item.other.phone 
+        obj.message = item.other.message 
+        wepy.$request('updatePlaceOther',{
+          other:obj,
+          id:item.id
+        },data=>{
+          Toast.success('成功修改');
+          wepy.$store.dispatch({ type : 'NUMBERS' , payload : 1})
+          this.Mountion()
+        },(data,code,message)=>{
+
+        })
+      }
+    }
+
+    Mountion(){
+      let len = this.list.length
+      if(len < this.count){
+        wx.showLoading({
+          title: '加载中',
+        })
+        wepy.$request('queryPlaceOther',{
+          user_id:wepy.$store.getState().register.user.id,
+          page_number:wepy.$store.getState().register.page_number,
+          page_count:wepy.$store.getState().register.page_count
+        },data=>{
+          wx.hideLoading();
+          if(wepy.$store.getState().register.page_number == 1){
+            this.list = data.place_list
+          }else{
+            this.list = [...this.list,...data.place_list]
+          }
+          this.count = data.count
+          this.$apply()
+        },(data,code,mess)=>{
+          wx.hideLoading();
+          Toast(data.data.message);
+        })
+      }else if(20<len && len >= this.count){
+        this.bottoms = false
+      }else if(20>len && len > 0){
+
+      }
+    }
+
+    onShow() {
+      wepy.$store.dispatch({ type : 'NUMBERS' , payload : 1})
+      this.Mountion()
+    }
+
+    onReachBottom() {    
+      wepy.$store.dispatch({ type : 'NUMBERS' , payload : wepy.$store.getState().register.page_number + 1})
+      this.Mountion()
+    }
+  }
+</script>

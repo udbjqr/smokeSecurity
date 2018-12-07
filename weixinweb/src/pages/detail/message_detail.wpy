@@ -26,8 +26,17 @@
 <template>
   <view class="conmain">
     <van-toast id="van-toast" />
-    <van-cell-group>
+    <repeat for="{{list}}" key="index" index="index" item="item">
+      <van-panel title="{{item.device_name}}" desc="{{item.create_time}}" status="{{item.flagname}}">
+        <van-cell
+          title="{{item.name}}"
+        />
+      </van-panel>
+    </repeat>
+
+    <!-- <van-cell-group>
       <repeat for="{{list}}" key="index" index="index" item="item">
+        
         <van-cell
           value="{{item.flag}}">
            <view slot="title">
@@ -36,7 +45,7 @@
           </view>
         </van-cell>
       </repeat>  
-    </van-cell-group>
+    </van-cell-group> -->
     <view class="bottoms" hidden="{{bottoms}}">暂时没有数据啦~</view>
   </view>
 </template>
@@ -46,7 +55,7 @@
   import { connect } from 'wepy-redux'
   import  Toast  from '../../components/vant/toast/toast';
  
-  export default class Message_detail extends wepy.page {
+  export default class messageDetail extends wepy.page {
     config = {
       navigationBarTitleText: '消息列表',
       usingComponents: {
@@ -55,13 +64,15 @@
         "van-toast": "/components/vant/toast/index",
         "van-cell": "/components/vant/cell/index",
         "van-cell-group": "/components/vant/cell-group/index",
-        "van-tag": "/components/vant/tag/index"
+        "van-tag": "/components/vant/tag/index",
+        "van-panel": "/components/vant/panel/index"
       }
     }
     data = {
       list:[],
       count:100,
-      bottoms:true
+      bottoms:true,
+      activeName:['1']
     }
     methods = {
       native_to(id){
