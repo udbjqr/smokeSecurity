@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSONObject
 import com.common.units.loadConfig
 import com.cs.alarm.queryAlarm
 import com.cs.alarm.queryAlarmCaue
-import com.cs.common.units.HttpResult
 import com.cs.device.*
 import com.cs.place.*
 import com.cs.users.userRetrieve
@@ -20,6 +19,7 @@ import io.ktor.client.engine.cio.CIO
 import io.ktor.http.ContentType
 import io.ktor.request.receiveOrNull
 import io.ktor.response.respondText
+import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
 import org.apache.logging.log4j.LogManager
@@ -31,15 +31,15 @@ fun main(args: Array<String>) {
 	io.ktor.server.cio.EngineMain.main(args)
 }
 
-
 @Suppress("unused")
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
 	HttpClient(CIO)
 
-	routing {
-		post("/") {
 
+	routing {
+
+		post("/") {
 			call.respondText("Hellow word", contentType = ContentType.Text.Plain)
 		}
 
@@ -57,6 +57,7 @@ fun Application.module(testing: Boolean = false) {
 			log.debug("当前正在进行登录操作,传过来的值:$data")
 			val str = usersLogin(data).toString()
 			log.debug("当前正在结束登录操作,返回前台的值:$str")
+
 			call.respondText(str)
 		}
 
@@ -143,6 +144,30 @@ fun Application.module(testing: Boolean = false) {
 			log.debug("当前正在删除场所操作,传过来的值:$data")
 			val str = deletePlace(data).toString()
 			log.debug("当前正在结束删除场所操作,返回前台的值:$str")
+			call.respondText(str)
+		}
+
+
+		/**
+		 * 查看场所其他信息
+		 */
+		post("/queryPlaceOther") {
+			val data = getText(call)
+			log.debug("当前正在查看场所其他信息操作,传过来的值:$data")
+			val str = queryPlaceOther(data).toString()
+			log.debug("当前正在查看场所其他信息操作,返回前台的值:$str")
+			call.respondText(str)
+		}
+
+
+		/**
+		 * 修改场所其他信息
+		 */
+		post("/updatePlaceOther") {
+			val data = getText(call)
+			log.debug("当前正在修改场所其他信息操作,传过来的值:$data")
+			val str = updatePlaceOther(data).toString()
+			log.debug("当前正在修改场所其他信息操作,返回前台的值:$str")
 			call.respondText(str)
 		}
 
@@ -279,19 +304,17 @@ fun Application.module(testing: Boolean = false) {
 			val str = queryAlarmCaue(data).toString()
 			log.debug("当前正在结束查询报警信息操作,返回前台的值:$str")
 			call.respondText(str)
+		}
 
+
+		get("/") {
+			val data = getText(call)
+			log.debug("$data")
 		}
 
 
 	}
 
-}
-
-suspend fun respodText(call: ApplicationCall, jsonData: JSONObject, before: String, rear: String, result: HttpResult) {
-	log.debug(before + jsonData)
-	val str = result.toString()
-	log.debug(rear + str)
-	call.respondText(str)
 }
 
 
