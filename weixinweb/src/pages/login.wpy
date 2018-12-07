@@ -78,7 +78,6 @@
       toastShow(){
         wepy.$request('login',this.form,data=>{
           Toast.success('成功登录');
-          console.log(data.user)
           wepy.$store.dispatch({ type : 'USER' , payload : data.user})
           wepy.setStorage({
             key: 'user',

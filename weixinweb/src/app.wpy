@@ -68,6 +68,8 @@ export default class extends wepy.app {
       'pages/index',
       'pages/message',
       'pages/mine',
+      'pages/phone/phone',
+      'pages/other/setpush',
     ],
     window: {
       backgroundTextStyle: 'light',

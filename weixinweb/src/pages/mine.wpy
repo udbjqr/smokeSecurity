@@ -62,12 +62,12 @@
         {
           name:'推送管理',
           icon:'setting',
-          url:'135'
+          url:'other/setpush'
         },
         {
           name:'客服电话',
           icon:'phone',
-          url:'135'
+          url:'phone/phone'
         }
       ]
     }
@@ -80,6 +80,9 @@
         wx.navigateTo({
           url:url
         })
+      },
+      zhuxiao(){
+
       }
     }
 

@@ -41,9 +41,10 @@
   import { connect } from 'wepy-redux'
   import  Toast  from '../components/vant/toast/toast'
   import Dialog from '../components/vant/dialog/dialog';
-import message from './message.wpy';
+// import message from './message.wpy';
+
  
-  export default class place_list extends wepy.page {
+  export default class placeList extends wepy.page {
     config = {
       navigationBarTitleText: '场所列表',
       usingComponents: {

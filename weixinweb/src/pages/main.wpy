@@ -7,7 +7,7 @@
     background: @main_back
   }
   .topMain{
-    height: @main_height;width:100%;overflow: hidden;
+    height:@main_height;width:100%;overflow: hidden;position: fixed;top: 0;z-index: 9999;
     background: linear-gradient(to bottom right, rgb(127, 255, 206) , rgb(50, 184, 106)); /* 标准的语法 */
   }
   .topyin{
@@ -22,23 +22,24 @@
     font-size: 50rpx;
   }
   .abMain{
-    position: absolute;top:@main_height - (@ab_main / 2);background: #fbfbfb;width: 100%;
+    background: #fbfbfb;width: 100%;position: absolute;
     height: @ab_main;border-radius: 100%;background: white;z-index: 2;
   }
   .main_panel{
-    z-index:9999;width: 100%;position: absolute;top:@main_height;
+    z-index:999;width: 100%;position: absolute;top:@main_height + @ab_main * 2;
   }
   .main_text:before{
     width: 35%;height: 6rpx;background: rgb(50, 184, 106);content:" ";display: block;text-align: center;margin: 0 auto;
     margin-bottom: 20rpx;
   }
   .main_text{
-    text-align: center;
+    text-align: center;z-index: 4;position: relative;margin-top: @ab_main / 2;background: white;padding-bottom: 20rpx;
   }
   .add_device{
     position: absolute;top:90rpx;right: 20rpx;background: @main_back;border-radius: 10%;
   }
   .san{
+    z-index: 999999;
     position: absolute;
     width: 0;
     height: 0;
@@ -47,9 +48,10 @@
     top:-33rpx;
     border-style: solid;
     border-color:  transparent transparent white transparent;
+    
   }
   .add_list_view{
-    padding: 5rpx 20rpx;font-size: 30rpx;
+    padding: 5rpx 20rpx;font-size: 30rpx;background: white;position: relative;z-index: 99999;
   }
   .add_icon{
     font-size: 40rpx;color: rgb(50, 184, 106);
@@ -59,6 +61,9 @@
   }
   .bottoms{
     text-align: center;color: #555;font-size: 20rpx;background: #eee;padding: 15rpx 0;
+  }
+  .sercon{
+    position: fixed;top:@main_height - (@ab_main / 2);width: 100%;z-index: 99998;
   }
 </style>
 <template>
@@ -72,16 +77,21 @@
       <view class="codeMessage">
         {{code.message}}
       </view>
+      
     </view>
+    <view class="sercon">
+        <view class="abMain"></view>
+        <view class="main_text">我的场所</view>
+      </view>
     
     <view class="main_panel">
-      <view class="main_text">我的场所</view>
+      
       <repeat for="{{list}}" key="index" index="index" item="item">
         <van-panel @tap="native_device('{{item.id}}')" title="{{item.name}}" desc="{{item.address}}" status="{{item.note}}"></van-panel>
       </repeat>
       <view class="bottoms" hidden="{{bottoms}}">暂时没有数据啦~</view>
     </view>
-    <view class="abMain"></view>
+    
     <view class="add_device" hidden="{{add_show}}">
       <view class="san"></view>
       <repeat for="{{add_list}}" key="index" index="index" item="item">
@@ -131,6 +141,7 @@
         }else{
           this.icon = 'close'
         }
+        this.$apply()
       },
       native_url(url){
         wx.navigateTo({
