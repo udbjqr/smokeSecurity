@@ -5,12 +5,10 @@ package com
 import com.alibaba.fastjson.JSONObject
 import com.common.units.loadConfig
 import com.cs.alarm.queryAlarm
+import com.cs.alarm.queryAlarmCaue
 import com.cs.common.units.HttpResult
 import com.cs.device.*
-import com.cs.place.addPlace
-import com.cs.place.deletePlace
-import com.cs.place.queryPlace
-import com.cs.place.updatePlace
+import com.cs.place.*
 import com.cs.users.userRetrieve
 import com.cs.users.usersLogin
 import com.cs.users.usersRegist
@@ -103,6 +101,19 @@ fun Application.module(testing: Boolean = false) {
 		}
 
 		/**
+		 * 查询单个场所信息
+		 */
+		post("/queryByIdPlace") {
+
+			val data = getText(call)
+			log.debug("当前正在查询单个场所操作,传过来的值:$data")
+			val str = queryByIdPlace(data).toString()
+			log.debug("当前正在结束单个场所操作,返回前台的值:$str")
+			call.respondText(str)
+		}
+
+
+		/**
 		 * 增加场所
 		 */
 		post("/addPlace") {
@@ -150,6 +161,19 @@ fun Application.module(testing: Boolean = false) {
 			call.respondText(str)
 		}
 
+
+		/**
+		 * 查询单个设备详细信息
+		 */
+		post("/queryByDeviceId") {
+			val data = getText(call)
+			log.debug("当前正在查询单个设备操作,传过来的值:$data")
+			val str = queryByDeviceId(data).toString()
+			log.debug("当前正在结束查询单个设备操作,返回前台的值:$str")
+			call.respondText(str)
+		}
+
+
 		/**
 		 * 增加设备
 		 */
@@ -190,8 +214,9 @@ fun Application.module(testing: Boolean = false) {
 		 * 查询所有设备列表
 		 */
 		post("/queryDeviceList") {
-			log.debug("当前正在查询所有设备列表操作,传过来的值:")
-			val str = queryDeviceList().toString()
+			val data = getText(call)
+			log.debug("当前正在查询所有设备列表操作,传过来的值:$data")
+			val str = queryDeviceList(data).toString()
 			log.debug("当前正在结束查询所有设备列表操作,返回前台的值:$str")
 			call.respondText(str)
 		}
@@ -230,18 +255,33 @@ fun Application.module(testing: Boolean = false) {
 		}
 
 
-//-------------------------------预警信息--------------------------------------
+//-------------------------------报警信息--------------------------------------
 		/**
-		 * 查询预警记录
+		 * 查询报警记录
 		 */
 		post("/queryAlarm") {
 			val data = getText(call)
-			log.debug("当前正在查询预警记录操作,传过来的值:$data")
+			log.debug("当前正在查询报警记录操作,传过来的值:$data")
 			val str = queryAlarm(data).toString()
-			log.debug("当前正在结束查询预警记录操作,返回前台的值:$str")
+			log.debug("当前正在结束查询报警记录操作,返回前台的值:$str")
 			call.respondText(str)
 
 		}
+
+
+//--------------------------------报警信息--------------------------------------
+		/**
+		 * 查询报警信息
+		 */
+		post("/queryAlarmCaue") {
+			val data = getText(call)
+			log.debug("当前正在查询报警信息操作,传过来的值:$data")
+			val str = queryAlarmCaue(data).toString()
+			log.debug("当前正在结束查询报警信息操作,返回前台的值:$str")
+			call.respondText(str)
+
+		}
+
 
 	}
 

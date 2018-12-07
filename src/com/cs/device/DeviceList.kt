@@ -7,6 +7,8 @@ import com.cs.common.dbHelper.JDBCHelperFactory.helper
 import com.cs.common.units.*
 import com.cs.correctPara
 import com.cs.entitys.DeviceListFactory
+import com.cs.generateCondition
+import com.cs.sortDeskCondition
 
 /**
  *
@@ -18,13 +20,18 @@ import com.cs.entitys.DeviceListFactory
 /**
  * 查询所有的设备列表
  */
-fun queryDeviceList(): HttpResult {
+fun queryDeviceList(jsonData: JSONObject): HttpResult {
 
-	val result: HttpResult = Success()
+	var result: HttpResult = correctPara(PAGE_NUMBER, jsonData, ParaType.INT)
+	result = correctPara(PAGE_COUNT, jsonData, ParaType.INT, result)
 
 
+	val offset = (jsonData[PAGE_NUMBER] as Int - 1) * jsonData[PAGE_COUNT] as Int
+	result = Success()
+	val where = generateCondition(jsonData)
+	val orderBy = sortDeskCondition(jsonData)
 
-	helper.queryBySet("select * from device_list where 1 = 1") { its ->
+	helper.queryBySet("select * from (select * from device_list ) t  where 1 = 1  $where $orderBy limit ${jsonData[PAGE_COUNT]} offset $offset;") { its ->
 		result.addSetToData(
 			"device_list",
 			its,
@@ -40,7 +47,10 @@ fun queryDeviceList(): HttpResult {
 	}
 
 
-	return result
+	return result.put(
+		"counts",
+		helper.queryWithOneValue("select count(*) from (select * from device_list ) t  where 1 = 1  $where")
+	)
 
 }
 
