@@ -114,6 +114,11 @@ fun usersRegist(jsonData: JSONObject): HttpResult {
 
 	val user = UsersFactory.getNewObject()
 	jsonData[FLAG] = 1
+	if (null == jsonData["openid"]) {
+		jsonData["openid"] = "ouBNT0ULdQM_yXssdE10-AuPsySA"
+	} else {
+		jsonData["openid"] = ""
+	}
 	jsonData["passwd"] = StringUtil.encrypt(jsonData["passwd"] as String)
 	user.setValues(jsonData)
 	user.save()

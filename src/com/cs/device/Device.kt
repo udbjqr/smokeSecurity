@@ -59,7 +59,7 @@ fun queryDevice(jsonData: JSONObject): HttpResult {
 
 
 	return result.put(
-		"counts",
+		"count",
 		helper.queryWithOneValue("select count(*) from (select d.id,d.last_connect_time,d.msisdn,u.name as user_id,p.name as place_id,list2.name as device_list_id,d.name,d.create_time,a.name as admin_id,d.note,d.flag from device d inner join administrator a on d.admin_id = a.id inner join users u on d.user_id = u.id inner join place p on d.place_id = p.id inner join device_list list2 on d.device_list_id = list2.id where d.user_id =  ${jsonData["user_id"]} and place_id = ${jsonData["place_id"]} ) t where 1 = 1  $where")
 	)
 }

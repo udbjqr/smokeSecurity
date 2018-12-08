@@ -25,6 +25,7 @@ fun queryDeviceList(jsonData: JSONObject): HttpResult {
 	var result: HttpResult = correctPara(PAGE_NUMBER, jsonData, ParaType.INT)
 	result = correctPara(PAGE_COUNT, jsonData, ParaType.INT, result)
 
+	if (JSONObject.parseObject(result.toString())[CODE] != 0) return result
 
 	val offset = (jsonData[PAGE_NUMBER] as Int - 1) * jsonData[PAGE_COUNT] as Int
 	result = Success()

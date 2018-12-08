@@ -2,6 +2,7 @@ package com.cs.place
 
 import com.alibaba.fastjson.JSONObject
 import com.cs.ParaType
+import com.cs.common.dbHelper.JDBCHelperFactory
 import com.cs.common.dbHelper.JDBCHelperFactory.helper
 import com.cs.common.units.*
 import com.cs.correctPara
@@ -185,4 +186,47 @@ fun deletePlace(jsonData: JSONObject): HttpResult {
 	helper.execute("update place set flag = 99 where id = ${jsonData[ID]}")
 
 	return Success.it
+}
+
+
+/**
+ * 查看其他信息
+ */
+fun queryPlaceOther(jsonData: JSONObject): HttpResult {
+
+	var result: HttpResult = correctPara("user_id", jsonData, ParaType.LONG)
+	result = correctPara(PAGE_NUMBER, jsonData, ParaType.INT, result)
+	result = correctPara(PAGE_COUNT, jsonData, ParaType.INT, result)
+
+	if (JSONObject.parseObject(result.toString())[CODE] != 0) return result
+	val offset = (jsonData[PAGE_NUMBER] as Int - 1) * jsonData[PAGE_COUNT] as Int
+	result = Success()
+	val where = generateCondition(jsonData)
+	val orderBy = sortDeskCondition(jsonData)
+
+	helper.queryBySet("select * from (select * from place where user_id = ${jsonData["user_id"]}) t where 1 = 1 $where $orderBy limit ${jsonData[PAGE_COUNT]} offset $offset; ") {
+		result.addSetToData("place_list", it, arrayOf("id", "name", "other"))
+	}
+
+	return result.put(
+		"count",
+		helper.queryWithOneValue("select count(*) from (select * from place where user_id = ${jsonData["user_id"]}) t where 1 = 1 $where ")
+	)
+
+}
+
+
+/**
+ * 修改其他信息
+ */
+fun updatePlaceOther(jsonData: JSONObject): HttpResult {
+
+	var result: HttpResult = correctPara("id", jsonData, ParaType.LONG)
+	result = correctPara("other", jsonData, ParaType.JSON, result)
+
+	if (JSONObject.parseObject(result.toString())[CODE] != 0) return result
+
+	helper.execute("update place set other = ${JDBCHelperFactory.default.format(jsonData["other"])} where id = ${jsonData["id"]} ")
+
+	return result
 }
