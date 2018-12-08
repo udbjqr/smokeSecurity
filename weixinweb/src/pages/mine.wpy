@@ -52,7 +52,7 @@
         {
           name:'历史记录',
           icon:'points-mall',
-          url:'135'
+          url:'message'
         },
         {
           name:'火警通知',
@@ -73,7 +73,7 @@
     }
     methods = {
       mine_nativeTo(url){
-        if(url=='device')
+        if(url=='device' || url=='message')
           wepy.switchTab({
             url: url
           });
