@@ -2,10 +2,13 @@ package com.cs
 
 import com.alibaba.fastjson.JSONArray
 import com.alibaba.fastjson.JSONObject
+import com.common.units.Config
 import com.cs.common.dbHelper.JDBCHelperFactory
 import com.cs.common.units.*
-import com.cs.common.util.InternalConstant.DATE_FORMAT
+import com.cs.common.util.InternalConstant.*
+import com.cs.common.util.StringUtil
 import io.ktor.application.ApplicationCall
+import io.ktor.request.header
 import org.apache.logging.log4j.LogManager
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
@@ -18,6 +21,78 @@ import java.util.*
  */
 
 val log = LogManager.getLogger(ApplicationCall::class.java.name)!!
+
+
+/**
+ * 判断是否登陆
+ */
+fun isLogin(call: ApplicationCall): Boolean {
+
+	val token = call.request.cookies[TOKEN] ?: return false
+
+	log.debug(token)
+
+	val tokenValue: String
+
+	if ("" != token) {
+		tokenValue = token.substring(0, token.indexOf('#', 0))
+		val generateToken = generateToken(call, tokenValue)
+		if (generateToken != token) { //判断是否存在修改
+			return false
+		}
+	} else {
+		return false
+	}
+
+	val arr = tokenValue.split(TOKEN_SPLIT)
+
+	//根本没有登录信息
+	if (arr.size != 2) {
+		return false
+	}
+
+	//超时
+	if (arr[1].toLong() < System.currentTimeMillis()) {
+		return false
+	}
+
+	refreshToken(
+		generateToken(
+			call,
+			arr[0].toLong(),
+			Config.getIns(GENERIC)!!.get<Long>(LOGIN_KEEP_TIME).toString()
+		), call
+	)
+
+	return true
+}
+
+fun refreshToken(value: String, call: ApplicationCall) {
+
+//	val cookie = Cookie(TOKEN, value = value, path = "/")
+
+	call.response.cookies.append(TOKEN, value = value, path = "/")
+
+}
+
+
+fun generateToken(call: ApplicationCall, id: Long, expiration: String): String {
+	return generateToken(call, id.toString() + TOKEN_SPLIT + (System.currentTimeMillis() + expiration.toLong()))
+}
+
+/**
+ * 根据value和ip地址，用户信息，加密一个输出值。
+ *
+ *
+ * 输出的值将根据value+ "#" + 密文的格式返回。
+ */
+private fun generateToken(call: ApplicationCall, value: String): String {
+	val header = call.request.header("user-agent")
+
+	//目前不检测用户的使用IP地址。以防止IP变化后立即需要登录
+//		return value + "#" + StringUtil.encrypt(value + header + getRealIpAdd(request))
+	return value + "#" + StringUtil.MD5(value + header)
+}
 
 
 /**
@@ -36,8 +111,8 @@ fun correctPara(
 
 	val thisResult = result ?: Success.it
 
-	thisResult.found = false
 
+	thisResult.found = false
 
 	if (isNeed) {
 		if (!data.containsKey(name)) {

@@ -42,6 +42,7 @@ const val LOGIN_KEEP_TIME = "loginKeepTime"
 const val USER_TYPE = "userType"
 const val USER = "user"
 
+const val MENU = "menu"
 const val OPERATOR_MENU = "operatorMenu"
 const val DBCONFIG = "dbConfig"
 const val CUSTOMER_MENU = "customerMenu"

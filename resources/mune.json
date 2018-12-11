@@ -1,0 +1,94 @@
+{
+  "menu": [
+    {
+      "name": "第一个菜单",
+      "id": 100,
+      "icon": "el-icon-exp-yunweiguanli",
+      "url": "/office/channel",
+      "operate": {},
+      "children": [
+        {
+          "name": "第一个菜单列表",
+          "id": 101,
+          "url": "/office/channellist",
+          "operate": {
+          }
+        },
+        {
+          "name": "第一个菜单列表",
+          "id": 102,
+          "url": "/office/channellist",
+          "operate": {
+          }
+        },
+        {
+          "name": "第一个菜单列表",
+          "id": 103,
+          "url": "/office/channellist",
+          "operate": {
+          }
+        }
+      ]
+    },
+    {
+      "name": "第一个菜单",
+      "id": 100,
+      "icon": "el-icon-exp-yunweiguanli",
+      "url": "/office/channel",
+      "operate": {},
+      "children": [
+        {
+          "name": "第一个菜单列表",
+          "id": 101,
+          "url": "/office/channellist",
+          "operate": {
+          }
+        },
+        {
+          "name": "第一个菜单列表",
+          "id": 102,
+          "url": "/office/channellist",
+          "operate": {
+          }
+        },
+        {
+          "name": "第一个菜单列表",
+          "id": 103,
+          "url": "/office/channellist",
+          "operate": {
+          }
+        }
+      ]
+    },
+    {
+      "name": "第一个菜单",
+      "id": 100,
+      "icon": "el-icon-exp-yunweiguanli",
+      "url": "/office/channel",
+      "operate": {},
+      "children": [
+        {
+          "name": "第一个菜单列表",
+          "id": 101,
+          "url": "/office/channellist",
+          "operate": {
+          }
+        },
+        {
+          "name": "第一个菜单列表",
+          "id": 102,
+          "url": "/office/channellist",
+          "operate": {
+          }
+        },
+        {
+          "name": "第一个菜单列表",
+          "id": 103,
+          "url": "/office/channellist",
+          "operate": {
+          }
+        }
+      ]
+    }
+  ]
+}

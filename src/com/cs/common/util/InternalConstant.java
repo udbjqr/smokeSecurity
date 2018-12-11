@@ -13,7 +13,7 @@ public final class InternalConstant {
 
 	public static String TOKEN_SPLIT = "&";
 
-	public static final String TOKEN = "token";
+	public static final String TOKEN = "tokens";
 
 	public static final String OPENID = "openid";
 

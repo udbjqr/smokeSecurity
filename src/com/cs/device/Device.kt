@@ -23,8 +23,7 @@ import com.cs.sortDeskCondition
 
 fun queryDevice(jsonData: JSONObject): HttpResult {
 
-	var result: HttpResult = correctPara("user_id", jsonData, ParaType.LONG, isNeed = true)
-	result = correctPara("place_id", jsonData, ParaType.LONG, result, isNeed = true)
+	var result: HttpResult = correctPara("place_id", jsonData, ParaType.LONG, isNeed = true)
 	result = correctPara("id", jsonData, ParaType.LONG, result, isNeed = false)
 	result = correctPara(PAGE_NUMBER, jsonData, ParaType.INT, result)
 	result = correctPara(PAGE_COUNT, jsonData, ParaType.INT, result)
@@ -70,8 +69,7 @@ fun queryDevice(jsonData: JSONObject): HttpResult {
 
 fun queryByDeviceId(jsonData: JSONObject): HttpResult {
 
-	var result: HttpResult = correctPara("user_id", jsonData, ParaType.LONG, isNeed = true)
-	result = correctPara("place_id", jsonData, ParaType.LONG, result, isNeed = true)
+	var result: HttpResult = correctPara("place_id", jsonData, ParaType.LONG, isNeed = true)
 	result = correctPara("id", jsonData, ParaType.LONG, result, isNeed = true)
 
 	if (JSONObject.parseObject(result.toString())[CODE] != 0) return result
@@ -112,7 +110,6 @@ fun queryByDeviceId(jsonData: JSONObject): HttpResult {
 fun addDevice(jsonData: JSONObject): HttpResult {
 
 	var result: HttpResult = correctPara(MSISDN, jsonData, ParaType.LONG)
-	result = correctPara("user_id", jsonData, ParaType.LONG, result)
 	result = correctPara("place_id", jsonData, ParaType.LONG, result, isNeed = false)
 	result = correctPara("device_list_id", jsonData, ParaType.LONG, result, isNeed = false)
 	result = correctPara("name", jsonData, ParaType.STRING, result)
@@ -136,7 +133,6 @@ fun addDevice(jsonData: JSONObject): HttpResult {
 fun updateDevice(jsonData: JSONObject): HttpResult {
 
 	var result: HttpResult = correctPara(MSISDN, jsonData, ParaType.LONG)
-	result = correctPara("user_id", jsonData, ParaType.LONG, result)
 	result = correctPara("place_id", jsonData, ParaType.LONG, result, isNeed = false)
 	result = correctPara("device_list_id", jsonData, ParaType.LONG, result, isNeed = false)
 	result = correctPara("name", jsonData, ParaType.STRING, result)

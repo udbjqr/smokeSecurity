@@ -21,8 +21,7 @@ import com.cs.sortDeskCondition
 fun queryAlarm(jsonData: JSONObject): HttpResult {
 
 
-	var result: HttpResult = correctPara("user_id", jsonData, ParaType.LONG)
-	result = correctPara(PAGE_NUMBER, jsonData, ParaType.INT, result)
+	var result: HttpResult = correctPara(PAGE_NUMBER, jsonData, ParaType.INT)
 	result = correctPara(PAGE_COUNT, jsonData, ParaType.INT, result)
 
 	if (JSONObject.parseObject(result.toString())[CODE] != 0) return result
