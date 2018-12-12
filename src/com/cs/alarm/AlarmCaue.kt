@@ -21,8 +21,7 @@ import com.cs.sortDeskCondition
 fun queryAlarmCaue(jsonData: JSONObject): HttpResult {
 
 
-	var result: HttpResult = correctPara("user_id", jsonData, ParaType.LONG)
-	result = correctPara("cause_id", jsonData, ParaType.LONG, result)
+	var result: HttpResult = correctPara("cause_id", jsonData, ParaType.LONG)
 	result = correctPara("device_id", jsonData, ParaType.LONG, result)
 	result = correctPara(PAGE_NUMBER, jsonData, ParaType.INT, result)
 	result = correctPara(PAGE_COUNT, jsonData, ParaType.INT, result)

@@ -1,4 +1,4 @@
-@file:Suppress("DUPLICATE_LABEL_IN_WHEN")
+@file:Suppress("DUPLICATE_LABEL_IN_WHEN", "UNUSED_EXPRESSION")
 
 package com
 
@@ -6,11 +6,12 @@ import com.alibaba.fastjson.JSONObject
 import com.common.units.loadConfig
 import com.cs.alarm.queryAlarm
 import com.cs.alarm.queryAlarmCaue
+import com.cs.common.util.InternalConstant.TOKEN
+import com.cs.common.util.InternalConstant.TOKEN_SPLIT
 import com.cs.device.*
+import com.cs.isLogin
 import com.cs.place.*
-import com.cs.users.userRetrieve
-import com.cs.users.usersLogin
-import com.cs.users.usersRegist
+import com.cs.users.*
 import io.ktor.application.Application
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call
@@ -19,9 +20,9 @@ import io.ktor.client.engine.cio.CIO
 import io.ktor.http.ContentType
 import io.ktor.request.receiveOrNull
 import io.ktor.response.respondText
-import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
+import kotlinx.io.core.String
 import org.apache.logging.log4j.LogManager
 
 private val log = LogManager.getLogger(Application::class.java.name)
@@ -36,11 +37,18 @@ fun main(args: Array<String>) {
 fun Application.module(testing: Boolean = false) {
 	HttpClient(CIO)
 
-
 	routing {
 
 		post("/") {
 			call.respondText("Hellow word", contentType = ContentType.Text.Plain)
+		}
+
+		post("/getMenu") {
+			val data = getText(call)
+			log.debug("当前正在获取菜单操作,传过来的值:$data")
+			val str = getMenu(data)
+			log.debug("当前正在结束获取菜单操作,返回前台的值:$str")
+			call.respondText("$str")
 		}
 
 
@@ -55,7 +63,7 @@ fun Application.module(testing: Boolean = false) {
 
 			val data = getText(call)
 			log.debug("当前正在进行登录操作,传过来的值:$data")
-			val str = usersLogin(data).toString()
+			val str = usersLogin(data, call).toString()
 			log.debug("当前正在结束登录操作,返回前台的值:$str")
 
 			call.respondText(str)
@@ -306,12 +314,13 @@ fun Application.module(testing: Boolean = false) {
 			call.respondText(str)
 		}
 
+		post("/getResToken") {
 
-		get("/") {
-			val data = getText(call)
-			log.debug("$data")
+			log.debug("当前正在判断是否登陆操作,传过来的值:")
+			val str = getResToken(call).toString()
+			log.debug("当前正在结束判断是否登陆操作,返回前台的值:$str")
+			call.respondText(str)
 		}
-
 
 	}
 
@@ -323,9 +332,23 @@ fun Application.module(testing: Boolean = false) {
  */
 suspend fun getText(call: ApplicationCall): JSONObject {
 	val data = call.receiveOrNull<ByteArray>()
-	return if (data != null) {
-		JSONObject.parseObject(String(data))
+	if (data != null) {
+		val jsonObject = JSONObject.parseObject(String(data))
+		if (null == jsonObject || null == jsonObject["isFitst"]) {
+			if (!isLogin(call,jsonObject)) {
+				val token = call.request.cookies[TOKEN]
+				val userId = token!!.substring(0, token.indexOf('#', 0)).split(TOKEN_SPLIT)[0].toLong()
+				if (null == jsonObject) {
+					val json = JSONObject()
+					json["user_id"] = userId
+					return json
+				}
+				jsonObject["user_id"] = userId
+				return jsonObject
+			}
+		}
+		return jsonObject
 	} else {
-		JSONObject()
+		return JSONObject()
 	}
 }

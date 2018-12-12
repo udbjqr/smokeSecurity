@@ -121,6 +121,7 @@ fun updateDeviceList(jsonData: JSONObject): HttpResult {
 fun deleteDeviceList(jsonData: JSONObject): HttpResult {
 
 	val result: HttpResult = correctPara(ID, jsonData, ParaType.LONG)
+
 	if (JSONObject.parseObject(result.toString())[CODE] != 0) return result
 
 	helper.execute("delete from device_list where id = ${jsonData[ID]!!}")

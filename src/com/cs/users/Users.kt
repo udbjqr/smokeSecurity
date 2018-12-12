@@ -1,16 +1,18 @@
 package com.cs.users
 
 import com.alibaba.fastjson.JSONObject
-import com.cs.ParaType
+import com.common.units.Config
+import com.cs.*
 import com.cs.common.dbHelper.JDBCHelperFactory
 import com.cs.common.dbHelper.JDBCHelperFactory.helper
 import com.cs.common.units.*
 import com.cs.common.util.GlobalSave
+import com.cs.common.util.InternalConstant
 import com.cs.common.util.StringUtil
-import com.cs.correctPara
 import com.cs.entitys.Users
 import com.cs.entitys.UsersFactory
 import io.ktor.application.Application
+import io.ktor.application.ApplicationCall
 import org.apache.logging.log4j.LogManager
 
 /**
@@ -23,7 +25,7 @@ private val log = LogManager.getLogger(Application::class.java.name)
 /**
  * 登陆
  */
-fun usersLogin(jsonData: JSONObject): HttpResult {
+fun usersLogin(jsonData: JSONObject, call: ApplicationCall): HttpResult {
 
 	var result: HttpResult = correctPara("login_name", jsonData, ParaType.STRING, isNeed = true)
 	result = correctPara("password", jsonData, ParaType.STRING, result, isNeed = true)
@@ -51,8 +53,12 @@ fun usersLogin(jsonData: JSONObject): HttpResult {
 
 		GlobalSave.GLOBAL_SAVE.remove<String>("hashCode")
 
+
+		refreshToken(generateToken(call, user.id, Config.getIns(GENERIC)!!.get<Long>(LOGIN_KEEP_TIME).toString()), call)
+
 		return Success().also {
 			it.addInfoToData("user", user, arrayOf(ID, "name", "login_name", "telephone"))
+
 		}
 	}
 
@@ -151,4 +157,32 @@ fun userRetrieve(jsonData: JSONObject): HttpResult {
 	user.update()
 
 	return Success.it
+}
+
+/**
+ * 获取菜单
+ */
+fun getMenu(jsonData: JSONObject): HttpResult {
+
+	val result: HttpResult = correctPara("user_id", jsonData, ParaType.LONG, isNeed = true)
+	if (JSONObject.parseObject(result.toString())[CODE] != 0) return result
+	val users = UsersFactory.get(ID, jsonData["user_id"]!!) ?: return NotFoundObject().put("message", "找不到此用户")
+	val menu = users.getMenu()
+	return Success().put("menu", menu)
+}
+
+/**
+ * 判断是否登陆
+ */
+fun getResToken(call: ApplicationCall): HttpResult {
+	if (isLogin(call,JSONObject())) {
+		val token = call.request.cookies[InternalConstant.TOKEN]
+		val userId = token!!.substring(0, token.indexOf('#', 0)).split(InternalConstant.TOKEN_SPLIT)[0].toLong()
+		val user: Users = UsersFactory.get("id", userId) ?: return NotFoundObject()
+		return Success().also {
+			it.addInfoToData("user", user, arrayOf(ID, "name", "login_name", "telephone"))
+		}
+	}else{
+		return NotLogin()
+	}
 }

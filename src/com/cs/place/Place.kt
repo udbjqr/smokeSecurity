@@ -103,8 +103,7 @@ fun queryByIdPlace(jsonData: JSONObject): HttpResult {
  */
 fun addPlace(jsonData: JSONObject): HttpResult {
 
-	var result: HttpResult = correctPara("user_id", jsonData, ParaType.LONG, isNeed = true)
-	result = correctPara("region_id", jsonData, ParaType.LONG, result, isNeed = true)
+	var result: HttpResult = correctPara("region_id", jsonData, ParaType.LONG, isNeed = true)
 	result = correctPara("name", jsonData, ParaType.STRING, result, isNeed = true)
 	result = correctPara("address", jsonData, ParaType.STRING, result, isNeed = true)
 	result = correctPara("administrator", jsonData, ParaType.STRING, result, isNeed = false)
@@ -141,8 +140,7 @@ fun addPlace(jsonData: JSONObject): HttpResult {
  */
 fun updatePlace(jsonData: JSONObject): HttpResult {
 
-	var result: HttpResult = correctPara("user_id", jsonData, ParaType.LONG, isNeed = true)
-	result = correctPara("region_id", jsonData, ParaType.LONG, result, isNeed = true)
+	var result: HttpResult = correctPara("region_id", jsonData, ParaType.LONG, isNeed = true)
 	result = correctPara("name", jsonData, ParaType.STRING, result, isNeed = true)
 	result = correctPara("address", jsonData, ParaType.STRING, result, isNeed = true)
 	result = correctPara("administrator", jsonData, ParaType.STRING, result, isNeed = false)
@@ -194,8 +192,7 @@ fun deletePlace(jsonData: JSONObject): HttpResult {
  */
 fun queryPlaceOther(jsonData: JSONObject): HttpResult {
 
-	var result: HttpResult = correctPara("user_id", jsonData, ParaType.LONG)
-	result = correctPara(PAGE_NUMBER, jsonData, ParaType.INT, result)
+	var result: HttpResult = correctPara(PAGE_NUMBER, jsonData, ParaType.INT)
 	result = correctPara(PAGE_COUNT, jsonData, ParaType.INT, result)
 
 	if (JSONObject.parseObject(result.toString())[CODE] != 0) return result
