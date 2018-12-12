@@ -2,10 +2,12 @@
 import Vue,{ CreateElement } from 'vue';
 import { Component } from 'vue-property-decorator';
 import navItem from "@/components/menu/navitem";
+import tabItem from "@/components/menu/tabitem";
 
 @Component({
   components: {
     navItem,
+    tabItem
   },
 })
 export default class headmenu extends Vue {
@@ -22,6 +24,7 @@ export default class headmenu extends Vue {
                     select={this.selectMenu}>
                     {this.navList.map((it,index) => this.renderNavItem(h, it, index))}
                 </el-menu>
+                {this.$store.state.tabMenuFlag && <tab-item />}
             </div>
                 )
     }
@@ -32,6 +35,7 @@ export default class headmenu extends Vue {
     havemenu(){
         this.$request('getMenu','',data=>{
             this.navList = data.menu.menu
+            this.$store.commit('setMenu', this.navList);
         },(data,code,message)=>{
 
         })

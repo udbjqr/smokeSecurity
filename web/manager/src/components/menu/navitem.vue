@@ -25,9 +25,9 @@ export default class navItem extends Vue {
       }else{
         return(
           <el-menu-item class="lili" index={this.navIndex} onClick={() => this.routerUrl(this.item.url)}>
-            <i class={this.item.icon}></i>
-            <span slot="title">{ this.item.name }</span>
-        </el-menu-item>
+              <i class={this.item.icon}></i>
+              <span slot="title">{ this.item.name }</span>
+          </el-menu-item>
         )
       } 
     }
@@ -37,7 +37,20 @@ export default class navItem extends Vue {
         )
     }
     routerUrl(url){
-      this.$router.push('/#/'+url)
+      for(let ele of this.$store.state.Menu){
+        if(ele.children && ele.children.length){
+          for(let i of ele.children){
+             if(i.url == url) {
+               this.$store.commit('settabMenu', ele.children);
+               this.$store.commit('setTabMenuUrl',url);
+               this.$router.push('/#/'+url)
+               this.$store.commit('settabMenuFlag', true);
+               return false
+             }
+          }
+        }
+      }
+      
     }
 }
 </script>

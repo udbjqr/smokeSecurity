@@ -209,7 +209,6 @@ export default class login extends Vue {
             return null;
     }
     setCookie(c_name, value, expire) {
-        // expire = expire.toGMTString()
         document.cookie = `${c_name} = ${value};expires= ${expire}`
     }
     created() {
@@ -227,10 +226,7 @@ export default class login extends Vue {
             this.captcha_bool = false
             clearInterval(myTime);
         }, times);
-        
     }
-
-
 }
 </script>
 <style scoped lang="scss">

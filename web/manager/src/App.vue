@@ -28,9 +28,11 @@ export default class app extends Vue {
     )
   }
   created() {
-       this.$request('/getResToken','',data=>{
-         
-       })
+       this.$request('/getResToken','',data => {
+          this.$store.commit('setUserInfo', data.user);
+        },(data,code,message)=>{
+          this.$store.commit('setUserInfo', '');
+        })
     }
 }
 </script>
