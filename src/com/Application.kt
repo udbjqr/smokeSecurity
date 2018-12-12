@@ -335,7 +335,7 @@ suspend fun getText(call: ApplicationCall): JSONObject {
 	if (data != null) {
 		val jsonObject = JSONObject.parseObject(String(data))
 		if (null == jsonObject || null == jsonObject["isFitst"]) {
-			if (!isLogin(call)) {
+			if (!isLogin(call,jsonObject)) {
 				val token = call.request.cookies[TOKEN]
 				val userId = token!!.substring(0, token.indexOf('#', 0)).split(TOKEN_SPLIT)[0].toLong()
 				if (null == jsonObject) {

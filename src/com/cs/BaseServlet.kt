@@ -26,7 +26,12 @@ val log = LogManager.getLogger(ApplicationCall::class.java.name)!!
 /**
  * 判断是否登陆
  */
-fun isLogin(call: ApplicationCall): Boolean {
+fun isLogin(call: ApplicationCall, data: JSONObject): Boolean {
+
+	// 这个是判断小程序登陆的方式
+	if (null != data["openid"]) {
+		return true
+	}
 
 	val token = call.request.cookies[TOKEN] ?: return false
 

@@ -70,7 +70,8 @@
       imgUrl:'./img/1.jpg',
       form:{
         login_name:'',
-        password:''
+        password:'',
+        isFitst:true
       },
       userInfo:{}
     }
