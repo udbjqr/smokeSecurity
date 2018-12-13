@@ -21,11 +21,10 @@ export default class tabItem extends Vue {
         )
     }
     render(h:CreateElement){
-        let arr:Array<any> = []
+        let arr:object[] = []
         arr['tab-click'] = this.handleClick
-        const on = {on: arr};
         return (
-            <el-tabs value={this.activeName} {...on}>
+            <el-tabs value={this.activeName} {...{on:arr}}>
               {this.TabMenu.map(item => this.renderNavItem(h, item))}
             </el-tabs>
         )
