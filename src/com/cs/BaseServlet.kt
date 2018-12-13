@@ -69,7 +69,7 @@ fun isLogin(call: ApplicationCall, data: JSONObject): Boolean {
 		), call
 	)
 
-	return true
+	return false
 }
 
 fun refreshToken(value: String, call: ApplicationCall) {

@@ -28,6 +28,9 @@ fun main(args: Array<String>) {
 fun getWXToken(): JSONObject? {
 	//如果上次获取时间小于25分钟，直接返回token
 	val getTime = GlobalSave.getInstance().get("getWXAccessTokenTime", 0L)
+
+	log.debug("${System.currentTimeMillis()} -------  $getTime")
+
 	if (System.currentTimeMillis() - getTime <= 7000000L) {
 		log.debug("access_token，ticket的值在当前时间存在 ：{}", Date(System.currentTimeMillis()))
 		return GlobalSave.getInstance().get<JSONObject>("WXAccessToken")
@@ -37,7 +40,8 @@ fun getWXToken(): JSONObject? {
 	val jsonData = JSONObject()
 	val json = UrlPost.sendPostJson(url, "")
 	if (null != json!!["access_token"]) {
-		val urls = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + json["access_token"].toString() + "&type=jsapi"
+		val urls =
+			"https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + json["access_token"].toString() + "&type=jsapi"
 		val jsonObject = UrlPost.sendPostJson(urls, "")
 		jsonData["access_token"] = json["access_token"]
 		jsonData["ticket"] = jsonObject!!["ticket"]

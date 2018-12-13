@@ -175,7 +175,7 @@ fun getMenu(jsonData: JSONObject): HttpResult {
  * 判断是否登陆
  */
 fun getResToken(call: ApplicationCall): HttpResult {
-	if (isLogin(call,JSONObject())) {
+	if (!isLogin(call,JSONObject())) {
 		val token = call.request.cookies[InternalConstant.TOKEN]
 		val userId = token!!.substring(0, token.indexOf('#', 0)).split(InternalConstant.TOKEN_SPLIT)[0].toLong()
 		val user: Users = UsersFactory.get("id", userId) ?: return NotFoundObject()
