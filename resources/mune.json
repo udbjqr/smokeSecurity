@@ -10,21 +10,21 @@
         {
           "name": "第一个菜单列表",
           "id": 101,
-          "url": "/office/channellist",
+          "url": "/office/chann3ellist",
           "operate": {
           }
         },
         {
           "name": "第一个菜单列表",
           "id": 102,
-          "url": "/office/channellist",
+          "url": "/office/chan3nell4ist",
           "operate": {
           }
         },
         {
           "name": "第一个菜单列表",
           "id": 103,
-          "url": "/office/channellist",
+          "url": "/office/chann4ellist",
           "operate": {
           }
         }
@@ -34,27 +34,27 @@
       "name": "第一个菜单",
       "id": 100,
       "icon": "el-icon-exp-yunweiguanli",
-      "url": "/office/channel",
+      "url": "/office/chan5nel",
       "operate": {},
       "children": [
         {
           "name": "第一个菜单列表",
           "id": 101,
-          "url": "/office/channellist",
+          "url": "/office/chan6nellist",
           "operate": {
           }
         },
         {
           "name": "第一个菜单列表",
           "id": 102,
-          "url": "/office/channellist",
+          "url": "/office/chann7ellist",
           "operate": {
           }
         },
         {
           "name": "第一个菜单列表",
           "id": 103,
-          "url": "/office/channellist",
+          "url": "/office/channel8list",
           "operate": {
           }
         }
@@ -64,27 +64,27 @@
       "name": "第一个菜单",
       "id": 100,
       "icon": "el-icon-exp-yunweiguanli",
-      "url": "/office/channel",
+      "url": "/office/channe2l",
       "operate": {},
       "children": [
         {
           "name": "第一个菜单列表",
           "id": 101,
-          "url": "/office/channellist",
+          "url": "/office/cha1nnel2list",
           "operate": {
           }
         },
         {
           "name": "第一个菜单列表",
           "id": 102,
-          "url": "/office/channellist",
+          "url": "/office/chann23ellist",
           "operate": {
           }
         },
         {
           "name": "第一个菜单列表",
           "id": 103,
-          "url": "/office/channellist",
+          "url": "/office/chann123ellist",
           "operate": {
           }
         }

@@ -1,7 +1,7 @@
 {
 	"default": {
 		"DBType": "PGSQL",
-		"DBServerAdd": "192.168.2.68",
+		"DBServerAdd": "192.168.2.114",
 		"DBServerPort": 5432,
 		"DBDataBaseName": "iotdevice",
 		"DBUserName": "postgres",

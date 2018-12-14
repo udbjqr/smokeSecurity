@@ -315,7 +315,6 @@ fun Application.module(testing: Boolean = false) {
 		}
 
 		post("/getResToken") {
-
 			log.debug("当前正在判断是否登陆操作,传过来的值:")
 			val str = getResToken(call).toString()
 			log.debug("当前正在结束判断是否登陆操作,返回前台的值:$str")
@@ -333,16 +332,14 @@ fun Application.module(testing: Boolean = false) {
 suspend fun getText(call: ApplicationCall): JSONObject {
 	val data = call.receiveOrNull<ByteArray>()
 	if (data != null) {
-		val jsonObject = JSONObject.parseObject(String(data))
-		if (null == jsonObject || null == jsonObject["isFitst"]) {
-			if (!isLogin(call,jsonObject)) {
+		val jsonObject = JSONObject.parseObject(String(data)) ?: JSONObject()
+		if (null == jsonObject["isFitst"]) {
+
+			log.debug("看看这个值：${isLogin(call, jsonObject)}")
+			if (!isLogin(call, jsonObject)) {
 				val token = call.request.cookies[TOKEN]
 				val userId = token!!.substring(0, token.indexOf('#', 0)).split(TOKEN_SPLIT)[0].toLong()
-				if (null == jsonObject) {
-					val json = JSONObject()
-					json["user_id"] = userId
-					return json
-				}
+				log.debug("获取到的userId的值：$userId")
 				jsonObject["user_id"] = userId
 				return jsonObject
 			}
