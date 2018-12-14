@@ -1,4 +1,14 @@
-<script lang="tsx">
+<template>
+   <div id="app">
+      <div v-if="hasUserInfo">
+        <HeadMenu></HeadMenu>
+        <router-view/>
+      </div> 
+      <login v-else/>
+   </div>
+</template>
+
+<script lang="ts">
 import Vue,{ CreateElement } from 'vue';
 import Component from 'vue-class-component';
 import HeadMenu from '@/components/menu/HeadMenu.vue'; // @ is an alias to /src
@@ -13,20 +23,20 @@ export default class app extends Vue {
   get hasUserInfo(){
     return this.$store.state.userInfo;
   }
-  render(h:CreateElement){
-    return (
-      <div id="app">
-        {
-          this.hasUserInfo ? <div>
-            <HeadMenu></HeadMenu>
-            <router-view/>
-          </div> 
-          : <login />
-        }
+  // render(h:CreateElement){
+  //   return (
+  //     <div id="app">
+  //       {
+  //         this.hasUserInfo ? <div>
+  //           <HeadMenu></HeadMenu>
+  //           <router-view/>
+  //         </div> 
+  //         : <login />
+  //       }
         
-      </div>
-    )
-  }
+  //     </div>
+  //   )
+  // }
   created() {
        this.$request('/getResToken','',data => {
           this.$store.commit('setUserInfo', data.user);

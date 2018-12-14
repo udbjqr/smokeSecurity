@@ -43,7 +43,7 @@ export default class navItem extends Vue {
              if(i.url == url) {
                this.$store.commit('settabMenu', ele.children);
                this.$store.commit('setTabMenuUrl',url);
-               this.$router.push('/#/'+url)
+               this.$router.push(url)
                this.$store.commit('settabMenuFlag', true);
                return false
              }
