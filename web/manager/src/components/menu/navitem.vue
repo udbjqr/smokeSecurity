@@ -48,6 +48,8 @@ export default class navItem extends Vue {
                return false
              }
           }
+        }else if(url=="/"){
+          this.$router.push(url)
         }
       }
       

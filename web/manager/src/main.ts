@@ -5,6 +5,7 @@ import store from './store'
 import axios from 'axios'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import '@/assets/css/1.scss';
 
 
 Vue.use(ElementUI)
@@ -135,7 +136,20 @@ Vue.prototype.$expactData = function(){
 	}	
 }
 
-
+Vue.prototype.$mess = (title:string,point:string,fun:any,type:string = "warning") => {
+	_op.$confirm(title, point, {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: type
+	  }).then(() => {
+		fun()
+	  }).catch(() => {
+		_op.$message({
+		  type: 'info',
+		  message: '已取消'
+		});          
+	  });
+}
 
 Vue.prototype.$sort = (indexs:any,firstI:any,lastI:any,_this:any,kk:any) => {
 	const zeroIndex = _this.setzero.findIndex(it => it.name === kk) 

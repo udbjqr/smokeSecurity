@@ -14,6 +14,10 @@ export default class headmenu extends Vue {
     render(h:CreateElement){
         return (
             <div>
+                <div class="headTop">
+                    <div class="headTop_left">展示平台</div>
+                    <div class="headTop_right" onClick={this.loginOuts}>注销</div>
+                </div>     
                 <el-menu  class="el-menu-demo" 
                     mode="horizontal" 
                     background-color="#545c64"
@@ -32,6 +36,21 @@ export default class headmenu extends Vue {
        this.havemenu()
     }
     navList:Array<any> = []
+    loginOuts(){
+        this.$mess('是否确定退出','注销',this.loginOut)
+    }
+    loginOut(){ 
+        this.$request('loginOut','',data=>{
+            this.$message({
+                message:'成功注销',
+                type:'success'
+            })
+            this.$router.push('/')
+            location.reload()
+        },(data,code,message)=>{
+
+        })
+    }
     havemenu(){
         this.$request('getMenu','',data=>{
             this.navList = data.menu.menu

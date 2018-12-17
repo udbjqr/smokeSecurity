@@ -1,7 +1,6 @@
 <script lang="tsx">
 import Vue,{ CreateElement } from 'vue';
 import { Component ,Prop} from 'vue-property-decorator';
-import hh from '@/loshed.tsx';
 
 
 @Component
@@ -30,7 +29,7 @@ export default class tables extends Vue {
         return (
           <el-table-column
             show-overflow-tooltip
-            render-header={this.$header}
+            render-header={this.renderHeader}
             {...props}
             {...slotScope}>
           </el-table-column>
@@ -52,7 +51,21 @@ export default class tables extends Vue {
           </el-table>
         );
     }
-    
+    renderHeader(h,{ column, $index }) {
+      const hk = "kk"+ $index
+      const ff = "ff"+ $index
+      return (
+        <div class="cell">
+          {column.label}
+          <span class="caret-wrapper" id={hk} style="display:none">
+            <i class="sort-caret ascending"></i>
+            <i class="sort-caret descending"></i>
+          </span>
+          <span id={ff}></span>
+        </div>
+      )
+    }
+
     render(h:CreateElement){
       return (
         <div class="table-border">

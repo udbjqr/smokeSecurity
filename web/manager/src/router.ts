@@ -3,7 +3,7 @@ import Router from 'vue-router'
 const Home = () => import('@/views/Home.vue')
 const Main = () => import('@/components/index/main.vue')
 const Place = () => import('@/components/place/place.vue')
-
+const Device = () => import('@/components/device/device.vue')
 Vue.use(Router)
 
 export default new Router({
@@ -16,6 +16,10 @@ export default new Router({
     {
       path: '/office/Place',
       component: Place
+    },
+    {
+      path: '/office/device',
+      component: Device
     },
     {
       path: '/home',
