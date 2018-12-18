@@ -34,7 +34,7 @@ import search from '@/components/pluguses/search.vue';
         search
     },
 })
-export default class placeIndex extends Vue {
+export default class AlarmIndex extends Vue {
     place:object={
         form:{},
         disabled:true,
@@ -80,14 +80,14 @@ export default class placeIndex extends Vue {
         label:'id',
         value:'id'
     },{
-        label:'名称',
-        value:'name'
+        label:'设备名称',
+        value:'device_name'
     },{
-        label:'地址',
-        value:'address'
+        label:'创建时间',
+        value:'create_time'
     },{
-        label:'联系电话',
-        value:'admin_phone'
+        label:'备注',
+        value:'note'
     }]
     ChangeMessage(){
         this.$set(this.list,'page_count',this.$store.state.sizePage);
@@ -95,7 +95,7 @@ export default class placeIndex extends Vue {
         this.getQuery();
     }
     getQuery(){
-        this.$expactData(this.search,'queryPlace',this.list,'place_list')
+        this.$expactData(this.search,'queryAlarm',this.list,'alarm_list')
     }
     sort(val,event){
         let kk = this.tableColumn.find(it => it.label == val.label).value

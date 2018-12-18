@@ -13,7 +13,7 @@ export default class tabItem extends Vue {
     }
     handleClick(tab,event){
         this.$store.commit('setTabMenuUrl',tab.name);
-        this.$router.push('/#'+tab.name)
+        this.$router.push(tab.name)
     }
     renderNavItem(h, item){
         return(

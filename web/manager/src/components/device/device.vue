@@ -81,7 +81,10 @@ export default class DeviceIndex extends Vue {
         value:'id'
     },{
         label:'名称',
-        value:'name'
+        value:'name',
+        render:(h:CreateElement, scope)=>{
+            return h('router-link',{props:{to:`/office/DeviceMessage?place=${scope.row['place_id']}&device=${scope.row['id']}`}},scope.row['name'])					
+        },
     },{
         label:'备注',
         value:'note'
@@ -89,6 +92,7 @@ export default class DeviceIndex extends Vue {
         label:'状态',
         value:'flag'
     }]
+
     ChangeMessage(){
         this.$set(this.list,'page_count',this.$store.state.sizePage);
         this.$set(this.list,'page_number',this.$store.state.currentPage);

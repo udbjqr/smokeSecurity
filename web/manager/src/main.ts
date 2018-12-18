@@ -17,8 +17,8 @@ Vue.config.productionTip = false
 const _op:any = Vue.prototype
 let serviceRoot:String = "";
 
-Vue.prototype.$request = (url:String, data:Object, ok:any, failing:any, handleError:any):void => {
-
+Vue.prototype.$request = (url:String, data:Object, ok:any, failing:any, handleError:any) => {
+	return new Promise((resolve, reject) => {
 	axios({
 		method: 'post',
 		url: `${url}`,
@@ -27,8 +27,10 @@ Vue.prototype.$request = (url:String, data:Object, ok:any, failing:any, handleEr
 	}).then(res => {
 		res.data = JSON.parse(JSON.stringify(res.data))
 		if (res.data.code === 0) {
+			resolve(res)
 			ok(res.data.data);
 		} else {
+			resolve(res)
 			switch (res.data.code) {
 				case 9:
 					store.commit('setUserInfo', '');
@@ -54,9 +56,11 @@ Vue.prototype.$request = (url:String, data:Object, ok:any, failing:any, handleEr
 			handleError(error)
 		
 	})
-};
+})
+}
 
 Vue.prototype.$expactData = function(){
+
 	const arr = Array.prototype.slice.call(arguments)
 	let obj:any[] = []
 	for(let key in arr[0])
@@ -134,6 +138,7 @@ Vue.prototype.$expactData = function(){
 			});          
 		  });		
 	}	
+
 }
 
 Vue.prototype.$mess = (title:string,point:string,fun:any,type:string = "warning") => {

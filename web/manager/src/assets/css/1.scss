@@ -30,6 +30,13 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 .el-table thead tr>th {
     background: #13E6C9!important;
     color: #fff;
+    padding: 0;
+    height: 45px;
+    text-align: center;
+    overflow: hidden;
+    >.cell > .cell{
+        line-height: 45px;
+    }
 }
 .el-table .cell {
     line-height: 14px;
