@@ -17,6 +17,15 @@
                             <i slot="prefix" class="el-input__icon el-icon-edit-outline"></i>
                         </el-input>
                     </el-form-item>
+                    <el-form-item prop="captcha">
+                        <el-col :span="12">
+                        <el-input clearable placeholder="验证码" maxlength="4" v-model="form.captcha"></el-input>
+                        </el-col>
+                        <el-col :span="2">&nbsp;</el-col>
+                        <el-col :span="10">
+                        <img :src="captchahttp" @click="loadcaptcha" alt="" class="VerificationCode"> 
+                        </el-col>
+                    </el-form-item>
                     <el-form-item class="main_left">
                         <el-button type="primary" @click="submitForm('ruleForm')">Sign in</el-button>
                     </el-form-item>
@@ -102,9 +111,11 @@ export default class login extends Vue {
             return "点击发送"
         }
     }
+    captchahttp:string = ''
     form:Object = {
         login_name:'',
-        password:''
+        password:'',
+        captcha:''
     }
     rules:Object =  {
         login_name: [
@@ -112,6 +123,9 @@ export default class login extends Vue {
         ],
         password: [
             { required: true, message: '请输入密码', trigger: 'blur' }
+        ],
+        captcha: [
+            { required: true, message: '请输入验证码', trigger: 'blur' }
         ],
     }
     registe_form:Object = {
@@ -166,6 +180,16 @@ export default class login extends Vue {
             }
         })
     }
+    loadcaptcha(){
+        this.$request(
+            'getImage',
+            '',
+            data => {
+                this.captchahttp = data.img_url;
+                this.form.hashCode = data.hashCode.toString()
+            }
+        )
+    }
     submitRegiste(formName){
         this.$refs[formName].validate(valid => {
             if (valid) {
@@ -212,6 +236,7 @@ export default class login extends Vue {
         document.cookie = `${c_name} = ${value};expires= ${expire}`
     }
     created() {
+        this.loadcaptcha()
         const cookie = this.getCookie('captcha')
         if(cookie !== null && parseInt(cookie) > new Date().getTime()){
             this.setTime(cookie)

@@ -1,0 +1,61 @@
+$--color-primary: #13E6C9;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";
+.block{
+    position: fixed;bottom:0;width: 100%;background:rgba(19, 230, 201,0.5);padding: 10px 0;
+}
+.search-border .el-input {
+    width: 160px;
+    height: 36px;
+    margin: 0 10px 10px 0!important;
+}
+.search-border, .setDispatch {
+    background-color: #fff;
+    padding: 10px 41px 3px;
+    // box-shadow: 0 0 5px #adadad;
+    text-align: left;
+}
+.search-border {
+    border-radius: 5px;
+    background:rgba(19, 230, 201,0.5);
+}
+.table-border {
+    margin-top: 10px;
+    padding: 20px 0 50px;
+    border-bottom: 0;
+}
+.el-table thead tr>th {
+    background: #13E6C9!important;
+    color: #fff;
+    padding: 0;
+    height: 45px;
+    text-align: center;
+    overflow: hidden;
+    >.cell > .cell{
+        line-height: 45px;
+    }
+}
+.el-table .cell {
+    line-height: 14px;
+    font-size: 12px;
+}
+.el-tabs__header{
+    margin: 0 !important;padding: 0 20px !important; 
+}
+.headTop{
+    height: 50px;background: black;
+    color: #fff;line-height: 50px;
+    &_left{
+        float: left;
+    }
+    &_right{
+        float: right;cursor: pointer;
+    }
+    > div{
+        padding:0 20px;
+    }
+}
+

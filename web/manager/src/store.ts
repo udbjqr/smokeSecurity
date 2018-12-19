@@ -9,7 +9,10 @@ export default new Vuex.Store({
     Menu:'',
     tabMenu:[],
     tabMenuFlag:false,
-    tabMenuUrl:''
+    tabMenuUrl:'',
+    sizePage:3,
+    currentPage:1,
+    total:0
   },
   mutations: {
     setUserInfo: (state, data) => {
@@ -26,6 +29,15 @@ export default new Vuex.Store({
     },
     setTabMenuUrl: (state, data) => {
 			state.tabMenuUrl = data;
+    },
+    setSizePage:(state,data)=>{
+			state.sizePage = data;
+		},
+		setCurrentPage:(state,data)=>{
+			state.currentPage = data;
+    },
+    setTotal:(state,data)=>{
+			state.total = data;
 		},
   },
   actions: {
