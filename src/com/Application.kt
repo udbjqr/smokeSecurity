@@ -3,9 +3,11 @@
 package com
 
 import com.alibaba.fastjson.JSONObject
+import com.common.units.Config
 import com.common.units.loadConfig
 import com.cs.alarm.queryAlarm
 import com.cs.alarm.queryAlarmCaue
+import com.cs.common.units.CODE
 import com.cs.common.util.InternalConstant.TOKEN
 import com.cs.common.util.InternalConstant.TOKEN_SPLIT
 import com.cs.device.*
@@ -18,6 +20,8 @@ import io.ktor.application.call
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.http.ContentType
+import io.ktor.http.content.files
+import io.ktor.http.content.static
 import io.ktor.request.receiveOrNull
 import io.ktor.response.respondText
 import io.ktor.routing.post
@@ -38,6 +42,10 @@ fun Application.module(testing: Boolean = false) {
 	HttpClient(CIO)
 
 	routing {
+
+		static(Config.defaultConfig!!.get<String>("resourcesURL")!!) {
+			files(Config.defaultConfig!!.get<String>("resourcesRootPath")!!)
+		}
 
 		post("/") {
 			call.respondText("Hellow word", contentType = ContentType.Text.Plain)
@@ -94,6 +102,17 @@ fun Application.module(testing: Boolean = false) {
 		}
 
 
+		/**
+		 * 获取验证码
+		 */
+		post("/getImage") {
+
+			val str = getImage()
+			log.debug("当前正在结束获取验证码操作,返回前台的值:$str")
+			call.respondText(str.toString())
+		}
+
+
 //		-------------------------------场所--------------------------------------
 
 
@@ -101,7 +120,6 @@ fun Application.module(testing: Boolean = false) {
 		 * 查询所有场所
 		 */
 		post("/queryPlace") {
-
 			val data = getText(call)
 			log.debug("当前正在查询所有场所操作,传过来的值:$data")
 			val str = queryPlace(data).toString()
@@ -314,11 +332,24 @@ fun Application.module(testing: Boolean = false) {
 			call.respondText(str)
 		}
 
+
+//--------------------------------判断是否登陆--------------------------------------
+
 		post("/getResToken") {
 			log.debug("当前正在判断是否登陆操作,传过来的值:")
 			val str = getResToken(call).toString()
 			log.debug("当前正在结束判断是否登陆操作,返回前台的值:$str")
 			call.respondText(str)
+		}
+
+
+//--------------------------------登出--------------------------------------
+
+		post("/loginOut") {
+			call.response.cookies.append(TOKEN, "0")
+			val json = JSONObject()
+			json[CODE] = 0
+			call.respondText(json.toString())
 		}
 
 	}
@@ -343,6 +374,9 @@ suspend fun getText(call: ApplicationCall): JSONObject {
 				jsonObject["user_id"] = userId
 				return jsonObject
 			}
+		}else{
+			jsonObject["hashCode"] = "0"
+			jsonObject["captcha"] = "0"
 		}
 		return jsonObject
 	} else {

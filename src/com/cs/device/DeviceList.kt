@@ -32,7 +32,7 @@ fun queryDeviceList(jsonData: JSONObject): HttpResult {
 	val where = generateCondition(jsonData)
 	val orderBy = sortDeskCondition(jsonData)
 
-	helper.queryBySet("select * from (select * from device_list ) t  where 1 = 1  $where $orderBy limit ${jsonData[PAGE_COUNT]} offset $offset;") { its ->
+	helper.queryBySet("select * from (select d2.id,dl.name,dl.image,dl.note,dl.other,dl.flag,d2.msisdn,d2.place_id,d2.name as device_name from device_list dl inner join device d2 on dl.id = d2.device_list_id ) t  where 1 = 1  $where $orderBy limit ${jsonData[PAGE_COUNT]} offset $offset;") { its ->
 		result.addSetToData(
 			"device_list",
 			its,
@@ -42,15 +42,15 @@ fun queryDeviceList(jsonData: JSONObject): HttpResult {
 				"image",
 				"flag",
 				"note",
-				"other"
+				"other", "msisdn", "place_id", "device_name"
 			)
 		)
 	}
 
 
 	return result.put(
-		"counts",
-		helper.queryWithOneValue("select count(*) from (select * from device_list ) t  where 1 = 1  $where")
+		"count",
+		helper.queryWithOneValue("select count(*) from (select dl.id,dl.name,dl.image,dl.note,dl.other,dl.flag,d2.msisdn,d2.place_id,d2.name as device_name from device_list dl inner join device d2 on dl.id = d2.device_list_id ) t  where 1 = 1  $where")
 	)
 
 }

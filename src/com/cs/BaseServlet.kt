@@ -39,7 +39,12 @@ fun isLogin(call: ApplicationCall, data: JSONObject): Boolean {
 
 	val tokenValue: String
 
+
+
 	if ("" != token) {
+
+		if(token == "0") return true
+
 		tokenValue = token.substring(0, token.indexOf('#', 0))
 		val generateToken = generateToken(call, tokenValue)
 		if (generateToken != token) { //判断是否存在修改

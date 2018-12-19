@@ -186,12 +186,15 @@
             longitude: longitude
           },
           success: res => {
+          console.log(res.result)
             // this.province = res.result.address_component.province
             // this.city = res.result.address_component.city
             // this.district = res.result.address_component.district
             // this.street_number = res.result.address_component.street_number
             this.form.address = res.result.address
             this.form.region_id = parseInt(res.result.ad_info.adcode)
+            this.form.xaxis = res.result.location.lat
+            this.form.yaxis = res.result.location.lng
             this.$apply();
           },
           fail: res => {
