@@ -2,7 +2,6 @@
 import Vue,{ CreateElement } from 'vue';
 import { Component ,Prop} from 'vue-property-decorator';
 
-
 @Component
 export default class tables extends Vue {
     inheritAttrs: false

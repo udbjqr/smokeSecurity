@@ -76,7 +76,7 @@ export default class placeIndex extends Vue {
             },
             value:'查询'
         }]
-    tableColumn:object[]=[{
+    tableColumn:ReadonlyArray<object>=[{
         label:'id',
         value:'id'
     },{
@@ -98,9 +98,9 @@ export default class placeIndex extends Vue {
         this.$expactData(this.search,'queryPlace',this.list,'place_list')
     }
     sort(val,event){
-        let kk = this.tableColumn.find(it => it.label == val.label).value
+        let kk:string = this.tableColumn.find(it => it.label  == val.label).value
         if(kk!=='usage'&& kk!=='ts_package_name'){
-            const indexs = this.tableColumn.findIndex(it=>it.label=== val.label)
+            const indexs = this.tableColumn.findIndex(it=> <string>it.label === val.label)
             const firstI = document.getElementById("kk"+indexs).firstChild;
             const lastI = document.getElementById("kk"+indexs).lastChild;
             this.$sort(indexs,firstI,lastI,this,kk)

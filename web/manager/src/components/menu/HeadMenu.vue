@@ -11,6 +11,7 @@ import tabItem from "@/components/menu/tabitem";
   },
 })
 export default class headmenu extends Vue {
+    activeIndex:string = '1'
     render(h:CreateElement){
         return (
             <div>
@@ -24,13 +25,17 @@ export default class headmenu extends Vue {
                     text-color="#fff"
                     active-text-color="#ffd04b"
                     ref="navbar"
-                    default-active="1"
-                    select={this.selectMenu}>
+                    default-active={this.activeIndex}
+                    // select={this.selectMenu}
+                    >
                     {this.navList.map((it,index) => this.renderNavItem(h, it, index))}
                 </el-menu>
-                {this.$store.state.tabMenuFlag && <tab-item />}
+                {this.$store.state.tabMenuFlag && <tab-item tabSelect={this.tabSelect}/>}
             </div>
                 )
+    }
+    tabSelect(val){
+        this.activeIndex = val
     }
     created() {
        this.havemenu()
