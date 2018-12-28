@@ -15,7 +15,7 @@ import { MESSAGEID } from '../types/register'
         message_id:{},
         page_count:20,
         page_number:1,
-        user_id:0,
+        user_id:500,
         flag:[
             {
                 label:'新增',

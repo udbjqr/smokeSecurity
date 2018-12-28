@@ -68,9 +68,9 @@ export default class tables extends Vue {
 
     render(h:CreateElement){
       return (
-        <div class="table-border">
-          {this.renderTable(h)}
-        </div>
+          <div class="table-border">
+            {this.renderTable(h)}
+          </div>
       )
     }
 

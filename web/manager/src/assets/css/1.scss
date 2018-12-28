@@ -1,41 +1,36 @@
-$--color-primary: #13E6C9;
+$--color-primary: #2d5db0;
 
 /* 改变 icon 字体路径变量，必需 */
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
 
 @import "~element-ui/packages/theme-chalk/src/index";
-.block{
-    position: fixed;bottom:0;width: 100%;background:rgba(19, 230, 201,0.5);padding: 10px 0;
-}
 .search-border .el-input {
-    width: 160px;
-    height: 36px;
-    margin: 0 10px 10px 0!important;
+    width: 330px;
+    height: 38px;
+    margin:18px 10px 18px 25px !important;
 }
 .search-border, .setDispatch {
     background-color: #fff;
-    padding: 10px 41px 3px;
-    // box-shadow: 0 0 5px #adadad;
     text-align: left;
 }
 .search-border {
     border-radius: 5px;
-    background:rgba(19, 230, 201,0.5);
+    background:#fff;
 }
 .table-border {
     margin-top: 10px;
-    padding: 20px 0 50px;
+    padding-bottom:50px;
     border-bottom: 0;
 }
 .el-table thead tr>th {
-    background: #13E6C9!important;
+    background: #6a90d8!important;
     color: #fff;
     padding: 0;
-    height: 45px;
+    height: 50px;
     text-align: center;
     overflow: hidden;
     >.cell > .cell{
-        line-height: 45px;
+        line-height: 50px;
     }
 }
 .el-table .cell {
@@ -46,16 +41,95 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
     margin: 0 !important;padding: 0 20px !important; 
 }
 .headTop{
-    height: 50px;background: black;
-    color: #fff;line-height: 50px;
+    position: relative;
+    height: 85px;
+    background: #2d5db0;
+    color: #fff;
+    line-height: 85px;
     &_left{
         float: left;
+        font-size: 32px;
+        font-weight: bold;
     }
     &_right{
-        float: right;cursor: pointer;
+        float: right;
+        cursor: pointer;
+        font-size:15px;
     }
     > div{
         padding:0 20px;
     }
 }
 
+html, body {
+    height: 100%;
+}
+
+body{
+    // 取消滚动条
+    // overflow: scroll;
+    // overflow-y: hidden;
+}
+
+.el-menu-demo{
+    position:absolute;
+    left:50%;
+    margin-left:-485px;
+    width:970px;
+    height:100%;
+    overflow:hidden;
+}
+
+.el-menu-demo li{
+    margin-top:11.5px !important;
+}
+
+.el-icon-exp-yunweiguanli{
+    width:10px !important;
+}
+
+.el-menu-item,
+.el-submenu__title{
+    // 首页和场所、设备等菜单
+    // border:none !important;
+    font-size:16px;
+}
+
+.el-menu-item span{
+    margin-right:10px;
+}
+
+.el-menu--horizontal .el-submenu__icon-arrow{
+    margin-top:0 !important;
+    color:#fff;
+}
+
+.seaandtab{
+    position: relative;
+    margin:30px auto 0;
+    width:97%;
+    box-shadow:0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+// .search-border{
+//     position: absolute;
+//     top:0;
+//     left:0;
+// }
+
+.search-border > .el-input__inner{
+    width:328px;
+    height:35px;
+}
+
+.table-border{
+    margin:0 auto;
+}
+
+.block{
+    position: absolute;
+    bottom:0;
+    padding:9px 0;
+    width:100%; // 设置宽度100%才能占满整个div
+    background:#b6cdf8;
+}
