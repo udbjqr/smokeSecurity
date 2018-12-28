@@ -51,7 +51,10 @@ fun queryAlarm(jsonData: JSONObject): HttpResult {
 		)
 	}
 
-	return result
+	return result.put(
+		"count",
+		helper.queryWithOneValue("select count(*) from (select a.id,a.user_id,a.device_id,a.cause_id,a.cause_time,a.confirm_time,a.confirm_id,a.create_time,a.note,a.flag,d.name as device_name from alarm a inner join device d on a.device_id = d.id  where a.user_id =  ${jsonData["user_id"]})  t where 1 = 1 $where")
+	)
 }
 
 

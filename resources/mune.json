@@ -1,92 +1,48 @@
 {
   "menu": [
     {
-      "name": "第一个菜单",
+      "name": "首页",
+      "id": 999,
+      "icon": "el-icon-exp-yunweiguanli",
+      "url": "/",
+      "operate": {}
+    },
+    {
+      "name": "场所",
       "id": 100,
       "icon": "el-icon-exp-yunweiguanli",
-      "url": "/office/channel",
+      "url": "/#",
       "operate": {},
       "children": [
         {
-          "name": "第一个菜单列表",
+          "name": "场所查询",
           "id": 101,
-          "url": "/office/chann3ellist",
-          "operate": {
-          }
-        },
-        {
-          "name": "第一个菜单列表",
-          "id": 102,
-          "url": "/office/chan3nell4ist",
-          "operate": {
-          }
-        },
-        {
-          "name": "第一个菜单列表",
-          "id": 103,
-          "url": "/office/chann4ellist",
+          "url": "/office/Place",
           "operate": {
           }
         }
       ]
     },
     {
-      "name": "第一个菜单",
-      "id": 100,
+      "name": "设备",
+      "id": 200,
       "icon": "el-icon-exp-yunweiguanli",
-      "url": "/office/chan5nel",
+      "url": "/#",
       "operate": {},
       "children": [
         {
-          "name": "第一个菜单列表",
-          "id": 101,
-          "url": "/office/chan6nellist",
+          "name": "设备列表",
+          "id": 201,
+          "url": "/office/Device",
           "operate": {
           }
-        },
-        {
-          "name": "第一个菜单列表",
-          "id": 102,
-          "url": "/office/chann7ellist",
+        },{
+          "name": "设备报警",
+          "id": 202,
+          "url": "/office/alarm",
           "operate": {
           }
-        },
-        {
-          "name": "第一个菜单列表",
-          "id": 103,
-          "url": "/office/channel8list",
-          "operate": {
-          }
-        }
-      ]
-    },
-    {
-      "name": "第一个菜单",
-      "id": 100,
-      "icon": "el-icon-exp-yunweiguanli",
-      "url": "/office/channe2l",
-      "operate": {},
-      "children": [
-        {
-          "name": "第一个菜单列表",
-          "id": 101,
-          "url": "/office/cha1nnel2list",
-          "operate": {
-          }
-        },
-        {
-          "name": "第一个菜单列表",
-          "id": 102,
-          "url": "/office/chann23ellist",
-          "operate": {
-          }
-        },
-        {
-          "name": "第一个菜单列表",
-          "id": 103,
-          "url": "/office/chann123ellist",
-          "operate": {
-          }
+
         }
       ]
     }

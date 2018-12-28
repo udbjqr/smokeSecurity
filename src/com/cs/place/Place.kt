@@ -31,7 +31,7 @@ fun queryPlace(jsonData: JSONObject): HttpResult {
 	val where = generateCondition(jsonData)
 	val orderBy = sortDeskCondition(jsonData)
 
-	helper.queryBySet("select t.* from (select pl.id,pl.flag,p.name as pro_name,c2.name as city_name,r.name as reg_name,u.name as user_id ,pl.name,pl.address,pl.create_time,pl.administrator,pl.admin_phone,pl.note from  place pl inner join province p inner join city c2 on p.id = c2.province_id inner join region r on c2.id = r.city_id on pl.region_id = r.id inner join users u on pl.user_id = u.id where user_id =  ${jsonData["user_id"]!!} and pl.flag <> 99) t where 1 = 1  $where $orderBy limit ${jsonData[PAGE_COUNT]} offset $offset;") { its ->
+	helper.queryBySet("select t.* from (select pl.id,pl.flag,p.name as pro_name,c2.name as city_name,r.name as reg_name,u.name as user_id ,pl.name,pl.address,pl.create_time,pl.administrator,pl.admin_phone,pl.note,pl.xaxis,pl.yaxis from  place pl inner join province p inner join city c2 on p.id = c2.province_id inner join region r on c2.id = r.city_id on pl.region_id = r.id inner join users u on pl.user_id = u.id where user_id =  ${jsonData["user_id"]!!} and pl.flag <> 99) t where 1 = 1  $where $orderBy limit ${jsonData[PAGE_COUNT]} offset $offset;") { its ->
 		result.addSetToData(
 			"place_list",
 			its,
@@ -43,6 +43,8 @@ fun queryPlace(jsonData: JSONObject): HttpResult {
 				"reg_name",
 				"name",
 				"address",
+				"xaxis",
+				"yaxis",
 				"create_time",
 				"administrator",
 				"admin_phone",
@@ -72,7 +74,7 @@ fun queryByIdPlace(jsonData: JSONObject): HttpResult {
 	val where = generateCondition(jsonData)
 	val orderBy = sortDeskCondition(jsonData)
 
-	helper.queryBySet("select t.* from (select pl.id,pl.flag,p.name as pro_name,c2.name as city_name,r.name as reg_name,u.name as user_id ,pl.name,pl.address,pl.create_time,pl.administrator,pl.admin_phone,pl.note from  place pl inner join province p inner join city c2 on p.id = c2.province_id inner join region r on c2.id = r.city_id on pl.region_id = r.id inner join users u on pl.user_id = u.id where   pl.flag <> 99) t where 1 = 1 and t.id = ${jsonData[ID]} $where $orderBy ;") { its ->
+	helper.queryBySet("select t.* from (select pl.id,pl.flag,p.name as pro_name,c2.name as city_name,r.name as reg_name,u.name as user_id ,pl.name,pl.address,pl.create_time,pl.administrator,pl.admin_phone,pl.note,pl.xaxis,pl.yaxis from  place pl inner join province p inner join city c2 on p.id = c2.province_id inner join region r on c2.id = r.city_id on pl.region_id = r.id inner join users u on pl.user_id = u.id where   pl.flag <> 99) t where 1 = 1 and t.id = ${jsonData[ID]} $where $orderBy ;") { its ->
 		result.addSetToData(
 			"place_list",
 			its,
@@ -86,6 +88,8 @@ fun queryByIdPlace(jsonData: JSONObject): HttpResult {
 				"address",
 				"create_time",
 				"administrator",
+				"xaxis",
+				"yaxis",
 				"admin_phone",
 				"note",
 				"flag"
@@ -109,6 +113,8 @@ fun addPlace(jsonData: JSONObject): HttpResult {
 	result = correctPara("administrator", jsonData, ParaType.STRING, result, isNeed = false)
 	result = correctPara("admin_phone", jsonData, ParaType.STRING, result, isNeed = false)
 	result = correctPara("note", jsonData, ParaType.STRING, result, isNeed = false)
+	result = correctPara("xaxis", jsonData, ParaType.DOUBLE, result, isNeed = true)
+	result = correctPara("yaxis", jsonData, ParaType.DOUBLE, result, isNeed = true)
 
 	if (JSONObject.parseObject(result.toString())[CODE] != 0) return result
 

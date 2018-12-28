@@ -24,7 +24,7 @@ export default class navItem extends Vue {
             )
       }else{
         return(
-          <el-menu-item class="lili" index={this.navIndex} onClick={() => this.routerUrl(this.item.url)}>
+          <el-menu-item class="lili" index={this.item.url} onClick={() => this.routerUrl(this.item.url)}>
               <i class={this.item.icon}></i>
               <span slot="title">{ this.item.name }</span>
           </el-menu-item>
