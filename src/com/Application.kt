@@ -47,7 +47,7 @@ fun Application.module(testing: Boolean = false) {
 			files(Config.defaultConfig!!.get<String>("resourcesRootPath")!!)
 		}
 
-		post("/") {
+		post("/iotdevice/") {
 			call.respondText("Hellow word", contentType = ContentType.Text.Plain)
 		}
 
