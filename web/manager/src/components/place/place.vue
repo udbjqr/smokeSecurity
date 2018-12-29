@@ -1,21 +1,22 @@
 <template>
 <div>
-    <search 
-        :compon.sync="component" 
-        :search.sync="search" 
-        @handleStaffSearch="handleStaffSearch">
-    </search>
-    <tables
-        stripe
-        border
-        highlight-current-row
-        :data="tableData"
-        @header-click="sort"
-        style="width: 100%;border-radius: 5px;"
-        :tableColumn.sync="tableColumn">
-    </tables>
-
-    <Foot @ChangeMessage="ChangeMessage"></Foot>
+    <div class="seaandtab">
+        <search 
+            :compon.sync="component" 
+            :search.sync="search" 
+            @handleStaffSearch="handleStaffSearch">
+        </search>
+        <tables
+            stripe
+            border
+            highlight-current-row
+            :data="tableData"
+            @header-click="sort"
+            style="width: 100%;border-radius: 5px;"
+            :tableColumn.sync="tableColumn">
+        </tables>
+        <Foot @ChangeMessage="ChangeMessage"></Foot>
+    </div>
 
 
     </div>
@@ -64,19 +65,23 @@ export default class placeIndex extends Vue {
             type:"button",
             props: {
                 type: 'success',
-                size: 'small',
+                size: 'medium',
                 icon:'el-icon-search',
             },
             propertys:{},
             style: {
-                marginLeft: '10px'
+                // marginLeft: '10px'
             },
             on:{
                 name:'handleStaffSearch'
             },
             value:'查询'
         }]
-    tableColumn:object[]=[{
+<<<<<<< HEAD
+    tableColumn:Array<object>=[{
+=======
+    tableColumn:ReadonlyArray<object>=[{
+>>>>>>> 5f830feb541411759d76c1fcfc7c6c31c0ddf0e6
         label:'id',
         value:'id'
     },{
@@ -98,9 +103,9 @@ export default class placeIndex extends Vue {
         this.$expactData(this.search,'queryPlace',this.list,'place_list')
     }
     sort(val,event){
-        let kk = this.tableColumn.find(it => it.label == val.label).value
+        let kk:string = this.tableColumn.find(it => it.label  == val.label).value
         if(kk!=='usage'&& kk!=='ts_package_name'){
-            const indexs = this.tableColumn.findIndex(it=>it.label=== val.label)
+            const indexs = this.tableColumn.findIndex(it=> <string>it.label === val.label)
             const firstI = document.getElementById("kk"+indexs).firstChild;
             const lastI = document.getElementById("kk"+indexs).lastChild;
             this.$sort(indexs,firstI,lastI,this,kk)

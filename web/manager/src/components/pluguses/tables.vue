@@ -2,7 +2,6 @@
 import Vue,{ CreateElement } from 'vue';
 import { Component ,Prop} from 'vue-property-decorator';
 
-
 @Component
 export default class tables extends Vue {
     inheritAttrs: false
@@ -68,9 +67,9 @@ export default class tables extends Vue {
 
     render(h:CreateElement){
       return (
-        <div class="table-border">
-          {this.renderTable(h)}
-        </div>
+          <div class="table-border">
+            {this.renderTable(h)}
+          </div>
       )
     }
 

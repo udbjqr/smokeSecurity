@@ -1,4 +1,4 @@
-<style lang="less">
+<style lang="less" scoped>
   .userinfo {
     display: flex;
     flex-direction: column;
@@ -14,6 +14,9 @@
 
   .userinfo-nickname {
     color: #aaa;
+  }
+  .login{
+    width: 90%;margin: 5px 5%;display: block;
   }
 </style>
 <template>
@@ -42,13 +45,14 @@
   />
 </van-cell-group>
 
-  <van-button @tap="toastShow" type="primary"> 
+  <van-button  block round  class="login" @tap="toastShow" > 
       登录 </van-button>
   <van-button @tap="register" type="primary"> 
       注册 </van-button>
 
   <van-button @tap="forget" type="primary"> 
       忘记密码 </van-button>
+
 </view>
 </template>
 

@@ -19,7 +19,7 @@
                     </el-form-item>
                     <el-form-item prop="captcha">
                         <el-col :span="12">
-                        <el-input clearable placeholder="验证码" maxlength="4" v-model="form.captcha"></el-input>
+                        <el-input clearable placeholder="验证码" maxlength="4" v-model="form.captcha" v-on:keyup.enter.native="submitForm('ruleForm')"></el-input>
                         </el-col>
                         <el-col :span="2">&nbsp;</el-col>
                         <el-col :span="10">

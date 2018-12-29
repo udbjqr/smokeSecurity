@@ -11,11 +11,31 @@ import tabItem from "@/components/menu/tabitem";
   },
 })
 export default class headmenu extends Vue {
+    activeIndex:string = '1'
     render(h:CreateElement){
         return (
             <div>
                 <div class="headTop">
                     <div class="headTop_left">展示平台</div>
+<<<<<<< HEAD
+
+                    <el-menu class="el-menu-demo" 
+                        mode="horizontal"
+                        background-color="#2d5db0"//蓝色
+                        text-color="#fff"//白色
+                        active-text-color="#fff"//黄色(选中颜色)
+                        ref="navbar"
+                        default-active="1"//当前激活的索引(下边框位置，从1开始)
+                        select={this.selectMenu}//菜单激活回调	index 选中菜单项的 index, indexPath: 选中菜单项的 index path
+                    >
+                    {this.navList.map((it,index) => this.renderNavItem(h, it, index))}
+                    </el-menu>
+
+                    <div class="headTop_right" onClick={this.loginOuts}><i class="el-icon-remove-outline"></i> 注销</div>
+                </div>
+                
+                {this.$store.state.tabMenuFlag && <tab-item />}
+=======
                     <div class="headTop_right" onClick={this.loginOuts}>注销</div>
                 </div>     
                 <el-menu  class="el-menu-demo" 
@@ -24,13 +44,18 @@ export default class headmenu extends Vue {
                     text-color="#fff"
                     active-text-color="#ffd04b"
                     ref="navbar"
-                    default-active="1"
-                    select={this.selectMenu}>
+                    default-active={this.activeIndex}
+                    // select={this.selectMenu}
+                    >
                     {this.navList.map((it,index) => this.renderNavItem(h, it, index))}
                 </el-menu>
-                {this.$store.state.tabMenuFlag && <tab-item />}
+                {this.$store.state.tabMenuFlag && <tab-item tabSelect={this.tabSelect}/>}
+>>>>>>> 5f830feb541411759d76c1fcfc7c6c31c0ddf0e6
             </div>
                 )
+    }
+    tabSelect(val){
+        this.activeIndex = val
     }
     created() {
        this.havemenu()

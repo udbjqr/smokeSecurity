@@ -11,7 +11,6 @@ import '@/assets/css/1.scss';
 Vue.use(ElementUI)
 
 
-
 Vue.config.productionTip = false
 
 const _op:any = Vue.prototype

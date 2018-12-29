@@ -1,24 +1,23 @@
 <template>
 <div>
-    <search 
-        :compon.sync="component" 
-        :search.sync="search" 
-        @handleStaffSearch="handleStaffSearch">
-    </search>
-    <tables
-        stripe
-        border
-        highlight-current-row
-        :data="tableData"
-        @header-click="sort"
-        style="width: 100%;border-radius: 5px;"
-        :tableColumn.sync="tableColumn">
-    </tables>
-
-    <Foot @ChangeMessage="ChangeMessage"></Foot>
-
-
+    <div class="seaandtab">
+        <search 
+            :compon.sync="component" 
+            :search.sync="search" 
+            @handleStaffSearch="handleStaffSearch">
+        </search>
+        <tables
+            stripe
+            border
+            highlight-current-row
+            :data="tableData"
+            @header-click="sort"
+            style="width: 100%;border-radius: 5px;"
+            :tableColumn.sync="tableColumn">
+        </tables>
+        <Foot @ChangeMessage="ChangeMessage"></Foot>
     </div>
+</div>
 </template>
 <script lang="ts">
 import Vue,{ CreateElement } from 'vue';
@@ -64,12 +63,12 @@ export default class DeviceIndex extends Vue {
             type:"button",
             props: {
                 type: 'success',
-                size: 'small',
+                size: 'medium',
                 icon:'el-icon-search',
             },
             propertys:{},
             style: {
-                marginLeft: '10px'
+                // marginLeft: '10px'
             },
             on:{
                 name:'handleStaffSearch'
