@@ -15,6 +15,17 @@
   .userinfo-nickname {
     color: #aaa;
   }
+
+  .conmain{
+    margin:0 auto;
+    width:620rpx;
+  }
+
+  .regbtn button{
+    margin-top:72rpx;
+    height:86rpx;
+    line-height:86rpx;
+  }
 </style>
 <template>
 
@@ -38,23 +49,22 @@
   <van-field
     value="{{form.telephone}}"
     clearable
-    left-icon="contact"
+    left-icon="edit"
     placeholder="请输入手机号"
     bind:change="onChangePhone"
   />
 
   <van-field
     value="{{form.passwd}}"
+    clearable
     type="password"
-    left-icon="edit-data"
+    left-icon="password-not-view"
     placeholder="请输入密码"
-    border="{{ false }}"
     bind:change="onChangePassword"
   />
 </van-cell-group>
 
-<van-button @tap="toastShow" type="primary"> 
-      注册 </van-button>
+<van-button class="regbtn" @tap="toastShow" size="large">注册</van-button>
 </view>
 </template>
 

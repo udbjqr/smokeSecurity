@@ -3,10 +3,7 @@
   position: relative;height: 44px;
 }
   .place_left{
-    font-size: 14px;width: 35%;float: left;background: #ccc;color: #fbfbff;line-height: 44px;
-  }
-  .place_left>text{
-    margin-left: 15px;
+    font-size: 14px;width: 35%;float: left;background: #258bfd;color: #fbfbff;line-height: 44px;text-align:center;
   }
   .place_right{
     font-size: 14px;width: 65%;float: left;border-bottom: 1px solid #ddd;height: 43px;

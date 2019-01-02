@@ -30,7 +30,7 @@ wepy.$request = (url, data, ok, failing, handleError, param = 1,sessionId)=>{
     data.openid = '123123'
 
       wx.request({
-        url: 'http://192.168.2.124:8081/'+url,
+        url: 'http://192.168.2.124:8911/iotdevice/'+url,
         data:data,
         header: paramSession[param],
         method: 'POST',
