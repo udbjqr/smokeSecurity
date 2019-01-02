@@ -7,7 +7,7 @@ import 'dart:convert';
 class NetUtil {
   static const String GET = "get";
   static const String POST = "post"; 
-  static const String _baseurl = "http://192.168.2.124:8081/";
+  static const String _baseurl = "http://192.168.2.124:8911/";
   //get请求
   static void get(String url, Function callBack,
       {Map<String, String> params, Function errorCallBack, Function errorBack}) async {
