@@ -19,9 +19,11 @@
                     <el-input v-model="delist.create_time" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="备注">
-                    <el-input v-model="delist.note" disabled></el-input>
+                    <!-- <el-input v-model="delist.note" disabled></el-input> -->
+                    <el-input type="textarea" v-model="delist.note" disabled></el-input>
                 </el-form-item>
             </el-form>
+            
         </el-tab-pane>
         <el-tab-pane label="报警记录" name="second">
             <!-- <search 
@@ -29,19 +31,33 @@
                 :search.sync="search" 
                 @handleStaffSearch="handleStaffSearch">
             </search> -->
-            <tables
-                stripe
-                border
-                highlight-current-row
-                :data="tableData"
-                @header-click="sort"
-                style="width: 100%;border-radius: 5px;"
-                :tableColumn.sync="tableColumn">
-            </tables>
-
-            <Foot @ChangeMessage="ChangeMessage"></Foot>
+            <div class="seaandtab">
+                <tables
+                    stripe
+                    border
+                    highlight-current-row
+                    :data="tableData"
+                    @header-click="sort"
+                    style="width: 100%;border-radius: 5px;"
+                    :tableColumn.sync="tableColumn">
+                </tables>
+                <Foot @ChangeMessage="ChangeMessage"></Foot>
+            </div>
         </el-tab-pane>
-        <el-tab-pane label="心跳记录" name="third">暂无数据</el-tab-pane>
+        <el-tab-pane label="心跳记录" name="third">
+            <div class="seaandtab">
+                <tables
+                    stripe
+                    border
+                    highlight-current-row
+                    :data="tableData"
+                    @header-click="sort"
+                    style="width: 100%;border-radius: 5px;"
+                    :tableColumn.sync="tableColumn">
+                </tables>
+                <Foot @ChangeMessage="ChangeMessage"></Foot>
+            </div>
+        </el-tab-pane>
     </el-tabs>
     
 

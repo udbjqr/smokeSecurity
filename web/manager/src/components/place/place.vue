@@ -1,21 +1,22 @@
 <template>
 <div>
-    <search 
-        :compon.sync="component" 
-        :search.sync="search" 
-        @handleStaffSearch="handleStaffSearch">
-    </search>
-    <tables
-        stripe
-        border
-        highlight-current-row
-        :data="tableData"
-        @header-click="sort"
-        style="width: 100%;border-radius: 5px;"
-        :tableColumn.sync="tableColumn">
-    </tables>
-
-    <Foot @ChangeMessage="ChangeMessage"></Foot>
+    <div class="seaandtab">
+        <search 
+            :compon.sync="component" 
+            :search.sync="search" 
+            @handleStaffSearch="handleStaffSearch">
+        </search>
+        <tables
+            stripe
+            border
+            highlight-current-row
+            :data="tableData"
+            @header-click="sort"
+            style="width: 100%;border-radius: 5px;"
+            :tableColumn.sync="tableColumn">
+        </tables>
+        <Foot @ChangeMessage="ChangeMessage"></Foot>
+    </div>
 
 
     </div>
@@ -64,19 +65,23 @@ export default class placeIndex extends Vue {
             type:"button",
             props: {
                 type: 'success',
-                size: 'small',
+                size: 'medium',
                 icon:'el-icon-search',
             },
             propertys:{},
             style: {
-                marginLeft: '10px'
+                // marginLeft: '10px'
             },
             on:{
                 name:'handleStaffSearch'
             },
             value:'查询'
         }]
+<<<<<<< HEAD
+    tableColumn:Array<object>=[{
+=======
     tableColumn:ReadonlyArray<object>=[{
+>>>>>>> 5f830feb541411759d76c1fcfc7c6c31c0ddf0e6
         label:'id',
         value:'id'
     },{

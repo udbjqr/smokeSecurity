@@ -29,7 +29,7 @@ import io.ktor.routing.routing
 import kotlinx.io.core.String
 import org.apache.logging.log4j.LogManager
 
-private val log = LogManager.getLogger(Application::class.java.name)
+private val log = LogManager.getLogger("com.cs.iot")
 
 fun main(args: Array<String>) {
 	loadConfig()
@@ -47,11 +47,11 @@ fun Application.module(testing: Boolean = false) {
 			files(Config.defaultConfig!!.get<String>("resourcesRootPath")!!)
 		}
 
-		post("/") {
+		post("/iotdevice/") {
 			call.respondText("Hellow word", contentType = ContentType.Text.Plain)
 		}
 
-		post("/getMenu") {
+		post("/iotdevice/getMenu") {
 			val data = getText(call)
 			log.debug("当前正在获取菜单操作,传过来的值:$data")
 			val str = getMenu(data)
@@ -66,7 +66,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 客户登陆
 		 */
-		post("/login") {
+		post("/iotdevice/login") {
 
 
 			val data = getText(call)
@@ -81,7 +81,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 客户注册
 		 */
-		post("/regist") {
+		post("/iotdevice/regist") {
 			val data = getText(call)
 			log.debug("当前正在进行客户注册操作,传过来的值:$data")
 			val str = usersRegist(data).toString()
@@ -93,7 +93,7 @@ fun Application.module(testing: Boolean = false) {
 		 * 找回密码
 		 */
 
-		post("/retrieve") {
+		post("/iotdevice/retrieve") {
 			val data = getText(call)
 			log.debug("当前正在进行找回密码操作,传过来的值:$data")
 			val str = userRetrieve(data).toString()
@@ -105,7 +105,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 获取验证码
 		 */
-		post("/getImage") {
+		post("/iotdevice/getImage") {
 
 			val str = getImage()
 			log.debug("当前正在结束获取验证码操作,返回前台的值:$str")
@@ -119,7 +119,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 查询所有场所
 		 */
-		post("/queryPlace") {
+		post("/iotdevice/queryPlace") {
 			val data = getText(call)
 			log.debug("当前正在查询所有场所操作,传过来的值:$data")
 			val str = queryPlace(data).toString()
@@ -130,7 +130,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 查询单个场所信息
 		 */
-		post("/queryByIdPlace") {
+		post("/iotdevice/queryByIdPlace") {
 
 			val data = getText(call)
 			log.debug("当前正在查询单个场所操作,传过来的值:$data")
@@ -143,7 +143,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 增加场所
 		 */
-		post("/addPlace") {
+		post("/iotdevice/addPlace") {
 			val data = getText(call)
 			log.debug("当前正在增加场所操作,传过来的值:$data")
 			val str = addPlace(data).toString()
@@ -154,7 +154,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 修改场所
 		 */
-		post("/updatePlace") {
+		post("/iotdevice/updatePlace") {
 			val data = getText(call)
 			log.debug("当前正在修改场所操作,传过来的值:$data")
 			val str = updatePlace(data).toString()
@@ -165,7 +165,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 删除场所
 		 */
-		post("/deletePlace") {
+		post("/iotdevice/deletePlace") {
 			val data = getText(call)
 			log.debug("当前正在删除场所操作,传过来的值:$data")
 			val str = deletePlace(data).toString()
@@ -177,7 +177,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 查看场所其他信息
 		 */
-		post("/queryPlaceOther") {
+		post("/iotdevice/queryPlaceOther") {
 			val data = getText(call)
 			log.debug("当前正在查看场所其他信息操作,传过来的值:$data")
 			val str = queryPlaceOther(data).toString()
@@ -189,7 +189,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 修改场所其他信息
 		 */
-		post("/updatePlaceOther") {
+		post("/iotdevice/updatePlaceOther") {
 			val data = getText(call)
 			log.debug("当前正在修改场所其他信息操作,传过来的值:$data")
 			val str = updatePlaceOther(data).toString()
@@ -204,7 +204,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 查询所有设备
 		 */
-		post("/queryDevice") {
+		post("/iotdevice/queryDevice") {
 			val data = getText(call)
 			log.debug("当前正在查询所有设备操作,传过来的值:$data")
 			val str = queryDevice(data).toString()
@@ -216,7 +216,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 查询单个设备详细信息
 		 */
-		post("/queryByDeviceId") {
+		post("/iotdevice/queryByDeviceId") {
 			val data = getText(call)
 			log.debug("当前正在查询单个设备操作,传过来的值:$data")
 			val str = queryByDeviceId(data).toString()
@@ -228,7 +228,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 增加设备
 		 */
-		post("/addDevice") {
+		post("/iotdevice/addDevice") {
 			val data = getText(call)
 			log.debug("当前正在增加设备操作,传过来的值:$data")
 			val str = addDevice(data).toString()
@@ -239,7 +239,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 修改设备
 		 */
-		post("/updateDevice") {
+		post("/iotdevice/updateDevice") {
 			val data = getText(call)
 			log.debug("当前正在修改设备操作,传过来的值:$data")
 			val str = updateDevice(data).toString()
@@ -250,7 +250,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 删除设备
 		 */
-		post("/deleteDevice") {
+		post("/iotdevice/deleteDevice") {
 			val data = getText(call)
 			log.debug("当前正在删除设备操作,传过来的值:$data")
 			val str = deleteDevice(data).toString()
@@ -264,7 +264,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 查询所有设备列表
 		 */
-		post("/queryDeviceList") {
+		post("/iotdevice/queryDeviceList") {
 			val data = getText(call)
 			log.debug("当前正在查询所有设备列表操作,传过来的值:$data")
 			val str = queryDeviceList(data).toString()
@@ -275,7 +275,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 增加设备列表
 		 */
-		post("/addDeviceList") {
+		post("/iotdevice/addDeviceList") {
 			val data = getText(call)
 			log.debug("当前正在增加设备列表操作,传过来的值:$data")
 			val str = addDeviceList(data).toString()
@@ -286,7 +286,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 修改设备列表
 		 */
-		post("/updateDeviceList") {
+		post("/iotdevice/updateDeviceList") {
 			val data = getText(call)
 			log.debug("当前正在修改设备列表操作,传过来的值:$data")
 			val str = updateDeviceList(data).toString()
@@ -297,7 +297,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 删除设备列表
 		 */
-		post("/deleteDeviceList") {
+		post("/iotdevice/deleteDeviceList") {
 			val data = getText(call)
 			log.debug("当前正在删除设备列表操作,传过来的值:$data")
 			val str = deleteDeviceList(data).toString()
@@ -310,7 +310,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 查询报警记录
 		 */
-		post("/queryAlarm") {
+		post("/iotdevice/queryAlarm") {
 			val data = getText(call)
 			log.debug("当前正在查询报警记录操作,传过来的值:$data")
 			val str = queryAlarm(data).toString()
@@ -324,7 +324,7 @@ fun Application.module(testing: Boolean = false) {
 		/**
 		 * 查询报警信息
 		 */
-		post("/queryAlarmCaue") {
+		post("/iotdevice/queryAlarmCaue") {
 			val data = getText(call)
 			log.debug("当前正在查询报警信息操作,传过来的值:$data")
 			val str = queryAlarmCaue(data).toString()
@@ -335,7 +335,7 @@ fun Application.module(testing: Boolean = false) {
 
 //--------------------------------判断是否登陆--------------------------------------
 
-		post("/getResToken") {
+		post("/iotdevice/getResToken") {
 			log.debug("当前正在判断是否登陆操作,传过来的值:")
 			val str = getResToken(call).toString()
 			log.debug("当前正在结束判断是否登陆操作,返回前台的值:$str")
@@ -345,11 +345,20 @@ fun Application.module(testing: Boolean = false) {
 
 //--------------------------------登出--------------------------------------
 
-		post("/loginOut") {
+		post("/iotdevice/loginOut") {
 			call.response.cookies.append(TOKEN, "0")
 			val json = JSONObject()
 			json[CODE] = 0
 			call.respondText(json.toString())
+		}
+
+
+//--------------------------------获取烟雾报警器的接口信息--------------------------------------
+
+		post("/iotdevice/getSmokeInfo") {
+			val data = call.receiveOrNull<ByteArray>()
+
+			log.debug("这个是传输过来的值，打印看看：$data")
 		}
 
 	}
@@ -374,9 +383,11 @@ suspend fun getText(call: ApplicationCall): JSONObject {
 				jsonObject["user_id"] = userId
 				return jsonObject
 			}
-		}else{
-			jsonObject["hashCode"] = "0"
-			jsonObject["captcha"] = "0"
+		} else {
+			if (null == jsonObject["hashCode"] || null == jsonObject["captcha"]) {
+				jsonObject["hashCode"] = "0"
+				jsonObject["captcha"] = "0"
+			}
 		}
 		return jsonObject
 	} else {
