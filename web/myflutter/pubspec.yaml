@@ -47,6 +47,8 @@ flutter:
    - images/2.jpg
    - images/1.jpg
    - images/login-bg.jpg
+   - images/lock.png
+   - images/user.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

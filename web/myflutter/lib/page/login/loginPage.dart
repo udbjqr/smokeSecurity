@@ -21,6 +21,47 @@ class loginPageState extends State<LoginPage>{
   _postLogin(String username, String password){
 
   }
+
+  Widget stackWidget(String imageName, TextEditingController textvalue, String hintText, {obscureText = false}){
+    return Container(
+      padding: EdgeInsets.fromLTRB(10, 20, 20, 10),
+      child:Stack(
+        alignment: Alignment(1, 1),
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.fromLTRB(5, 10, 10, 0),
+                child: Image.asset(
+                  imageName,
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.fill,
+                ),
+              ),
+              Expanded(
+                child: TextField(
+                  controller: textvalue,
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                  ),
+                  obscureText: obscureText,
+                ),
+              )
+            ],
+          ),
+          IconButton(
+            icon: Icon(Icons.highlight_off, color: Colors.grey,size: 24,),
+            onPressed: () {
+              textvalue.clear();
+            },
+          )
+        ],
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -54,29 +95,34 @@ class loginPageState extends State<LoginPage>{
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  //TODO:这里写子控件。
-                  Container(
-                    margin: EdgeInsets.fromLTRB(leftRightPadding, 50, leftRightPadding, 10),
-                    child: TextField(
-                      style: hintTips,
-                      controller: username,
-                      decoration: InputDecoration(
-                        hintText: "请输入用户名"
-                      ),
-                      obscureText: false,
-                    ),
-                  ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(leftRightPadding, 10, leftRightPadding, 10),
-                    child: TextField(
-                      style: hintTips,
-                      controller: password,
-                      decoration: InputDecoration(
-                        hintText: "请输入密码"
-                      ),
-                      obscureText: true,
-                    ),
+                    padding: EdgeInsets.fromLTRB(0, 50, 0, 10),
                   ),
+                  stackWidget('images/user.png',username,"请输入用户名"),
+                  stackWidget('images/lock.png',password,"请输入密码",obscureText : true),
+                  //TODO:这里写子控件。
+                  // Container(
+                  //   margin: EdgeInsets.fromLTRB(leftRightPadding, 50, leftRightPadding, 10),
+                  //   child: TextField(
+                  //     style: hintTips,
+                  //     controller: username,
+                  //     decoration: InputDecoration(
+                  //       hintText: "请输入用户名"
+                  //     ),
+                  //     obscureText: false,
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: EdgeInsets.fromLTRB(leftRightPadding, 10, leftRightPadding, 10),
+                  //   child: TextField(
+                  //     style: hintTips,
+                  //     controller: password,
+                  //     decoration: InputDecoration(
+                  //       hintText: "请输入密码"
+                  //     ),
+                  //     obscureText: true,
+                  //   ),
+                  // ),
                   new InkWell(
                     child: Container(
                         alignment: Alignment.centerRight,
