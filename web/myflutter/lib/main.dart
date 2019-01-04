@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
       store: store,
       child: StoreBuilder<mainRedux>(builder: (context, store){
         return MaterialApp(
+          // debugShowMaterialGrid:true,
           theme: store.state.themeData,
           routes: NavigatorRouter.routes
         );

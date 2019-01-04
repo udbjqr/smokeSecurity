@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:myflutter/common/pluguses/ToastUtils.dart';
+import 'package:myflutter/common/MainCommon/MainCommon.dart';
+import 'package:myflutter/common/router/NavigatorRouter.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+import 'package:myflutter/common/redux/mainredux.dart';
+import 'package:myflutter/common/dao/localStore.dart';
+import 'package:myflutter/common/dao/userDao.dart';
+import 'dart:convert';
 
 class LoginPage extends StatefulWidget{
-  LoginPage({Key key}):super(key:key);
+  LoginPage({Key key}): super(key: key);
   @override
   createState() => loginPageState();
 }
@@ -17,9 +26,22 @@ class loginPageState extends State<LoginPage>{
     fontSize: 16
   );
 
-
-  _postLogin(String username, String password){
-
+  _postLogin(String usernames, String passwords){
+    if(usernames.isNotEmpty && passwords.isNotEmpty){
+      Map<String,dynamic> parms = Map();
+      parms['login_name'] = usernames;
+      parms['password'] = passwords;
+      parms['isFitst'] = true;
+      NetUtil.post('login',(data) async{
+        LocalStorage.save('userInfo',json.encode(data['user']));
+        userDao.setuserInfo();
+        // NavigatorRouter.goMain(context);
+      },params: parms,errorBack: (data,code,message){
+        ToastUtils.showShort("用户名或密码输入错误");
+      });
+    }else{
+      ToastUtils.showShort('请输入用户名和密码');
+    }
   }
 
   Widget stackWidget(String imageName, TextEditingController textvalue, String hintText, {obscureText = false}){
@@ -100,29 +122,6 @@ class loginPageState extends State<LoginPage>{
                   ),
                   stackWidget('images/user.png',username,"请输入用户名"),
                   stackWidget('images/lock.png',password,"请输入密码",obscureText : true),
-                  //TODO:这里写子控件。
-                  // Container(
-                  //   margin: EdgeInsets.fromLTRB(leftRightPadding, 50, leftRightPadding, 10),
-                  //   child: TextField(
-                  //     style: hintTips,
-                  //     controller: username,
-                  //     decoration: InputDecoration(
-                  //       hintText: "请输入用户名"
-                  //     ),
-                  //     obscureText: false,
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: EdgeInsets.fromLTRB(leftRightPadding, 10, leftRightPadding, 10),
-                  //   child: TextField(
-                  //     style: hintTips,
-                  //     controller: password,
-                  //     decoration: InputDecoration(
-                  //       hintText: "请输入密码"
-                  //     ),
-                  //     obscureText: true,
-                  //   ),
-                  // ),
                   new InkWell(
                     child: Container(
                         alignment: Alignment.centerRight,
@@ -165,7 +164,6 @@ class loginPageState extends State<LoginPage>{
           )
         ],
       )
-      
     );
   }
 }
