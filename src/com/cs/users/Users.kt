@@ -49,8 +49,10 @@ fun usersLogin(jsonData: JSONObject, call: ApplicationCall): HttpResult {
 	}
 
 	if (null == jsonData["openid"]) {
-		val code = GlobalSave.GLOBAL_SAVE.get<String>(jsonData["hashCode"] as String?)
-		if (!jsonData["captcha"].toString().equals(code, true)) return NotFoundCode().put("msg", "验证码输入错误")
+		if (null == jsonData["isFitst"] || !(jsonData["isFitst"] as Boolean)) {
+			val code = GlobalSave.GLOBAL_SAVE.get<String>(jsonData["hashCode"] as String?)
+			if (!jsonData["captcha"].toString().equals(code, true)) return NotFoundCode().put("msg", "验证码输入错误")
+		}
 	}
 
 
