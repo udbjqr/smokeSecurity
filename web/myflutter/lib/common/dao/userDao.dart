@@ -8,18 +8,19 @@ import 'package:myflutter/common/redux/UserRedux.dart';
 import 'package:myflutter/common/model/User.dart';
 import 'dart:convert';
 import 'package:myflutter/common/dao/localStore.dart';
+import 'package:myflutter/common/router/NavigatorRouter.dart';
 
 class userDao{
   ///获取本地登录用户信息
-  static setuserInfo() async {
+  static setuserInfo(context) async {
     var userText = await LocalStorage.get("userInfo");
     if (userText != null) {
-      var userMap = json.decode(userText);
-      User user = User.fromJson(userMap);
-      print(user.id);
-      // return new DataResult(user, true);
+      User user = User.fromJson(json.decode(userText));
+      Store<mainRedux> store = StoreProvider.of(context);
+      store.dispatch(UpdateUserAction(user));
+      NavigatorRouter.goMain(context);
     } else {
-      // return new DataResult(null, false);
+      NavigatorRouter.goLogin(context);
     }
   }
 }

@@ -26,15 +26,12 @@ class WelcomePageState extends State<WelcomePage>{
   }
 
   _getUserInfo() async{
-
     new Future.delayed(const Duration(seconds: 3), () {
       dynamic hadInit = LocalStorage.get('userInfo');
-      if(hadInit != null){
+      if(hadInit == null){
         NavigatorRouter.goLogin(context);
       }else{
-        // Store<mainRedux> store = StoreProvider.of(context);
-        userDao.setuserInfo();
-        NavigatorRouter.goMain(context);
+        userDao.setuserInfo(context);
       }
     });
 

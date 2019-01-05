@@ -34,8 +34,7 @@ class loginPageState extends State<LoginPage>{
       parms['isFitst'] = true;
       NetUtil.post('login',(data) async{
         LocalStorage.save('userInfo',json.encode(data['user']));
-        userDao.setuserInfo();
-        // NavigatorRouter.goMain(context);
+        userDao.setuserInfo(context);
       },params: parms,errorBack: (data,code,message){
         ToastUtils.showShort("用户名或密码输入错误");
       });
