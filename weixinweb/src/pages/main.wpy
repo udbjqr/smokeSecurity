@@ -1,6 +1,6 @@
 <style lang="less">
-  @mess_width:200rpx;
-  @main_height:500rpx;
+  @mess_width:170rpx;
+  @main_height:410rpx;
   @ab_main:50rpx;
   @main_back:#fbfbfb;
   body{
@@ -8,7 +8,7 @@
   }
   .topMain{
     height:@main_height;width:100%;overflow: hidden;position: fixed;top: 0;z-index: 9999;
-    background: linear-gradient(to bottom right, rgb(127, 255, 206) , rgb(50, 184, 106)); /* 标准的语法 */
+    background: linear-gradient(to bottom right, #5763f7, #36d2f6); /* 标准的语法 */
   }
   .topyin{
     position: absolute;width: 100%;padding: 0rpx ;
@@ -17,23 +17,38 @@
     float: right;padding: 20rpx 30rpx 0 0;color: @main_back;
   }
   .codeMessage{
-    width: @mess_width;height: @mess_width;border-radius: 50%; box-shadow: 0 0 0 10px rgba(241, 238, 236, 0.6);
-    margin: 0 auto;text-align: center;background: @main_back;line-height: @mess_width;margin-top: 150rpx;
+    width: @mess_width;
+    height: @mess_width;
+    border-radius: 50%; 
+    box-shadow: 0 0 0 10px rgba(241, 238, 236, 0.5), 0 0 0 20px rgba(241, 238, 236, 0.25);
+    // 两次阴影效果叠加的骚操作
+    margin: 0 auto;
+    text-align: center;
+    background: @main_back;
+    line-height: @mess_width;
+    margin-top: 85rpx;
     font-size: 50rpx;
   }
   .abMain{
     background: #fbfbfb;width: 100%;position: absolute;
-    height: @ab_main;border-radius: 100%;background: white;z-index: 2;
+    height: @ab_main;
+    background: white;z-index: 2;
   }
   .main_panel{
-    z-index:999;width: 100%;position: absolute;top:@main_height + @ab_main * 2;
-  }
-  .main_text:before{
-    width: 35%;height: 6rpx;background: rgb(50, 184, 106);content:" ";display: block;text-align: center;margin: 0 auto;
-    margin-bottom: 20rpx;
+    z-index:999;width: 100%;position: absolute;
+    top:@main_height;
   }
   .main_text{
-    text-align: center;z-index: 4;position: relative;margin-top: @ab_main / 2;background: white;padding-bottom: 20rpx;
+    margin:0 auto;
+    width:188rpx;
+    height:50rpx;
+    line-height:50rpx;
+    text-align:center;
+    font-size:24rpx;
+    margin-top: 70rpx;
+    color:#fff;
+    border:1px solid #fff;
+    border-radius:50rpx;
   }
   .add_device{
     position: absolute;top:90rpx;right: 20rpx;background: @main_back;border-radius: 10%;
@@ -77,13 +92,9 @@
       <view class="codeMessage">
         {{code.message}}
       </view>
-      
+      <view class="main_text">我的场所</view>
     </view>
-    <view class="sercon">
-        <view class="abMain"></view>
-        <view class="main_text">我的场所</view>
-      </view>
-    
+
     <view class="main_panel">
       
       <repeat for="{{list}}" key="index" index="index" item="item">

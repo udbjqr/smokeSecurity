@@ -24,6 +24,8 @@ dependencies:
   url_launcher: ^3.0.3
   json_annotation: ^2.0.0
   dio: ^1.0.13
+  fluttertoast: ^2.2.3
+  shared_preferences: ^0.4.3
 
 dev_dependencies:
   json_serializable: ^2.0.0
@@ -46,6 +48,17 @@ flutter:
   assets:
    - images/2.jpg
    - images/1.jpg
+   - images/login-bg.jpg
+   - images/lock.png
+   - images/user.png
+   - images/home1.png
+   - images/home2.png
+   - images/list1.png
+   - images/list2.png
+   - images/message1.png
+   - images/message2.png
+   - images/users1.png
+   - images/users2.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
