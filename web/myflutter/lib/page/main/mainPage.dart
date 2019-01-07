@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:myflutter/common/redux/mainredux.dart';
+import 'package:myflutter/page/tabBar/homeListPage.dart';
 
 
 class MainPage extends StatefulWidget {
@@ -60,7 +61,7 @@ class MainPageState extends State<MainPage> {
     }
     _body = IndexedStack(
       children: <Widget>[
-        Text("data"),
+        HomeListPage(),
         Text("data1"),
         Text("data2"),
         Text("data3"),
@@ -112,7 +113,10 @@ class MainPageState extends State<MainPage> {
     initDatas();
     return Scaffold(
       appBar: AppBar(
-        title: Text('主页面'),
+        title: Text(tabTitles[_tabIndex],
+          style: new TextStyle(color: Color(0xFF1784fd))),
+        centerTitle: true,
+        backgroundColor: Color(0xFFffffff),
       ),
       body: _body,
       bottomNavigationBar: CupertinoTabBar(
