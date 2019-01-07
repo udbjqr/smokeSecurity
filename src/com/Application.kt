@@ -7,10 +7,12 @@ import com.common.units.Config
 import com.common.units.loadConfig
 import com.cs.alarm.queryAlarm
 import com.cs.alarm.queryAlarmCaue
+import com.cs.common.dbHelper.JDBCHelperFactory.helper
 import com.cs.common.units.CODE
 import com.cs.common.util.InternalConstant.TOKEN
 import com.cs.common.util.InternalConstant.TOKEN_SPLIT
 import com.cs.device.*
+import com.cs.entitys.AlarmFactory
 import com.cs.isLogin
 import com.cs.place.*
 import com.cs.users.*
@@ -28,6 +30,7 @@ import io.ktor.routing.post
 import io.ktor.routing.routing
 import kotlinx.io.core.String
 import org.apache.logging.log4j.LogManager
+import java.util.*
 
 private val log = LogManager.getLogger("com.cs.iot")
 
@@ -356,9 +359,58 @@ fun Application.module(testing: Boolean = false) {
 //--------------------------------获取烟雾报警器的接口信息--------------------------------------
 
 		post("/iotdevice/getSmokeInfo") {
+			log.debug("烟雾报警器传输过来的值")
 			val data = call.receiveOrNull<ByteArray>()
+			val json = JSONObject()
+			val str = String(data!!)
+			val strsplit = str.split("&")
+			strsplit.forEach { its ->
+				val strs = its.split("=")
+				json[strs[0]] = strs[1]
+			}
+			log.debug("这个是转过之后的值，打印看看：$json")
 
-			log.debug("这个是传输过来的值，打印看看：$data")
+			val datas = JSONObject()
+
+			val alarm = AlarmFactory.getNewObject()
+
+			datas["user_id"] = helper.queryWithOneValue<Long>("select user_id from device where msisdn = ${json["imsi"]}")
+			datas["device_id"] = helper.queryWithOneValue<Long>("select id from device where msisdn = ${json["imsi"]}")
+			datas["cause_time"] = Date(System.currentTimeMillis())
+			datas["create_time"] = Date(System.currentTimeMillis())
+
+
+
+			when (json["dataType"]) {
+				//报警    alarm_cause 为1
+				"Alarm" -> {
+					datas["cause_id"] = 1
+				}
+
+				//心跳数据    alarm_cause 为2
+				"HeartBeat" -> {
+					datas["cause_id"] = 2
+				}
+
+				//警报解除    alarm_cause 为3
+				"AllClear" -> {
+					datas["cause_id"] = 3
+				}
+
+				else -> {
+					datas["cause_id"] = 508
+					log.debug("没有找到相对应的类型！请查看一下！ 所有的值为： $json")
+				}
+			}
+
+
+			alarm.setValues(datas)
+			alarm.save()
+
+			//像他们返回的字段！
+			val err = JSONObject()
+			err["err"] = 0
+			call.respondText(err.toString())
 		}
 
 	}
@@ -373,6 +425,9 @@ suspend fun getText(call: ApplicationCall): JSONObject {
 	val data = call.receiveOrNull<ByteArray>()
 	if (data != null) {
 		val jsonObject = JSONObject.parseObject(String(data)) ?: JSONObject()
+
+		log.debug("看看这个值：$jsonObject")
+
 		if (null == jsonObject["isFitst"]) {
 
 			log.debug("看看这个值：${isLogin(call, jsonObject)}")
