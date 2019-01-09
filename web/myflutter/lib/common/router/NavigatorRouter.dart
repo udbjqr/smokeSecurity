@@ -11,6 +11,7 @@ class NavigatorRouter{
   static const String _login = "/login";
   static const String _main = "/main";
 
+  //Navigator.of(context).pop(); 刷新状态
   static Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     Navigator.defaultRouteName: (context) => WelcomePage(),
     _login : (context) => LoginPage(),

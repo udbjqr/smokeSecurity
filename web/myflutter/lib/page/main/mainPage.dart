@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
-import 'package:myflutter/common/redux/mainredux.dart';
+import 'package:flutter/cupertino.dart'; 
 import 'package:myflutter/page/tabBar/homeListPage.dart';
+import 'package:myflutter/page/tabBar/deviceListPage.dart';
+
 
 
 class MainPage extends StatefulWidget {
@@ -12,6 +11,7 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
+
 
   // 默认索引第一个tab
   int _tabIndex = 0;
@@ -38,7 +38,6 @@ class MainPageState extends State<MainPage> {
 
   void initDatas() {
     // 先那一次数据，把accesstoken放到内存
-    Store<mainRedux> store = StoreProvider.of(context);
     if (tabImages == null) {
       tabImages = [
         [
@@ -60,9 +59,9 @@ class MainPageState extends State<MainPage> {
       ];
     }
     _body = IndexedStack(
-      children: <Widget>[
+      children: <Widget>[ 
         HomeListPage(),
-        Text("data1"),
+        DeviceListPage(),
         Text("data2"),
         Text("data3"),
         // new NewsListPage(),

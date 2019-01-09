@@ -3,6 +3,7 @@ import 'package:myflutter/common/model/User.dart';
 import 'package:myflutter/common/redux/UserRedux.dart';
 import 'package:myflutter/common/redux/ThemeRedux.dart';
 
+
 class mainRedux {
   User userinfo;
   ThemeData themeData;

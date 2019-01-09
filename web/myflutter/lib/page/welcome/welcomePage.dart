@@ -39,7 +39,7 @@ class WelcomePageState extends State<WelcomePage>{
   @override
   Widget build(BuildContext context) {
     return StoreBuilder<mainRedux>(
-      builder: (context, store) {
+      builder: (context,  store) {
         return new Container(
           color: Color(DlyColors.white),
           child: new Center(

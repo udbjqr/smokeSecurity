@@ -31,7 +31,7 @@ class loginPageState extends State<LoginPage>{
       Map<String,dynamic> parms = Map();
       parms['login_name'] = usernames;
       parms['password'] = passwords;
-      parms['isFitst'] = true;
+      // parms['isFitst'] = true;
       NetUtil.post('login',(data) async{
         LocalStorage.save('userInfo',json.encode(data['user']));
         userDao.setuserInfo(context);
