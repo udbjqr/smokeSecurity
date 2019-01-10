@@ -50,7 +50,7 @@ class HomeListPageState extends State<HomeListPage> {
       NetUtil.post('queryPlace', (data) async {
         setState(() {
           pageMain++;
-          if(data['place_list'] == null || data['place_list']?.length < 10){
+          if(data['place_list'] == null || data['place_list']?.length < pageCount){
             pageChange = false;
           }
         });
@@ -323,6 +323,7 @@ class HomeListPageState extends State<HomeListPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    
   }
   
   @override
@@ -341,6 +342,7 @@ class HomeListPageState extends State<HomeListPage> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+    print("ssss");
     setState(() {
       _windowHeight = MediaQuery.of(context).size;
       store = StoreProvider.of(context);

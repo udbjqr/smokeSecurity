@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart'; 
 import 'package:myflutter/page/tabBar/homeListPage.dart';
 import 'package:myflutter/page/tabBar/deviceListPage.dart';
+import 'package:myflutter/page/tabBar/mineListPage.dart';
 
 
 
@@ -63,7 +64,7 @@ class MainPageState extends State<MainPage> {
         HomeListPage(),
         DeviceListPage(),
         Text("data2"),
-        Text("data3"),
+        MineListPage()
         // new NewsListPage(),
         // new SystemPage(),
         // new DiscoveryPage(),
@@ -111,12 +112,12 @@ class MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     initDatas();
     return Scaffold(
-      appBar: AppBar(
+      appBar:tabTitles[_tabIndex]!="我的" ? AppBar(
         title: Text(tabTitles[_tabIndex],
           style: new TextStyle(color: Color(0xFF1784fd))),
         centerTitle: true,
         backgroundColor: Color(0xFFffffff),
-      ),
+      ):null,
       body: _body,
       bottomNavigationBar: CupertinoTabBar(
         items: getBottomNavigationBarItem(),
