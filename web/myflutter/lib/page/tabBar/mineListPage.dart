@@ -43,19 +43,18 @@ class MineListPageState extends State<MineListPage> {
     return CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            // title: Text('SliverAppBar'),
             backgroundColor: Theme.of(context).accentColor,
             expandedHeight: 300,
             flexibleSpace: Container(
               child: Column(
                 children: <Widget>[
                   AppBar(
-                    title: Text("我的", style: new TextStyle(color: Color(0xFF1784fd))),
+                    title: Text("我的", style: TextStyle(color: Color(0xFF1784fd))),
                     centerTitle: true,
                     backgroundColor: Color(0xFFffffff),
                   ),
                    Expanded(
-                    child: new Container(
+                    child: Container(
                       child: Image.asset(
                         "images/3.jpg",
                         repeat: ImageRepeat.repeat,
@@ -119,11 +118,11 @@ class MineListPageState extends State<MineListPage> {
       },{
         "title": "推送管理",
         "icons": Icon(Icons.settings, color: _color),
-        "url": (){ NavigatorRouter.goPlaceListPage(context);}
+        "url": (){ NavigatorRouter.goSetPushPage(context);}
       },{
         "title": "客服电话",
         "icons": Icon(Icons.call, color: _color),
-        "url": (){ NavigatorRouter.goPlaceListPage(context);}
+        "url": (){ NavigatorRouter.goTelPage(context);}
       }];      
     });
   }

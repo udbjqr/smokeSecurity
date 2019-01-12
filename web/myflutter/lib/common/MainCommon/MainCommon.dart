@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:myflutter/common/style/MainStyle.dart';
 
 //封装http 
 class NetUtil {
@@ -155,5 +156,49 @@ class _SmartDrawerState extends State<SmartDrawer> {
         ),
       ),
     );
+  }
+}
+
+
+//封装 AppBar
+class SmartAppBar extends StatefulWidget implements PreferredSizeWidget{
+  @override
+  Size get preferredSize => new Size.fromHeight(kToolbarHeight);
+
+  final IconData icons;
+  final String text;
+  final Color colors;
+  final bool centerTitle;
+  final List<Widget> actionList;
+  
+
+  const SmartAppBar({
+    Key key,
+    this.icons = Icons.arrow_back_ios,
+    this.text,
+    this.colors = DlyColors.primaryTheme,
+    this.centerTitle = true,
+    this.actionList
+  })  : super(key: key);
+  @override
+  _SmartAppBarState createState() => _SmartAppBarState();
+}
+
+class _SmartAppBarState extends State<SmartAppBar> {
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      leading: IconButton(
+        color: widget.colors,
+        icon: Icon(widget.icons),
+        onPressed: (){
+          Navigator.pop(context);
+        },
+      ),
+      title: Text(widget.text ?? "主题", style: TextStyle(color: widget.colors)),
+      centerTitle: widget.centerTitle,
+      backgroundColor: Color(0xFFffffff),
+      actions: widget.actionList,
+    ); 
   }
 }

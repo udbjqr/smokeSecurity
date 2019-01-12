@@ -13,7 +13,7 @@ class MainPage extends StatefulWidget {
 
 class MainPageState extends State<MainPage> {
 
-
+  bool pageChange = true;
   // 默认索引第一个tab
   int _tabIndex = 0;
 

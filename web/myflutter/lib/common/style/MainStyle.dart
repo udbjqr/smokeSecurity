@@ -9,6 +9,8 @@ class DlyColors {
   static const String actionBlueString = "#267aff";
   static const String webDraculaBackgroundColorString = "#282a36";
 
+  static const Color primaryTheme = Color(0xFF1784fd);
+
   static const int primaryValue = 0xFF24292E;
   static const int primaryLightValue = 0xFF42464b;
   static const int primaryDarkValue = 0xFF121917;

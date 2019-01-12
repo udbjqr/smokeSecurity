@@ -110,7 +110,7 @@ class DeviceListPageState extends State<DeviceListPage> {
   }
   _buildRow(Map arrs){
     return ListTile(
-      title:Container(
+      title: Container(
         padding: EdgeInsets.only(left: 20),
         child: Text(arrs['name'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Color(0xff333333))),
       ),
@@ -234,9 +234,9 @@ class DeviceListPageState extends State<DeviceListPage> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    // setState(() {
-    //   store = StoreProvider.of(context);
-    // });
-    // getPlaceDatas();
+    setState(() {
+      store = StoreProvider.of(context);
+    });
+    getPlaceDatas();
   }
 }

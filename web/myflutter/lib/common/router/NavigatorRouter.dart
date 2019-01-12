@@ -5,6 +5,8 @@ import 'package:myflutter/page/welcome/welcomePage.dart';
 import 'package:myflutter/page/login/loginPage.dart';
 import 'package:myflutter/page/main/mainPage.dart';
 import 'package:myflutter/page/place/placeList.dart';
+import 'package:myflutter/page/child/telpage.dart';
+import 'package:myflutter/page/child/setpush.dart';
 
 //路由
 class NavigatorRouter{
@@ -12,6 +14,8 @@ class NavigatorRouter{
   static const String _login = "/login";
   static const String _main = "/main";
   static const String _placeList = "/placeList";
+  static const String _telPage = "/telPage";
+  static const String _setPushPage = "/pushPage";
 
   //Navigator.of(context).pop(); 刷新状态
   static Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
@@ -19,6 +23,8 @@ class NavigatorRouter{
     _login : (context) => LoginPage(),
     _main : (context) => MainPage(),
     _placeList : (context) => PlaceListPage(),
+    _telPage : (context) => TelPage(),
+    _setPushPage : (context) => SetPushPageList()
   };
   ///替换
   static pushReplacementNamed(BuildContext context, String routeName) {
@@ -40,9 +46,19 @@ class NavigatorRouter{
     Navigator.pushReplacementNamed(context, _main);
   }
 
-  //tab页
+  //场所列表页
   static goPlaceListPage(BuildContext context) {
     Navigator.pushReplacementNamed(context, _placeList);
+  }
+
+  //客服电话页
+  static goTelPage(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>  TelPage()));
+  }
+
+  //客服电话页
+  static goSetPushPage(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>  SetPushPageList()));
   }
 
   //  ///个人中心
