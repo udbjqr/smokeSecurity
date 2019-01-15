@@ -27,6 +27,7 @@ dependencies:
   fluttertoast: ^2.2.3
   shared_preferences: ^0.4.3
   flutter_easyrefresh: ^1.1.1
+  flutter_slidable: ^0.4.9
 
 dev_dependencies:
   json_serializable: ^2.0.0

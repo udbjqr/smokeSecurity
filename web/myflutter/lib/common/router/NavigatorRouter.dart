@@ -7,6 +7,8 @@ import 'package:myflutter/page/main/mainPage.dart';
 import 'package:myflutter/page/place/placeList.dart';
 import 'package:myflutter/page/child/telpage.dart';
 import 'package:myflutter/page/child/setpush.dart';
+import 'package:myflutter/page/message/messageDetail.dart';
+import 'package:myflutter/page/place/placeDetail.dart';
 
 //路由
 class NavigatorRouter{
@@ -14,8 +16,10 @@ class NavigatorRouter{
   static const String _login = "/login";
   static const String _main = "/main";
   static const String _placeList = "/placeList";
+  static const String _placeListDetail = "/placeListDetail";
   static const String _telPage = "/telPage";
   static const String _setPushPage = "/pushPage";
+  static const String _messageDetail = "/messageDetail";
 
   //Navigator.of(context).pop(); 刷新状态
   static Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
@@ -24,7 +28,9 @@ class NavigatorRouter{
     _main : (context) => MainPage(),
     _placeList : (context) => PlaceListPage(),
     _telPage : (context) => TelPage(),
-    _setPushPage : (context) => SetPushPageList()
+    _setPushPage : (context) => SetPushPageList(),
+    _messageDetail : (context) => MessageDetailList(),
+    _placeListDetail : (context) => PlaceDetailPage()
   };
   ///替换
   static pushReplacementNamed(BuildContext context, String routeName) {
@@ -48,7 +54,13 @@ class NavigatorRouter{
 
   //场所列表页
   static goPlaceListPage(BuildContext context) {
-    Navigator.pushReplacementNamed(context, _placeList);
+    // Navigator.pushReplacementNamed(context, _placeList);
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>  PlaceListPage()));
+  }
+
+  //场所详情页
+  static goPlaceListDetailPage(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>  PlaceDetailPage()));
   }
 
   //客服电话页
@@ -60,6 +72,12 @@ class NavigatorRouter{
   static goSetPushPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (context) =>  SetPushPageList()));
   }
+
+  //信息详情页
+  static goMessageDetailPage(BuildContext context, {Map<String, dynamic> maps}) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>  MessageDetailList(forms : maps ?? {})));
+  }
+
 
   //  ///个人中心
   // static goPerson(BuildContext context, String userName) {

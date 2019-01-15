@@ -3,8 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:myflutter/page/tabBar/homeListPage.dart';
 import 'package:myflutter/page/tabBar/deviceListPage.dart';
 import 'package:myflutter/page/tabBar/mineListPage.dart';
-
-
+import 'package:myflutter/page/tabBar/messageListPage.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -63,12 +62,8 @@ class MainPageState extends State<MainPage> {
       children: <Widget>[ 
         HomeListPage(),
         DeviceListPage(),
-        Text("data2"),
+        MessageListPage(),
         MineListPage()
-        // new NewsListPage(),
-        // new SystemPage(),
-        // new DiscoveryPage(),
-        // new MyInfoPage()
       ],
       index: _tabIndex,
     );
