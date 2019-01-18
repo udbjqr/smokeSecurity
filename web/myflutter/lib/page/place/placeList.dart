@@ -88,7 +88,7 @@ class PlaceListPageState extends State<PlaceListPage> {
             ),
           ),
           onTap: (){
-            NavigatorRouter.goPlaceListDetailPage(context);
+            NavigatorRouter.goPlaceListDetailPage(context, item['id']);
           },
         ),
       ),

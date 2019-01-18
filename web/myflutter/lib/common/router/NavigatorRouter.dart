@@ -54,13 +54,12 @@ class NavigatorRouter{
 
   //场所列表页
   static goPlaceListPage(BuildContext context) {
-    // Navigator.pushReplacementNamed(context, _placeList);
     Navigator.push(context, MaterialPageRoute(builder: (context) =>  PlaceListPage()));
   }
 
   //场所详情页
-  static goPlaceListDetailPage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) =>  PlaceDetailPage()));
+  static goPlaceListDetailPage(BuildContext context, int placeId) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>  PlaceDetailPage(place_detail_id: placeId ?? 1)));
   }
 
   //客服电话页
