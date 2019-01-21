@@ -67,13 +67,15 @@ class NavigatorRouter{
     Navigator.push(context, MaterialPageRoute(builder: (context) =>  TelPage()));
   }
 
-  //客服电话页
+  //推送管理页
   static goSetPushPage(BuildContext context) {
+    // Navigator.pushReplacementNamed(context, _setPushPage);
     Navigator.push(context, MaterialPageRoute(builder: (context) =>  SetPushPageList()));
   }
 
   //信息详情页
   static goMessageDetailPage(BuildContext context, {Map<String, dynamic> maps}) {
+    // Navigator.pushReplacementNamed(context, _messageDetail);
     Navigator.push(context, MaterialPageRoute(builder: (context) =>  MessageDetailList(forms : maps ?? {})));
   }
 

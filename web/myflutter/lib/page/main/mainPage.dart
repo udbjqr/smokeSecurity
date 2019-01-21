@@ -4,6 +4,9 @@ import 'package:myflutter/page/tabBar/homeListPage.dart';
 import 'package:myflutter/page/tabBar/deviceListPage.dart';
 import 'package:myflutter/page/tabBar/mineListPage.dart';
 import 'package:myflutter/page/tabBar/messageListPage.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+import 'package:myflutter/common/redux/mainredux.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -11,6 +14,8 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
+
+  Store<mainRedux> store;
 
   bool pageChange = true;
   // 默认索引第一个tab
@@ -37,6 +42,9 @@ class MainPageState extends State<MainPage> {
   }
 
   void initDatas() {
+    setState(() {
+      store = StoreProvider.of(context);
+    });
     // 先那一次数据，把accesstoken放到内存
     if (tabImages == null) {
       tabImages = [
@@ -60,9 +68,9 @@ class MainPageState extends State<MainPage> {
     }
     _body = IndexedStack(
       children: <Widget>[ 
-        HomeListPage(),
-        DeviceListPage(),
-        MessageListPage(),
+        HomeListPage(userinfoId: store.state.userinfo.id),
+        DeviceListPage(userinfoId: store.state.userinfo.id),
+        MessageListPage(userinfoId: store.state.userinfo.id),
         MineListPage()
       ],
       index: _tabIndex,
@@ -134,6 +142,7 @@ class MainPageState extends State<MainPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    
   }
   
   @override
@@ -153,5 +162,9 @@ class MainPageState extends State<MainPage> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
+
+  // TODO: implement wantKeepAlive
+  @override
+  bool get wantKeepAlive => true;
 }
   

@@ -10,11 +10,14 @@ import 'package:flutter_easyrefresh/taurus_footer.dart';
 import 'package:myflutter/common/router/NavigatorRouter.dart';
 
 class MessageListPage extends StatefulWidget {
+  int userinfoId;
+  MessageListPage({Key key, this.userinfoId}):super(key: key);
   @override
   MessageListPageState createState() => new MessageListPageState();
 }
 
 class MessageListPageState extends State<MessageListPage> {
+  
   // 设备每次获取的数据
   int pageMessageCount = 10;
   // 设备页码
@@ -29,7 +32,7 @@ class MessageListPageState extends State<MessageListPage> {
   _getMessageData({booleans = true}){
     if(pageChange){
       Map<String, dynamic> parms = {
-        'user_id': store.state.userinfo.id,
+        'user_id': widget.userinfoId,
         'page_number': pageMessageMain,
         'page_count': pageMessageCount
       };
@@ -132,6 +135,7 @@ class MessageListPageState extends State<MessageListPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _getMessageData();
   }
   
   @override
@@ -150,9 +154,5 @@ class MessageListPageState extends State<MessageListPage> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    setState(() {
-      store = StoreProvider.of(context);
-    });
-    _getMessageData();
   }
 }

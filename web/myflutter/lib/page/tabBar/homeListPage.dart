@@ -11,8 +11,10 @@ import 'package:flutter/gestures.dart';
 
 
 class HomeListPage extends StatefulWidget {
+  int userinfoId;
+  HomeListPage({Key key, this.userinfoId}):super(key: key);
   @override
-  HomeListPageState createState() => new HomeListPageState();
+  HomeListPageState createState() => HomeListPageState();
 }
 
 class HomeListPageState extends State<HomeListPage> {
@@ -43,7 +45,8 @@ class HomeListPageState extends State<HomeListPage> {
   getDatas({booleans = true}){
     if(pageChange){
       Map<String, dynamic> parms = {
-        'user_id': store.state.userinfo.id,
+        // 'user_id': StoreProvider.of(context).state.userinfo.id,
+        'user_id':widget.userinfoId,
         'page_number': pageMain,
         'page_count': pageCount
       };
@@ -253,7 +256,7 @@ class HomeListPageState extends State<HomeListPage> {
     return Container(
       margin: EdgeInsets.only(top: this._pageHeight),
       height: _windowHeight.height - this._pageHeight - 140,
-      // height:  _windowHeight.height ,
+      // height: 500 ,
       child: ListView.builder(
         padding: const EdgeInsets.all(0),
         itemCount: pageList?.length * 2 ,
@@ -323,7 +326,7 @@ class HomeListPageState extends State<HomeListPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    
+    getDatas();
   }
   
   @override
@@ -342,11 +345,13 @@ class HomeListPageState extends State<HomeListPage> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    print("ssss");
     setState(() {
       _windowHeight = MediaQuery.of(context).size;
-      store = StoreProvider.of(context);
+      // store = StoreProvider.of(context);
     });
-    getDatas();
+    
+   
   }
+
+  
 }

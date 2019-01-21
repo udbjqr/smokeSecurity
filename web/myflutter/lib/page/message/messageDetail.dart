@@ -136,7 +136,7 @@ class MessageDetailListState extends State<MessageDetailList> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       body: Center(
         child: EasyRefresh(
           key: _easyRefreshKey,

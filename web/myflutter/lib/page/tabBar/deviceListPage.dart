@@ -9,6 +9,8 @@ import 'package:flutter_easyrefresh/taurus_header.dart';
 import 'package:flutter_easyrefresh/taurus_footer.dart';
 
 class DeviceListPage extends StatefulWidget {
+  int userinfoId;
+  DeviceListPage({Key key, this.userinfoId}):super(key: key);
   @override
   DeviceListPageState createState() => new DeviceListPageState();
 }
@@ -41,7 +43,7 @@ class DeviceListPageState extends State<DeviceListPage> {
 
   getPlaceDatas(){
     Map<String, dynamic> parms = {
-      'user_id': store.state.userinfo.id,
+      'user_id': widget.userinfoId,
       'page_number': pagePlaceMain,
       'page_count': pagePlaceCount
     };
@@ -58,7 +60,7 @@ class DeviceListPageState extends State<DeviceListPage> {
   _getDeviceData({booleans = true}){
     if(pageChange){
       Map<String, dynamic> parms = {
-        'user_id': store.state.userinfo.id,
+        'user_id': widget.userinfoId,
         'place_id': placeId,
         'page_number': pageDeviceMain,
         'page_count': pageDeviceCount
@@ -215,7 +217,7 @@ class DeviceListPageState extends State<DeviceListPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    
+    getPlaceDatas();
   }
   
   @override
@@ -234,9 +236,5 @@ class DeviceListPageState extends State<DeviceListPage> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    setState(() {
-      store = StoreProvider.of(context);
-    });
-    getPlaceDatas();
   }
 }
