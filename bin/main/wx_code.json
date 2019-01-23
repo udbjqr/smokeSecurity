@@ -1,0 +1,31 @@
+{
+	"wxCode":{
+		"touser": "OPENID",
+
+      //17DHewX1vyL1gauQEneqDmpQ9qwg7xtDrk2y_vMwyeM  监控
+
+      //kVHciFJrtbcZIj2Fe0ztksLHX1nd-3rmb2wEHwv-rIY  订单
+
+		"template_id": "17DHewX1vyL1gauQEneqDmpQ9qwg7xtDrk2y_vMwyeM",
+		"url": "http://weixin.qq.com/download",
+		"topcolor":"#FF0000",
+		"data": {
+			"first": {
+				"value": "恭喜你购买成功！",
+				"color": "#173177"
+			},
+			"keyword1": {
+				"value": "巧克力",
+				"color": "#173177"
+			},
+			"keyword2": {
+				"value": "39.8元",
+				"color": "#173177"
+			},
+			"remark": {
+				"value": "欢迎再次购买！",
+				"color": "#173177"
+			}
+		}
+	}
+}

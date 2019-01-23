@@ -9,6 +9,7 @@ import 'package:myflutter/page/child/telpage.dart';
 import 'package:myflutter/page/child/setpush.dart';
 import 'package:myflutter/page/message/messageDetail.dart';
 import 'package:myflutter/page/place/placeDetail.dart';
+import 'package:myflutter/page/place/addPlace.dart';
 
 //路由
 class NavigatorRouter{
@@ -20,6 +21,7 @@ class NavigatorRouter{
   static const String _telPage = "/telPage";
   static const String _setPushPage = "/pushPage";
   static const String _messageDetail = "/messageDetail";
+  static const String _addPlace = "/addPlace";
 
   //Navigator.of(context).pop(); 刷新状态
   static Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
@@ -60,6 +62,11 @@ class NavigatorRouter{
   //场所详情页
   static goPlaceListDetailPage(BuildContext context, int placeId) {
     Navigator.push(context, MaterialPageRoute(builder: (context) =>  PlaceDetailPage(place_detail_id: placeId ?? 1)));
+  }
+
+  //增加场所页
+  static goAddPlacePage(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>  addPlacePage()));
   }
 
   //客服电话页

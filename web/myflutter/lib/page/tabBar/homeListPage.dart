@@ -8,6 +8,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/bezier_circle_header.dart';
 import 'package:flutter_easyrefresh/bezier_bounce_footer.dart';
 import 'package:flutter/gestures.dart';
+import 'package:myflutter/common/router/NavigatorRouter.dart';
 
 
 class HomeListPage extends StatefulWidget {
@@ -89,7 +90,7 @@ class HomeListPageState extends State<HomeListPage> {
     final TapGestureRecognizer recognizer = new TapGestureRecognizer();
     final TapGestureRecognizer _recognizer = new TapGestureRecognizer();
     recognizer.onTap=(){
-      print("object");
+      NavigatorRouter.goAddPlacePage(context);
     };
     _recognizer.onTap=(){
       print("123");

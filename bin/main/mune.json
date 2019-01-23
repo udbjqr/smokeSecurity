@@ -1,0 +1,50 @@
+{
+  "menu": [
+    {
+      "name": "首页",
+      "id": 999,
+      "icon": "el-icon-exp-yunweiguanli",
+      "url": "/",
+      "operate": {}
+    },
+    {
+      "name": "场所",
+      "id": 100,
+      "icon": "el-icon-exp-yunweiguanli",
+      "url": "/#",
+      "operate": {},
+      "children": [
+        {
+          "name": "场所查询",
+          "id": 101,
+          "url": "/office/Place",
+          "operate": {
+          }
+        }
+      ]
+    },
+    {
+      "name": "设备",
+      "id": 200,
+      "icon": "el-icon-exp-yunweiguanli",
+      "url": "/#",
+      "operate": {},
+      "children": [
+        {
+          "name": "设备列表",
+          "id": 201,
+          "url": "/office/Device",
+          "operate": {
+          }
+        },{
+          "name": "设备报警",
+          "id": 202,
+          "url": "/office/alarm",
+          "operate": {
+          }
+
+        }
+      ]
+    }
+  ]
+}
