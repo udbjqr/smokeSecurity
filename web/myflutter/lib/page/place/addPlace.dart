@@ -35,20 +35,120 @@ class addPlacePage extends StatefulWidget {
 }
 
 class addPlacePageState extends State<addPlacePage> {
-  dynamic _callBacl;  
+  dynamic _callBacl;
+  Store<mainRedux> store;
+  Map<String, dynamic> forms = {
+    "note" :'',
+    "addresss" :'',
+    "name":''
+  };  
+
+  var names = TextEditingController();
+  var address = TextEditingController();
+  var notes = TextEditingController();
+
+  _calba(int i) async {
+    // if (widget.onMapViewCreated == null) {
+    //   return;
+    // }
+    MethodChannel _channel = MethodChannel('MapView_$i');
+    final dynamic trace = await _channel.invokeMethod('HandleChange');
+    _callBacl = json.decode(trace);
+    setState(() {
+            this.forms["region_id"] = int.parse(_callBacl["abcode"]) ;
+            this.forms["address"] = _callBacl["address"];
+            this.forms["xaxis"] = _callBacl["lat"];
+            this.forms["yaxis"] = _callBacl["lon"];
+            address.text = _callBacl["address"];
+        });
+    
+    if(!_callBacl["is_succ"]){
+      print("定位未开启");
+    }
+    return;
+    // widget.onMapViewCreated(new MapViewController._(i));
+  }
+  _quren(String names, String address, String notes){
+    if(names.isNotEmpty && address.isNotEmpty && notes.isNotEmpty){
+      forms['name'] = names;
+      forms['address'] = address;
+      forms['note'] = notes;
+      NetUtil.post('addPlace',(data) async{
+        Navigator.pop(context, 'addPlace');
+      },params: forms,errorBack: (data,code,message){
+        ToastUtils.showShort(data["data"]["message"].toString());
+        // print(data);
+      });
+    }else{
+      ToastUtils.showShort('请完善表单');
+    }
+  }
+  _textWidget(String label,{TextEditingController textvalue, bool is_text = false, String hintText}){
+    return ListTile(
+      leading: Container(
+        width: 80,
+        child: Text(label, style: TextStyle(fontSize: 16),),
+      ),
+      
+      title: is_text ? 
+          TextField(
+            controller: textvalue,
+            decoration: InputDecoration(
+              hintText: hintText,
+            ),
+          ) : Text(hintText),
+      trailing: is_text ? 
+          IconButton(
+            icon: Icon(Icons.highlight_off, color: Colors.grey,size: 24,),
+            onPressed: () {
+              textvalue.clear();
+            },
+          ):null
+    );
+  }
+  _mainBody(){
+    return ListView(
+      children: <Widget>[
+        _textWidget("部署位置", textvalue: names, is_text: true, hintText: "请输入部署位置"),
+        _textWidget("详细地址", textvalue: address, is_text: true, hintText: "请输入详细地址"),
+        _textWidget("备注", textvalue: notes, is_text: true, hintText: "请输入备注"),
+        _textWidget("管理员名称", hintText: store.state.userinfo.name.toString()),
+        _textWidget("手机号", hintText: store.state.userinfo.telephone.toString()),
+        Container(
+          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+          child: RaisedButton(
+            onPressed: (){
+              _quren(names.text, address.text, notes.text);
+            },
+            textColor: Colors.blue,
+            color: Colors.lightBlueAccent,
+            child: Text("增加场所", style: TextStyle(color: Colors.white, fontSize: 20, letterSpacing: 3, fontWeight: FontWeight.w600)),
+          ),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      store = StoreProvider.of(context);
+      this.forms["user_id"] = store.state.userinfo.id;
+      this.forms["administrator"] = store.state.userinfo.name;
+      this.forms["admin_phone"] = store.state.userinfo.telephone;
+    });
+    // print( store.state.userinfo.);
     return Scaffold(
       appBar: SmartAppBar(text: "增加场所"),
-      body: new Column(
+      body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              child: new AndroidView(
+              child: AndroidView(
                 viewType: 'MapView', 
                 onPlatformViewCreated: _calba), 
               flex: 2),
-            Expanded(child: Text("data"), flex: 3)
+            Expanded(child: _mainBody(), flex: 3)
           ],
         ),
     );
@@ -57,6 +157,7 @@ class addPlacePageState extends State<addPlacePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    
   }
   
   @override
@@ -75,19 +176,6 @@ class addPlacePageState extends State<addPlacePage> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-  }
-  _calba(int i) async {
-    // if (widget.onMapViewCreated == null) {
-    //   return;
-    // }
-    MethodChannel _channel = MethodChannel('MapView_$i');
-    final dynamic trace = await _channel.invokeMethod('HandleChange');
-    _callBacl = json.decode(trace);
-    if(!_callBacl["is_succ"]){
-      print("定位未开启");
-    }
-    return;
-    // widget.onMapViewCreated(new MapViewController._(i));
   }
 }
 

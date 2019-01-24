@@ -134,7 +134,7 @@ class loginPageState extends State<LoginPage>{
                     
                     }),
                   ),
-                  new Container(
+                  Container(
                     width: 360.0,
                     margin: new EdgeInsets.fromLTRB(10.0, 80.0, 10.0, 0.0),
                     padding: new EdgeInsets.fromLTRB(leftRightPadding,

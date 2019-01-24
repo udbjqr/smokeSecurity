@@ -57,6 +57,7 @@ public class MainActivity extends FlutterActivity implements TencentLocationList
 			json.put("lat",lat);
 			json.put("lon",lon);
 			json.put("address","4545");
+			json.put("abcode","110101");
 			json.put("is_succ",false);
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -70,6 +71,7 @@ public class MainActivity extends FlutterActivity implements TencentLocationList
 					json.put("lat",tencentLocation.getLatitude());
 					json.put("lon",tencentLocation.getLongitude());
 					json.put("address",tencentLocation.getAddress());
+					json.put("abcode", tencentLocation.getCityCode());
 					json.put("is_succ",true);
 				} catch (JSONException e) {
 					e.printStackTrace();

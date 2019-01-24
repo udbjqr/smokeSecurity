@@ -65,8 +65,14 @@ class NavigatorRouter{
   }
 
   //增加场所页
-  static goAddPlacePage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) =>  addPlacePage()));
+  static goAddPlacePage(BuildContext context) async {
+    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) =>  addPlacePage()));
+    Scaffold
+        .of(context)
+        .showSnackBar(SnackBar(
+          content: Text("添加场所成功", style: TextStyle(color: Color(0xFFfbfbfb),fontSize: 16)),
+          backgroundColor: Color.fromRGBO(103,194,58,1),
+        ));
   }
 
   //客服电话页
