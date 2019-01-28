@@ -18,9 +18,9 @@ import io.flutter.app.FlutterActivity;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
 public class MainActivity extends FlutterActivity implements TencentLocationListener {
+
+//public class MainActivity extends FlutterActivity {
 	MapView mapview=null;
 
 	@Override
