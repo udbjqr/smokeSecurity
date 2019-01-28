@@ -10,7 +10,8 @@ import 'package:myflutter/common/style/MainStyle.dart';
 class NetUtil {
   static const String GET = "get";
   static const String POST = "post"; 
-  static const String _baseurl = "http://192.168.2.124:8911/iotdevice/";
+  // static const String _baseurl = "http://192.168.2.124:8911/iotdevice/";
+  static const String _baseurl = "http://114.55.104.31:30337/iotdevice/";
   //get请求
   static void get(String url, Function callBack,
       {Map<String, dynamic> params, Function errorCallBack, Function errorBack}) async {

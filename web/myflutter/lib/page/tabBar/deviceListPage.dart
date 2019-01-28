@@ -7,6 +7,7 @@ import 'package:myflutter/common/pluguses/ToastUtils.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/taurus_header.dart';
 import 'package:flutter_easyrefresh/taurus_footer.dart';
+import 'package:myflutter/common/router/NavigatorRouter.dart';
 
 class DeviceListPage extends StatefulWidget {
   int userinfoId;
@@ -33,9 +34,9 @@ class DeviceListPageState extends State<DeviceListPage> {
   List<Object> pagePlaceList = [];
   List<Object> pageDeviceList = [];
 
-  GlobalKey<EasyRefreshState> _easyRefreshKey = new GlobalKey<EasyRefreshState>();
-  GlobalKey<RefreshHeaderState> _headerKey = new GlobalKey<RefreshHeaderState>();
-  GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
+  GlobalKey<EasyRefreshState> _easyRefreshKey = GlobalKey<EasyRefreshState>();
+  GlobalKey<RefreshHeaderState> _headerKey = GlobalKey<RefreshHeaderState>();
+  GlobalKey<RefreshFooterState> _footerKey = GlobalKey<RefreshFooterState>();
 
   void _handleDrawerButtons() {
     Scaffold.of(context).openDrawer();
@@ -136,7 +137,11 @@ class DeviceListPageState extends State<DeviceListPage> {
       trailing: Text(arrs['flag'].toString(), style: TextStyle(color: Color(0xff1784fd)),),
       contentPadding: EdgeInsets.fromLTRB(15, 8, 15, 8),
       onTap: (){
-        
+        NavigatorRouter.goDeviceDetailPage(context, maps:{
+          "user_id" : widget.userinfoId,
+          "place_id" : this.placeId,
+          "id" : arrs["id"]
+        });
       },
     );
   }

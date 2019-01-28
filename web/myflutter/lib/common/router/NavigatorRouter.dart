@@ -10,6 +10,7 @@ import 'package:myflutter/page/child/setpush.dart';
 import 'package:myflutter/page/message/messageDetail.dart';
 import 'package:myflutter/page/place/placeDetail.dart';
 import 'package:myflutter/page/place/addPlace.dart';
+import 'package:myflutter/page/child/deviceDetail.dart';
 
 //路由
 class NavigatorRouter{
@@ -90,6 +91,12 @@ class NavigatorRouter{
   static goMessageDetailPage(BuildContext context, {Map<String, dynamic> maps}) {
     // Navigator.pushReplacementNamed(context, _messageDetail);
     Navigator.push(context, MaterialPageRoute(builder: (context) =>  MessageDetailList(forms : maps ?? {})));
+  }
+
+  //信息详情页
+  static goDeviceDetailPage(BuildContext context, {Map<String, dynamic> maps}) {
+    // Navigator.pushReplacementNamed(context, _messageDetail);
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>  DeviceDetailPage(forms : maps ?? {})));
   }
 
 
