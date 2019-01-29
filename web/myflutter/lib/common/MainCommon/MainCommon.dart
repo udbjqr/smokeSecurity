@@ -57,7 +57,6 @@ class NetUtil {
         response = await dio.get(url);
       } else {
         if (params != null && params.isNotEmpty) {
-          print("asdasdasd--------");
           response = await dio.post(url, data:params);
         } else {
           response = await dio.post(url);
@@ -65,7 +64,6 @@ class NetUtil {
       }
 
       statusCode = response.statusCode;
-      print(statusCode.toString());
       //处理错误部分
       if (statusCode < 0) {
         errorMsg = "网络请求错误,状态码:" + statusCode.toString();
@@ -75,7 +73,6 @@ class NetUtil {
 
       if (callBack != null) {
         final res = json.decode(response.data);
-        print(res);
         if(res["code"] == 0){
           callBack(res["data"]);
         }else{
@@ -84,12 +81,10 @@ class NetUtil {
       }
     } catch (exception) {
       _handError(errorCallBack, exception.toString());
-      print(exception);
     }
   }
   //处理异常
   static void _handError(Function errorCallback, String errorMsg) {
-    print(errorMsg);
     if (errorCallback != null) {
       errorCallback(errorMsg);
     }

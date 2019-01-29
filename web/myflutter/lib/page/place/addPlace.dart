@@ -74,10 +74,9 @@ class addPlacePageState extends State<addPlacePage> {
       forms['address'] = address;
       forms['note'] = notes;
       NetUtil.post('addPlace',(data) async{
-        Navigator.pop(context, 'addPlace');
+        Navigator.pop(context, 'addPlaces');
       },params: forms,errorBack: (data,code,message){
         ToastUtils.showShort(data["data"]["message"].toString());
-        // print(data);
       });
     }else{
       ToastUtils.showShort('请完善表单');
@@ -89,7 +88,6 @@ class addPlacePageState extends State<addPlacePage> {
         width: 80,
         child: Text(label, style: TextStyle(fontSize: 16),),
       ),
-      
       title: is_text ? 
           TextField(
             controller: textvalue,
@@ -157,7 +155,6 @@ class addPlacePageState extends State<addPlacePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    
   }
   
   @override

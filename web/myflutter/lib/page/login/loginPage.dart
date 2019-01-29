@@ -37,6 +37,8 @@ class loginPageState extends State<LoginPage>{
         userDao.setuserInfo(context);
       },params: parms,errorBack: (data,code,message){
         ToastUtils.showShort("用户名或密码输入错误");
+      },errorCallBack:(str){
+        ToastUtils.showShort('网络错误，请打开网络');
       });
     }else{
       ToastUtils.showShort('请输入用户名和密码');
