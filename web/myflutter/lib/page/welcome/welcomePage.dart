@@ -17,7 +17,7 @@ class WelcomePage extends StatefulWidget{
 }
 
 class WelcomePageState extends State<WelcomePage>{
-  String _text = "欢饮光临！";
+  String _text = "用户您好！！！";
 
   @override
   void didChangeDependencies() {

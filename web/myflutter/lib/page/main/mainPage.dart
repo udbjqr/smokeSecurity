@@ -7,6 +7,7 @@ import 'package:myflutter/page/tabBar/messageListPage.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:myflutter/common/redux/mainredux.dart';
+import 'package:myflutter/common/pluguses/ToastUtils.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -40,6 +41,8 @@ class MainPageState extends State<MainPage> {
   Image getTabImage(path) {
     return Image.asset(path, width: 20.0, height: 20.0);
   }
+
+  int last = 0;
 
   void initDatas() {
     setState(() {
@@ -110,31 +113,47 @@ class MainPageState extends State<MainPage> {
     }
     return list;
   }
+
+  Future<bool> _onWillPop() {
+    int now = DateTime.now().millisecondsSinceEpoch;
+    if (now - last > 5000) {
+      last = DateTime.now().millisecondsSinceEpoch;
+      ToastUtils.showShort('在按一次返回即可退出程序!');
+      return Future.value(false);
+    } else {
+      return Future.value(true);
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
     initDatas();
-    return Scaffold(
-      appBar:tabTitles[_tabIndex]!="我的" ? AppBar(
-        title: Text(tabTitles[_tabIndex],
-          style: new TextStyle(color: Color(0xFF1784fd))),
-        centerTitle: true,
-        backgroundColor: Color(0xFFffffff),
-      ):null,
-      body: _body,
-      bottomNavigationBar: CupertinoTabBar(
-        items: getBottomNavigationBarItem(),
-        //默认选中首页
-        currentIndex: _tabIndex,
-        backgroundColor: Color(0xFFeeeeee),
-        border: Border(top: BorderSide(width: 1.0, color: Color(0xFF000000))),
-        iconSize: 24.0,
-        onTap: (index) {
-          setState(() {
-            _tabIndex = index;
-          });
-        },
-      ),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child:SafeArea(
+        child: Scaffold(
+          appBar:tabTitles[_tabIndex]!="我的" ? AppBar(
+            title: Text(tabTitles[_tabIndex],
+              style: new TextStyle(color: Color(0xFF1784fd))),
+            centerTitle: true,
+            backgroundColor: Color(0xFFffffff),
+          ):null,
+          body: _body,
+          bottomNavigationBar: CupertinoTabBar(
+            items: getBottomNavigationBarItem(),
+            //默认选中首页
+            currentIndex: _tabIndex,
+            backgroundColor: Color(0xFFeeeeee),
+            border: Border(top: BorderSide(width: 1.0, color: Color(0xFF000000))),
+            iconSize: 24.0,
+            onTap: (index) {
+              setState(() {
+                _tabIndex = index;
+              });
+            },
+          ),
+        )
+      )
     );
   }
 

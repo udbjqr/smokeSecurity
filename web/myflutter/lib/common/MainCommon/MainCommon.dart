@@ -39,7 +39,7 @@ class NetUtil {
 
     String errorMsg = "";
     int statusCode;
-    Dio dio = new Dio();
+    Dio dio = Dio();
 
     try {
       Response response;
@@ -163,7 +163,7 @@ class _SmartDrawerState extends State<SmartDrawer> {
 //封装 AppBar
 class SmartAppBar extends StatefulWidget implements PreferredSizeWidget{
   @override
-  Size get preferredSize => new Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 
   final IconData icons;
   final String text;
