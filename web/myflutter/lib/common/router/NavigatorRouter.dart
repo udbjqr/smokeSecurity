@@ -11,6 +11,7 @@ import 'package:myflutter/page/message/messageDetail.dart';
 import 'package:myflutter/page/place/placeDetail.dart';
 import 'package:myflutter/page/place/addPlace.dart';
 import 'package:myflutter/page/child/deviceDetail.dart';
+import "package:myflutter/page/login/register.dart";
 
 //路由
 class NavigatorRouter{
@@ -23,11 +24,13 @@ class NavigatorRouter{
   static const String _setPushPage = "/pushPage";
   static const String _messageDetail = "/messageDetail";
   static const String _addPlace = "/addPlace";
+  static const String _register = "/register";
 
   //Navigator.of(context).pop(); 刷新状态
   static Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     Navigator.defaultRouteName: (context) => WelcomePage(),
     _login : (context) => LoginPage(),
+    _register : (context) => RegisterPage(),
     _main : (context) => MainPage(),
     _placeList : (context) => PlaceListPage(),
     _telPage : (context) => TelPage(),
@@ -48,6 +51,11 @@ class NavigatorRouter{
   //登录页
   static goLogin(BuildContext context) {
     Navigator.pushReplacementNamed(context, _login);
+  }
+
+  ///注册页
+  static goRegister(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>  RegisterPage()));
   }
 
   //tab页

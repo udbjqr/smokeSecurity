@@ -150,7 +150,7 @@ class PlaceListPageState extends State<PlaceListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       appBar: SmartAppBar(text: "场所列表"),
       body: Center(
         child: EasyRefresh(

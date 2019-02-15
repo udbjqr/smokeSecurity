@@ -150,7 +150,7 @@ class DeviceListPageState extends State<DeviceListPage> {
       padding: const EdgeInsets.all(0),
       itemCount: pageDeviceList?.length * 2 ,
       itemBuilder: (context, i){
-        if (i.isOdd) return new Divider(height:1.0, color: Color.fromRGBO(0, 0, 0, 0.6));
+        if (i.isOdd) return Divider(height:1.0, color: Color.fromRGBO(0, 0, 0, 0.6));
         final index = i ~/ 2 ;
         return _buildDeviceRow(pageDeviceList[index]);
       },

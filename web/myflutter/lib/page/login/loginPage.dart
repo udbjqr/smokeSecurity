@@ -19,6 +19,7 @@ class loginPageState extends State<LoginPage>{
   final double leftRightPadding = 30.0;
   final double topBottomPadding = 4.0;
   final dynamic backColors = 0xFFfbfbfb;
+  final Color buttonColors = Color(0xff1784fd);
   var username = TextEditingController();
   var password = TextEditingController();
   TextStyle hintTips = TextStyle(
@@ -91,7 +92,7 @@ class loginPageState extends State<LoginPage>{
       appBar: AppBar(
         title: Text("登录"),
       ),
-      body: new ListView(
+      body: ListView(
         children: <Widget>[
           //TODO:这里写子控件。
           Container(
@@ -127,7 +128,7 @@ class loginPageState extends State<LoginPage>{
                     child: Container(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          '没有账号？马上注册',
+                          '忘记密码?',
                           style: hintTips,
                         ),
                         padding: new EdgeInsets.fromLTRB(
@@ -138,7 +139,7 @@ class loginPageState extends State<LoginPage>{
                   ),
                   Container(
                     width: 360.0,
-                    margin: new EdgeInsets.fromLTRB(10.0, 80.0, 10.0, 0.0),
+                    margin: new EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 0.0),
                     padding: new EdgeInsets.fromLTRB(leftRightPadding,
                         topBottomPadding, leftRightPadding, topBottomPadding),
                     child: Card(
@@ -158,7 +159,37 @@ class loginPageState extends State<LoginPage>{
                             ),
                           )),
                     ),
-                  )
+                  ),
+                  InkWell(
+                    child:Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text("还没有注册？点击注册", style: TextStyle(fontSize: 16),),
+                          Container(
+                            margin: EdgeInsets.only(left: 10),
+                            width: 20,
+                            height: 20,
+                            child: Icon(Icons.keyboard_arrow_right, color: buttonColors, size: 16,),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                // color: Colors.white,
+                                border: Border.all(
+                                    color: buttonColors, width: 1.5)),
+                          ),
+                          // Container(
+                          //   child: CircleAvatar(
+                          //     child: Icon(Icons.keyboard_arrow_right, color: Colors.lightBlueAccent),
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ),
+                    onTap: (() {
+                      NavigatorRouter.goRegister(context);
+                    }),
+                  ),
                 ],
               ),
             )
